@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+class TextWidget extends StatelessWidget {
+  const TextWidget(this.data,
+      {super.key,
+      this.textAlign,
+      this.overflow,
+      this.textScaler,
+      this.maxLines,
+      this.color,
+      this.fontWeight,
+      this.fontSize,
+      this.fontStyle,
+      this.fontFamily,
+      this.style,
+      this.height,
+      this.package});
+
+  final String data;
+  final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final TextScaler? textScaler;
+  final int? maxLines;
+  final Color? color;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  final FontStyle? fontStyle;
+  final String? fontFamily;
+  final TextStyle? style;
+  final double? height;
+  final String? package;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      data,
+      key: key,
+      style: style ??
+          TextStyle(
+              color: color,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              fontStyle: fontStyle,
+              fontFamily: 'Roboto',
+              height: height,
+              package: package),
+      maxLines: maxLines,
+      overflow: overflow,
+      textAlign: textAlign,
+      textScaler: textScaler,
+    );
+  }
+}
+
+class SvgIcon extends StatelessWidget {
+  final String path;
+  final double size;
+  final Color? color;
+
+  const SvgIcon(this.path, {super.key, this.color, this.size = 24});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: size,
+        height: size,
+        child: SvgPicture.asset(
+          path,
+          fit: BoxFit.contain,
+          height: size,
+          width: size,
+          colorFilter:
+              color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
+        ));
+  }
+}
