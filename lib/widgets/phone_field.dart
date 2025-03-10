@@ -28,9 +28,10 @@ Widget reUseCountryTextField(
         Row(
           children: [
             //  const hSpace(20),
+
             TextWidget(
               fieldName,
-              style: TextStyle(color: kWhite, fontSize: 10.sp),
+              style: TextStyle(color: kBlack, fontSize: 12.sp),
             ),
             // const Spacer(),
             // if (isValid != null || errorText != null)
@@ -53,6 +54,7 @@ Widget reUseCountryTextField(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                
                 SingleChildScrollView(
                   child: Transform.translate(
                     offset: const Offset(0, -10),

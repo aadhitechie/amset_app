@@ -1,3 +1,4 @@
+import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/auth/_controller/login_controller.dart';
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
@@ -35,7 +36,7 @@ class LoginScreen extends GetView<Logincontroller> {
               borderType: InputFieldBorderType.external,
               label: 'Email*',
               labelStyle: const TextStyle(color: themeColor),
-              hintText: 'Email address',
+              hintText: 'Email',
               inputFormatters: [
                 TextInputFormatter.withFunction(
                   (oldValue, newValue) => TextEditingValue(
@@ -74,7 +75,9 @@ class LoginScreen extends GetView<Logincontroller> {
             const vSpace(30),
             PrimaryButton(
               text: 'Sign in',
-              onPressed: controller.login,
+              onPressed: () {
+                Get.toNamed(Routes.bottomNav);
+              },
               isFullWidth: true,
               borderRadius: 12.r,
               backgroundColor: kBlack,
@@ -89,15 +92,44 @@ class LoginScreen extends GetView<Logincontroller> {
                 child: TextWidget(
                   'or Login with',
                   style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       letterSpacing: 0.1,
                       color: Colors.black87),
                 ),
               ),
             ),
             const vSpace(20),
-            Center(child: SvgIcon('assets/svg/icons8-google.svg',size: 30.w,))
+            Center(
+                child: SvgIcon(
+              'assets/svg/icons8-google.svg',
+              size: 30.w,
+            ))
           ],
+        ),
+      ),
+      bottomSheet: Container(
+        decoration: BoxDecoration(color: scaffoldBackgroundColor),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 30.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextWidget(
+                'Doesn’t have an account?',
+                fontSize: 13.sp,
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.signup);
+                  },
+                  child: TextWidget(
+                    '  Register here',
+                    fontSize: 13.sp,
+                    color: themeColor,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -52,7 +52,7 @@ class _InputFormField extends FormField<String> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWidget(label,
-                          fontSize: 12.sp, color: themeColor),
+                          fontSize: 12.sp, color: kBlack),
                       () {
                         return Obx(() {
                           if (validateState.value == null) {

@@ -2,6 +2,8 @@ import 'package:amster_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 Widget annotedRegionLightIcon({required Widget child, Color? statusBarColor}) =>
     AnnotatedRegion<SystemUiOverlayStyle>(
@@ -64,5 +66,32 @@ Widget gradientShader({Gradient? gradient, required Widget child}) {
                 end: Alignment.bottomRight))
         .createShader(rect),
     child: child,
+  );
+}
+
+Widget loadingWidget() {
+  return const Center(
+    child: CircularProgressIndicator(),
+  );
+}
+
+Widget loadingOverlay(
+    {required RxBool loading, Widget? loadingWidget, required Widget child}) {
+  return Obx(
+    () => Stack(
+      fit: StackFit.expand,
+      children: [
+        child,
+        if (loading.value) ...[
+          const Opacity(
+              opacity: 0.5,
+              child: ModalBarrier(dismissible: false, color: Colors.black)),
+          loadingWidget ??
+              const Center(
+                child: CircularProgressIndicator(),
+              )
+        ]
+      ],
+    ),
   );
 }

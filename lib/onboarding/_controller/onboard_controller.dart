@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 
 List<OnboardingModel> onboardingData = [
    OnboardingModel(
-    title: 'Training Provided',
+    title: 'Get Trained',
     subtitle:
-        'Gain hands-on experience with expert-led training to build your skills and confidence.',
+        'Gain experience with expert-led training to build your skills and confidence.',
     imagePath: 'assets/png/course.jpg',
   ),
   OnboardingModel(

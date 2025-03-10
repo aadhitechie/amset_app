@@ -1,31 +1,51 @@
 import 'package:amster_app/onboarding/onboarding_screen.dart';
+import 'package:amster_app/screens/_bindings/bottomnav_binding.dart';
+import 'package:amster_app/screens/_bindings/job_binding.dart';
 import 'package:amster_app/screens/_bindings/login_binding.dart';
 import 'package:amster_app/screens/_bindings/onboarding_binding.dart';
+import 'package:amster_app/screens/_bindings/signup_binding.dart';
 import 'package:amster_app/screens/_bindings/splash_binding.dart';
 import 'package:amster_app/screens/auth/login_screen/login_screen.dart';
+import 'package:amster_app/screens/auth/signup_screen.dart/signup_screen.dart';
+import 'package:amster_app/screens/bottom_nav/bottomnav_screen.dart';
+import 'package:amster_app/screens/job_screen/job_detail_screen.dart';
 import 'package:amster_app/screens/splash_screen/splash_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class Routes {
   static const String splash = '/splash';
   static const String onBoarding = '/onBoarding';
-   static const String login = '/login';
+  static const String login = '/login';
+  static const String signup = '/signup';
+  static const String bottomNav = '/bottomNav';
+  static const String jobDetail = '/jobDetail';
 }
 
 class AppPages {
   static final pages = [
     GetPage(
-      name: Routes.splash,
-      page: () => const SplashScreen(),
-      binding: SplashBinding()
-    ),
-     GetPage(
+        name: Routes.splash,
+        page: () => const SplashScreen(),
+        binding: SplashBinding()),
+    GetPage(
         name: Routes.onBoarding,
         page: () => const OnboardingScreen(),
         binding: OnboardingBinding()),
-         GetPage(
+    GetPage(
         name: Routes.login,
         page: () => const LoginScreen(),
         binding: LoginBinding()),
+    GetPage(
+        name: Routes.signup,
+        page: () => const SignUpScreen(),
+        binding: SignupBinding()),
+        GetPage(
+        name: Routes.bottomNav,
+        page: () => const BottomNavScreen(),
+        binding: BottomnavBinding()),
+          GetPage(
+        name: Routes.jobDetail,
+        page: () => const JobDetailScreen(),
+        binding: JobBinding()),
   ];
 }

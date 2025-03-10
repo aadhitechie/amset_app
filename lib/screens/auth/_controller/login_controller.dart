@@ -1,3 +1,4 @@
+import 'package:amster_app/routes.dart';
 import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/services/api_service.dart';
@@ -49,7 +50,7 @@ class Logincontroller extends GetxController {
   ).then(
     (value) {
       if (value.data?['status'] == 'success') {
-     //  Get.toNamed(Routes.bottomNav);
+       Get.toNamed(Routes.bottomNav);
         return;
       }
       Utils.showError(const ApiException('Invalid login credentials.'));

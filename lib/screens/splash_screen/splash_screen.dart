@@ -11,15 +11,61 @@ class SplashScreen extends GetWidget<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Color(0xff043927),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Center(child: SvgIcon('assets/svg/logo_new.svg',size: 80.w,)),
-        vSpace(5),
-        Text('Amset',style:fontRecoleta(color: kWhite,fontSize: 25.sp) ,)
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+             
+              children: [
+                Center(
+                  child: SvgIcon(
+                    'assets/svg/logo_new.svg',
+                    size: 190.w,
+                  ),
+                ),
+                TextWidget(
+                  ' amset',
+                  style: fontRecoleta(
+                      color: kWhite,
+                      fontSize: 50.sp,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '#futureset!',
+                  style: TextStyle(
+                    color: kWhite,
+                    fontSize: 15.sp,
+                    letterSpacing: 3,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 20.w),
+            child: TextWidget(
+              'www.amsetacademy.com',
+              color: kWhite,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
+      // bottomSheet: Padding(
+      //   padding: EdgeInsets.only(bottom: 20.w),
+      //   child: TextWidget(
+      //     'www.amsetacademy.com',
+      //     color: kWhite,
+      //     fontSize: 20.sp,
+      //     fontWeight: FontWeight.w600,
+      //   ),
+      // ),
     );
   }
 }
