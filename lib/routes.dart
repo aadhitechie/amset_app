@@ -8,6 +8,7 @@ import 'package:amster_app/screens/_bindings/splash_binding.dart';
 import 'package:amster_app/screens/auth/login_screen/login_screen.dart';
 import 'package:amster_app/screens/auth/signup_screen.dart/signup_screen.dart';
 import 'package:amster_app/screens/bottom_nav/bottomnav_screen.dart';
+import 'package:amster_app/screens/chapters_list/chapters_list.dart';
 import 'package:amster_app/screens/job_screen/job_detail_screen.dart';
 import 'package:amster_app/screens/splash_screen/splash_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -19,6 +20,7 @@ class Routes {
   static const String signup = '/signup';
   static const String bottomNav = '/bottomNav';
   static const String jobDetail = '/jobDetail';
+  static const String chapterList = '/chapterList';
 }
 
 class AppPages {
@@ -39,13 +41,17 @@ class AppPages {
         name: Routes.signup,
         page: () => const SignUpScreen(),
         binding: SignupBinding()),
-        GetPage(
+    GetPage(
         name: Routes.bottomNav,
         page: () => const BottomNavScreen(),
         binding: BottomnavBinding()),
-          GetPage(
+    GetPage(
         name: Routes.jobDetail,
         page: () => const JobDetailScreen(),
         binding: JobBinding()),
+    GetPage(
+      name: Routes.chapterList,
+      page: () => const ChapterListScreen(),
+    )
   ];
 }

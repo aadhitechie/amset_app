@@ -13,7 +13,7 @@ class CourseScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
+         padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,11 +23,15 @@ class CourseScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             vSpace(10),
-            Expanded(child: ListView.separated(itemBuilder: (BuildContext ctx,int index){
-              return CourseTitle();
-            }, separatorBuilder: (BuildContext ctx,int index){
-              return vSpace(10);
-            }, itemCount: 30))
+            Expanded(
+                child: ListView.separated(
+                    itemBuilder: (BuildContext ctx, int index) {
+                      return CourseTitle();
+                    },
+                    separatorBuilder: (BuildContext ctx, int index) {
+                      return vSpace(10);
+                    },
+                    itemCount: 30))
           ],
         ),
       )),

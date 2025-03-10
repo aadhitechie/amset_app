@@ -6,8 +6,8 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 //import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:intl_phone_field/countries.dart';
-import 'package:test/test.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 void main() {

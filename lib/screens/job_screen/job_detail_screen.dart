@@ -22,8 +22,8 @@ class JobDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   'Job Details',
-                  style:
-                      fontRecoleta(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  style: fontRecoleta(
+                      fontSize: 18.sp, fontWeight: FontWeight.bold),
                 ),
                 const vSpace(50),
                 Container(
@@ -101,55 +101,62 @@ class JobDetailScreen extends StatelessWidget {
                   width: Get.width,
                   child: const Divider(color: Colors.grey, thickness: 1.0),
                 ),
-                 const vSpace(20),
-                TextWidget(
-                  'Description',
-                  fontSize: 15.sp,
-                  color: Colors.black),
-            vSpace(10),
-                    BulletList(
-                          padding: EdgeInsets.zero,
-                          bulletType: BulletType.unordered(),
-                          bulletStyle: TextStyle(fontSize: 4,color: Colors.black),
-                          bulletSpacing: 5.w,
-                          bulletHeight: 16.sp,
-                          shrinkWrap: true,
-                          textStyle: TextStyle(fontSize: 13.sp),
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemSpacing: 10,
-                          items: const [
-                            "Responsible for managing a vast digital library of creative assets, including images, videos, and sounds, ensuring their accessibility and organization for internal design teams. Requires strong visual aesthetic, meticulous categorization skills, and proficiency in digital asset management systems.",
-                            "Tap on the menu (three horizontal lines).",
-                            "And select \"Accounts Center\".",
-                            "Tap on \"Your Information and Permissions\".",
-                            "Choose \"Download Your Information\".",
-                            "Choose \"Download or transfer information\".",
-                            "Choose \"Some of your information\".",
-                            "Pick the specific types of information you want to import. For example, Content,Stories, Posts, and Short Videos.",
-                            "choose \"Download to device\".",
-                            "Select \"JSON\" for format.",
-                            "Select \"Medium\" for media quality.",
-                            "Then click on \"Create files\"",
-                            "Once the files are ready, click on \"Download to Device\"",
-                            "After downloading the file, click on \"Select import file\" button from VUDE.",
-                            "Choose the Instagram import file which starts with \"instagram-\" followed by your Instagram username. And click on Import.",
-                            "After successfully importing the files, they will be visible in your profile's import section shortly. Please allow some time for the files to appear.",
-                            
-                          ]),
-                          vSpace(50)
+                const vSpace(20),
+                TextWidget('Description', fontSize: 15.sp, color: Colors.black),
+                vSpace(10),
+                BulletList(
+                    padding: EdgeInsets.zero,
+                    bulletType: BulletType.unordered(),
+                    bulletStyle: TextStyle(fontSize: 4, color: Colors.black),
+                    bulletSpacing: 5.w,
+                    bulletHeight: 16.sp,
+                    shrinkWrap: true,
+                    textStyle: TextStyle(fontSize: 13.sp),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemSpacing: 10,
+                    items: const [
+                      "Responsible for managing a vast digital library of creative assets, including images, videos, and sounds, ensuring their accessibility and organization for internal design teams. Requires strong visual aesthetic, meticulous categorization skills, and proficiency in digital asset management systems.",
+                      "Tap on the menu (three horizontal lines).",
+                      "And select \"Accounts Center\".",
+                      "Tap on \"Your Information and Permissions\".",
+                      "Choose \"Download Your Information\".",
+                      "Choose \"Download or transfer information\".",
+                      "Choose \"Some of your information\".",
+                      "Pick the specific types of information you want to import. For example, Content,Stories, Posts, and Short Videos.",
+                      "choose \"Download to device\".",
+                      "Select \"JSON\" for format.",
+                      "Select \"Medium\" for media quality.",
+                      "Then click on \"Create files\"",
+                      "Once the files are ready, click on \"Download to Device\"",
+                      "After downloading the file, click on \"Select import file\" button from VUDE.",
+                      "Choose the Instagram import file which starts with \"instagram-\" followed by your Instagram username. And click on Import.",
+                      "After successfully importing the files, they will be visible in your profile's import section shortly. Please allow some time for the files to appear.",
+                    ]),
+                vSpace(50)
               ],
             ),
           ),
         ),
       ),
       bottomSheet: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PrimaryButton.icon(text: 'Save', onPressed: (){}, icon: Icon(Icons.star_border,color: kWhite,),backgroundColor: Colors.black87,),
+            PrimaryButton.icon(
+              text: 'Save',
+              onPressed: () {},
+              icon: Icon(
+                Icons.star_border,
+                color: kWhite,
+              ),
+              backgroundColor: Colors.black87,
+            ),
             hSpace(30),
-             PrimaryButton(text: 'Apply Now', onPressed: (){},backgroundColor: Colors.black87)
+            PrimaryButton(
+                text: 'Apply Now',
+                onPressed: () {},
+                backgroundColor: Colors.black87)
           ],
         ),
       ),

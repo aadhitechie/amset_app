@@ -37,52 +37,57 @@ class JobScreen extends GetWidget<JobController> {
                 ),
               ),
               vSpace(20),
-               Obx(
-              () => Row(
-               mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  PrimaryButton(
-                    text: 'All jobs',
-                    onPressed: () {
-                      controller.is_all_job(true);
-                    },
-                    backgroundColor:
-                        controller.is_all_job.value ? themeColor : kTransparent,
-                         textStyle: TextStyle(color: controller.is_all_job.value ? kWhite : kBlack,),
-                    outlined: true,
-                    outlineBorderColor: themeColor,
-                    outlineBorderWidth: 2,
-                  ),
-                  const hSpace(10),
-                  PrimaryButton(
-                    text: 'Saved jobs',
-                    onPressed: () {
-                      controller.is_all_job(false);
-                    },
-                    backgroundColor:
-                        controller.is_all_job.value ? kTransparent : themeColor,
-                           textStyle: TextStyle(color: controller.is_all_job.value ? kBlack : kWhite,),
-                    outlined: true,
-                    outlineBorderColor: themeColor,
-                    outlineBorderWidth: 2,
-                  ),
-                   const hSpace(15),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    PrimaryButton(
+                      text: 'All jobs',
+                      onPressed: () {
+                        controller.is_all_job(true);
+                      },
+                      backgroundColor: controller.is_all_job.value
+                          ? themeColor
+                          : kTransparent,
+                      textStyle: TextStyle(
+                        color: controller.is_all_job.value ? kWhite : kBlack,
+                      ),
+                      outlined: true,
+                      outlineBorderColor: themeColor,
+                      outlineBorderWidth: 2,
+                    ),
+                    const hSpace(10),
+                    PrimaryButton(
+                      text: 'Saved jobs',
+                      onPressed: () {
+                        controller.is_all_job(false);
+                      },
+                      backgroundColor: controller.is_all_job.value
+                          ? kTransparent
+                          : themeColor,
+                      textStyle: TextStyle(
+                        color: controller.is_all_job.value ? kBlack : kWhite,
+                      ),
+                      outlined: true,
+                      outlineBorderColor: themeColor,
+                      outlineBorderWidth: 2,
+                    ),
+                    const hSpace(15),
                     const hSpace(1),
                     const hSpace(1),
-                
-                ],
+                  ],
+                ),
               ),
-            ),
-            vSpace(20),
-              Expanded(child:
-                  ListView.separated(
-                    itemCount: 30,
-                    separatorBuilder: (context, index) {
-                     return vSpace(10);
-                    },
-                    itemBuilder: (BuildContext ctx, int index) {
-                return JobTileWidget();
-              }))
+              vSpace(20),
+              Expanded(
+                  child: ListView.separated(
+                      itemCount: 30,
+                      separatorBuilder: (context, index) {
+                        return vSpace(10);
+                      },
+                      itemBuilder: (BuildContext ctx, int index) {
+                        return JobTileWidget();
+                      }))
             ],
           ),
         ),
