@@ -26,7 +26,7 @@ class JobScreen extends GetWidget<JobController> {
                 fontSize: 25.sp,
                 fontWeight: FontWeight.bold,
               ),
-              vSpace(10),
+              const vSpace(10),
               InputField.search(
                 onSearch: (val) {},
                 borderRadius: 20.r,
@@ -36,7 +36,7 @@ class JobScreen extends GetWidget<JobController> {
                   size: 28.w,
                 ),
               ),
-              vSpace(20),
+              const vSpace(20),
               Obx(
                 () => Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -78,15 +78,15 @@ class JobScreen extends GetWidget<JobController> {
                   ],
                 ),
               ),
-              vSpace(20),
+              const vSpace(20),
               Expanded(
                   child: ListView.separated(
                       itemCount: 30,
                       separatorBuilder: (context, index) {
-                        return vSpace(10);
+                        return const vSpace(10);
                       },
                       itemBuilder: (BuildContext ctx, int index) {
-                        return JobTileWidget();
+                        return const JobTileWidget();
                       }))
             ],
           ),

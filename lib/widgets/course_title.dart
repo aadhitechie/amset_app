@@ -32,7 +32,7 @@ class CourseTitle extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              hSpace(20),
+              const hSpace(20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

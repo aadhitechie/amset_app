@@ -1,4 +1,3 @@
-import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
 import 'package:amster_app/widgets/course_title.dart';
 import 'package:amster_app/widgets/reusable.dart';
@@ -22,14 +21,14 @@ class CourseScreen extends StatelessWidget {
               fontSize: 25.sp,
               fontWeight: FontWeight.bold,
             ),
-            vSpace(10),
+            const vSpace(10),
             Expanded(
                 child: ListView.separated(
                     itemBuilder: (BuildContext ctx, int index) {
-                      return CourseTitle();
+                      return const CourseTitle();
                     },
                     separatorBuilder: (BuildContext ctx, int index) {
-                      return vSpace(10);
+                      return const vSpace(10);
                     },
                     itemCount: 30))
           ],

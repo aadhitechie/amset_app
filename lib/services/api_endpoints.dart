@@ -3,7 +3,8 @@ class ApiEndpoints {
 
   //-----------------------Auth-------------------------------
 
-  static const login = "/auth/login";
+  static const login = "/user/login";
+  static const register = "/user/register";
   static const sendOtp = "/auth/sendotp";
   static const refreshToken = "/auth/refreshtoken";
   static const verifyOtp = "/auth/verifyotp";

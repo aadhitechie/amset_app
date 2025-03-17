@@ -27,9 +27,7 @@ Axis get orientation {
     case SAlign.RTL:
     case SAlign.LTR:
       return Axis.horizontal;
-    default:
-      throw UnimplementedError('Unknown SAlign value');
-  }
+    }
 }
 
       

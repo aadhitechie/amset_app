@@ -1,3 +1,5 @@
+import 'package:amster_app/routes.dart';
+import 'package:amster_app/screens/profile_screen/_controller/logout_controller.dart';
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/avatar_widget.dart';
 import 'package:amster_app/widgets/common_widget.dart';
@@ -7,7 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+   final LogoutController logoutController = Get.put(LogoutController());
+
+   ProfileScreen({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -80,19 +85,22 @@ class ProfileScreen extends StatelessWidget {
                 ProfileOptions(
                   icon: 'assets/svg/resume.svg',
                   title: 'My resume',
+                  route: Routes.resumeUpload,
                 ),
                 vSpace(10),
                 ProfileOptions(
                   icon: 'assets/svg/live.svg',
                   title: 'Live',
+                  route: Routes.livePage,
                 ),
                 vSpace(10),
                 ProfileOptions(
                   icon: 'assets/svg/terms.svg',
                   title: 'Terms and conditions',
+                  route: Routes.termsAndConditions,
                 ),
                 vSpace(10),
-                   ProfileOptions(
+                ProfileOptions(
                   icon: 'assets/svg/logout.svg',
                   title: 'Logout',
                 ),
@@ -115,37 +123,50 @@ class ProfileScreen extends StatelessWidget {
 class ProfileOptions extends StatelessWidget {
   final String title;
   final String icon;
+  final String? route;
 
   const ProfileOptions({
     super.key,
     required this.title,
     required this.icon,
+    this.route,
   });
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              SvgIcon(
-                icon,
-                size: 20.w,
-                color: themeColor,
-              ),
-              const hSpace(10),
-              TextWidget(title, fontSize: 15.sp),
-            ],
-          ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: themeColor,
-            size: 20.w,
-          ),
-        ],
+    final LogoutController logoutController = Get.find<LogoutController>();
+
+    return GestureDetector(
+      onTap: () {
+        if (route != null) {
+          Get.toNamed(route!);
+        } else if (title == 'Logout') {
+          logoutController.logout();
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SvgIcon(
+                  icon,
+                  size: 20.w,
+                  color: themeColor,
+                ),
+                const hSpace(10),
+                TextWidget(title, fontSize: 15.sp),
+              ],
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: themeColor,
+              size: 20.w,
+            ),
+          ],
+        ),
       ),
     );
   }

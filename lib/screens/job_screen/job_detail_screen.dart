@@ -103,11 +103,11 @@ class JobDetailScreen extends StatelessWidget {
                 ),
                 const vSpace(20),
                 TextWidget('Description', fontSize: 15.sp, color: Colors.black),
-                vSpace(10),
+                const vSpace(10),
                 BulletList(
                     padding: EdgeInsets.zero,
                     bulletType: BulletType.unordered(),
-                    bulletStyle: TextStyle(fontSize: 4, color: Colors.black),
+                    bulletStyle: const TextStyle(fontSize: 4, color: Colors.black),
                     bulletSpacing: 5.w,
                     bulletHeight: 16.sp,
                     shrinkWrap: true,
@@ -132,7 +132,7 @@ class JobDetailScreen extends StatelessWidget {
                       "Choose the Instagram import file which starts with \"instagram-\" followed by your Instagram username. And click on Import.",
                       "After successfully importing the files, they will be visible in your profile's import section shortly. Please allow some time for the files to appear.",
                     ]),
-                vSpace(50)
+                const vSpace(50)
               ],
             ),
           ),
@@ -146,13 +146,13 @@ class JobDetailScreen extends StatelessWidget {
             PrimaryButton.icon(
               text: 'Save',
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.star_border,
                 color: kWhite,
               ),
               backgroundColor: Colors.black87,
             ),
-            hSpace(30),
+            const hSpace(30),
             PrimaryButton(
                 text: 'Apply Now',
                 onPressed: () {},

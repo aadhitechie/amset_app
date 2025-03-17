@@ -6,6 +6,7 @@ import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/local_storage_service.dart';
 import 'package:amster_app/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -79,7 +80,9 @@ class OtpController extends GetxController {
         Utils.showError(ApiException(response.data['message']));
       }
     }).onError((error, _) {
-      print(_.toString());
+      if (kDebugMode) {
+        print(_.toString());
+      }
       Utils.showError(error);
     }).whenComplete(() => isLoading(false));
   }

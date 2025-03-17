@@ -6,8 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
-
 
 class Utils {
   Utils._();
@@ -24,7 +22,8 @@ class Utils {
               ? ApiException('$e', title: 'Unhandled exception')
               : ApiException.default_;
     }
-}
+  }
+
   static showSuccess(String message,
       {String? title, Widget? icon, Duration? duration}) {
     snackBar(

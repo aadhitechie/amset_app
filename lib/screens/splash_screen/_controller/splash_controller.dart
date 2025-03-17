@@ -1,22 +1,29 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:amster_app/routes.dart';
+import 'package:amster_app/services/local_storage_service.dart';
 import 'package:amster_app/utils/api_error_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController with ApiErrorMixin {
+  final LocalStorage _localStorage = LocalStorage();
+
   @override
   void onInit() {
     super.onInit();
-    print('onSplash init');
+    log('onSplash init');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer(const Duration(seconds: 3), () {
-       Get.toNamed(Routes.onBoarding);
+      Timer(const Duration(seconds: 3), () async {
+        bool isLogin = await _localStorage.isLogin();
+        if (isLogin) {
+          Get.offNamed(Routes.bottomNav);
+        } else {
+          Get.toNamed(Routes.onBoarding);
+        }
       });
     });
-
-    //checkStuck();
   }
 
   // navigate() async {
@@ -41,7 +48,7 @@ class SplashController extends GetxController with ApiErrorMixin {
   //     return;
   //   }
 
-  //   bool isLogin = await LocalStorage().isLogin();
+  //   bool isLogin = await _localStorage.isLogin();
   //   if (isLogin) {
   //     profileLoaded = await loadProfileData();
   //     if (isErrorState.value) return;

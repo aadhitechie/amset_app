@@ -7,7 +7,6 @@ import 'package:amster_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class Logincontroller extends GetxController {
   final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
@@ -42,26 +41,30 @@ class Logincontroller extends GetxController {
   //   }).whenComplete(() => isLoading(false));
   // }
   login() {
-  isLoading(true);
+    isLoading(true);
 
-  ApiServices().postMethod(
-    ApiEndpoints.login,
-    data: {'username': emailController.text,'password':passwordController.text}, // POST data payload
-  ).then(
-    (value) {
-      if (value.data?['status'] == 'success') {
-       Get.toNamed(Routes.bottomNav);
-        return;
-      }
-      Utils.showError(const ApiException('Invalid login credentials.'));
-    },
-  ).onError(
-    (error, stackTrace) {
-      Utils.showError(const ApiException('Login failed.'));
-    },
-  ).whenComplete(() => isLoading(false));
-}
-
+    ApiServices().postMethod(
+      ApiEndpoints.login,
+      data: {
+        'email': emailController.text,
+        'password': passwordController.text
+      }, // POST data payload
+    ).then(
+      (value) {
+        if (value.data?['message'] == 'Login successful') {
+          LocalStorage().saveToken(value.data?['token']);
+          LocalStorage().setLogin();
+          Get.offNamed(Routes.bottomNav);
+          return;
+        }
+        Utils.showError(const ApiException('Invalid login credentials.'));
+      },
+    ).onError(
+      (error, stackTrace) {
+        Utils.showError(const ApiException('Login failed.'));
+      },
+    ).whenComplete(() => isLoading(false));
+  }
 
   static onOtpSuccess(DioResponse response) {
     LocalStorage().setLogin();
@@ -70,8 +73,8 @@ class Logincontroller extends GetxController {
 
   Future<DioResponse> sendLoginOtp() async {
     return ApiServices(token: false).postMethod(ApiEndpoints.login, data: {
+      "email": emailController.text.trim(),
       "password": passwordController.text.trim(),
-      "username": emailController.text.trim(),
     });
   }
 }

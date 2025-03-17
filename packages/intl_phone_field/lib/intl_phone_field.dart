@@ -244,7 +244,7 @@ class IntlPhoneField extends StatefulWidget {
   final bool disableAutoFillHints;
 
   const IntlPhoneField({
-    Key? key,
+    super.key,
     this.initialCountryCode,
     this.languageCode = 'en',
     this.disableAutoFillHints = false,
@@ -289,13 +289,13 @@ class IntlPhoneField extends StatefulWidget {
     this.showCursor = true,
     this.pickerDialogStyle,
     this.flagsButtonMargin = EdgeInsets.zero,
-  }) : super(key: key);
+  });
 
   @override
-  _IntlPhoneFieldState createState() => _IntlPhoneFieldState();
+  IntlPhoneFieldState createState() => IntlPhoneFieldState();
 }
 
-class _IntlPhoneFieldState extends State<IntlPhoneField> {
+class IntlPhoneFieldState extends State<IntlPhoneField> {
   late List<Country> _countryList;
   late Country _selectedCountry;
   late List<Country> filteredCountries;

@@ -31,18 +31,18 @@ class JobTileWidget extends StatelessWidget {
                       imageUrl:
                           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s',
                       size: 50.w),
-                      hSpace(10),
+                      const hSpace(10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        Text('Graphic designer',style: TextStyle(fontWeight: FontWeight.w600),
+                        const Text('Graphic designer',style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                         Text('Amset acdemy LLP',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 10.sp),
                         ),
-                        vSpace(5),
+                        const vSpace(5),
                         Row(children: [
                           Icon(Icons.work,size: 10.w,),
-                          hSpace(2),
+                          const hSpace(2),
                           Text('5 Years',style: TextStyle(fontSize: 10.sp),)
                         ],)
                       ],)

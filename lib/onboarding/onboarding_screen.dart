@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-
 class OnboardingScreen extends GetWidget<OnboardingController> {
   const OnboardingScreen({super.key});
 
@@ -21,7 +20,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           children: [
-             SizedBox(
+            SizedBox(
                 height: 5.w,
                 width: double.infinity,
                 child: Row(
@@ -36,8 +35,8 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                                 () => SizedBox(
                                   height: 5.w,
                                   child: LinearProgressIndicator(
-                                      backgroundColor: kBlack
-                                          .withOpacity(0.2),
+                                      backgroundColor:
+                                          kBlack.withAlpha((0.2 * 255).toInt()),
                                       color: kBlack,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10.r)),
@@ -66,11 +65,12 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                           .onboardingData[controller.currentPage.value]
                           .imagePath),
                     ),
-                   
+
                     Text(
                       controller
                           .onboardingData[controller.currentPage.value].title,
-                      style: fontRecoleta(fontSize: 30.sp, color: Colors.black87),
+                      style:
+                          fontRecoleta(fontSize: 30.sp, color: Colors.black87),
                     ),
                     // Text(
                     //  'amset academy',
@@ -87,7 +87,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                     Obx(() {
                       return controller.isLastPage()
                           ? PrimaryButton(
-                              onPressed:(){
+                              onPressed: () {
                                 Get.offAllNamed(Routes.login);
                               },
                               text: "Get Started",
@@ -98,7 +98,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                               onPressed: () => controller.nextPage(),
                               text: "Continue",
                               isFullWidth: true,
-                               backgroundColor: kBlack,
+                              backgroundColor: kBlack,
                             );
                     }),
                     const vSpace(20)

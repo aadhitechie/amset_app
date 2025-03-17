@@ -14,7 +14,7 @@ class BottomNavController extends GetxController {
     const HomeScreen(),
     const JobScreen(),
     const CourseScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
 
   void onTabTapped(int index) {

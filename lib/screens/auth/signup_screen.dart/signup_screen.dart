@@ -28,7 +28,7 @@ class SignUpScreen extends GetWidget<SignupController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 vSpace(50),
+                 const vSpace(50),
                   Row(
                     children: [
                       Text(
@@ -174,7 +174,7 @@ class SignUpScreen extends GetWidget<SignupController> {
         ),
       ),
        bottomSheet: Container(
-        decoration: BoxDecoration(color: scaffoldBackgroundColor),
+        decoration: const BoxDecoration(color: scaffoldBackgroundColor),
         child: 
       Padding(
         padding:  EdgeInsets.only(bottom: 30.w),

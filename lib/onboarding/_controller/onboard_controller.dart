@@ -1,4 +1,5 @@
   import 'package:amster_app/onboarding/model/onboard_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
   class OnboardingController extends GetxController {
@@ -27,7 +28,9 @@ List<OnboardingModel> onboardingData = [
 void nextPage() {
     if (currentPage < onboardingData.length - 1) {
       currentPage++;
-      print(currentPage);
+      if (kDebugMode) {
+        print(currentPage);
+      }
     }
   }
   void previousPage() {

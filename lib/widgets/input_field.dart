@@ -10,8 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-
-
 part 'input_form_field.dart';
 
 class InputField extends StatefulWidget {
@@ -471,8 +469,8 @@ class InputFieldState extends State<InputField> {
         },
         icon: Icon(
             showPassword
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
             size: 18));
   }
 }

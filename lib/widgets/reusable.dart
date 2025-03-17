@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 Widget annotedRegionLightIcon({required Widget child, Color? statusBarColor}) =>
     AnnotatedRegion<SystemUiOverlayStyle>(

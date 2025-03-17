@@ -10,6 +10,9 @@ import 'package:amster_app/screens/auth/signup_screen.dart/signup_screen.dart';
 import 'package:amster_app/screens/bottom_nav/bottomnav_screen.dart';
 import 'package:amster_app/screens/chapters_list/chapters_list.dart';
 import 'package:amster_app/screens/job_screen/job_detail_screen.dart';
+import 'package:amster_app/screens/profile_screen/Options/live_screen/live_screen.dart';
+import 'package:amster_app/screens/profile_screen/Options/resume_screen/my_resume_screen.dart';
+import 'package:amster_app/screens/profile_screen/Options/terms_and_conditions/terms_and_conditions.dart';
 import 'package:amster_app/screens/splash_screen/splash_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -21,6 +24,9 @@ class Routes {
   static const String bottomNav = '/bottomNav';
   static const String jobDetail = '/jobDetail';
   static const String chapterList = '/chapterList';
+  static const String termsAndConditions = '/termsAndConditions';
+  static const String resumeUpload = '/resumeUpload';
+  static const String livePage = '/livePage';
 }
 
 class AppPages {
@@ -35,7 +41,7 @@ class AppPages {
         binding: OnboardingBinding()),
     GetPage(
         name: Routes.login,
-        page: () => const LoginScreen(),
+        page: () =>  LoginScreen(),
         binding: LoginBinding()),
     GetPage(
         name: Routes.signup,
@@ -52,6 +58,18 @@ class AppPages {
     GetPage(
       name: Routes.chapterList,
       page: () => const ChapterListScreen(),
+    ),
+    GetPage(
+      name: Routes.termsAndConditions,
+      page: () => const TermsAndConditionsScreen(),
+    ),
+    GetPage(
+      name: Routes.resumeUpload,
+      page: () => ResumeUploadScreen(),
+    ),
+    GetPage(
+      name: Routes.livePage,
+      page: () => const LiveStreamingPage(),
     )
   ];
 }
