@@ -51,8 +51,7 @@ class _InputFormField extends FormField<String> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextWidget(label,
-                          fontSize: 12.sp, color: kBlack),
+                      TextWidget(label, fontSize: 12.sp, color: kBlack),
                       () {
                         return Obx(() {
                           if (validateState.value == null) {
@@ -78,7 +77,7 @@ class _InputFormField extends FormField<String> {
                 ),
                 const vSpace(10),
                 Container(
-                  height: height ?? 56.h,
+                  height: height ?? 57.h,
                   decoration: BoxDecoration(
                     color: fillColor ?? kWhite,
                     borderRadius: BorderRadius.circular(10.r),

@@ -6,6 +6,7 @@ import 'package:amster_app/screens/_bindings/onboarding_binding.dart';
 import 'package:amster_app/screens/_bindings/signup_binding.dart';
 import 'package:amster_app/screens/_bindings/splash_binding.dart';
 import 'package:amster_app/screens/auth/login_screen/login_screen.dart';
+import 'package:amster_app/screens/auth/otp/otp_screen.dart';
 import 'package:amster_app/screens/auth/signup_screen.dart/signup_screen.dart';
 import 'package:amster_app/screens/bottom_nav/bottomnav_screen.dart';
 import 'package:amster_app/screens/chapters_list/chapters_list.dart';
@@ -27,6 +28,7 @@ class Routes {
   static const String termsAndConditions = '/termsAndConditions';
   static const String resumeUpload = '/resumeUpload';
   static const String livePage = '/livePage';
+  static const String otp = '/otp';
 }
 
 class AppPages {
@@ -40,9 +42,7 @@ class AppPages {
         page: () => const OnboardingScreen(),
         binding: OnboardingBinding()),
     GetPage(
-        name: Routes.login,
-        page: () =>  LoginScreen(),
-        binding: LoginBinding()),
+        name: Routes.login, page: () => LoginScreen(), binding: LoginBinding()),
     GetPage(
         name: Routes.signup,
         page: () => const SignUpScreen(),
@@ -70,6 +70,10 @@ class AppPages {
     GetPage(
       name: Routes.livePage,
       page: () => const LiveStreamingPage(),
+    ),
+    GetPage(
+      name: Routes.otp,
+      page: () => const OtpScreen(),
     )
   ];
 }

@@ -1,4 +1,3 @@
-
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
 import 'package:amster_app/widgets/reusable.dart';
@@ -10,7 +9,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 import '../screens/auth/_controller/signup_controller.dart';
-
 
 Widget reUseCountryTextField(
         {required String fieldName,
@@ -54,7 +52,6 @@ Widget reUseCountryTextField(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 SingleChildScrollView(
                   child: Transform.translate(
                     offset: const Offset(0, -10),
@@ -89,7 +86,8 @@ Widget reUseCountryTextField(
                         onCountryChanged: (country) async {
                           SignupController.to.countryIso.value = country.code;
                           SignupController.to.validatephoneNo = country;
-                          SignupController.to.countryCode.value = country.dialCode;
+                          SignupController.to.countryCode.value =
+                              country.dialCode;
                         },
                       ),
                     ),
