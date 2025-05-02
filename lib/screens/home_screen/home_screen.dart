@@ -101,10 +101,10 @@ class HomeScreen extends GetWidget<HomeController> {
                 } else {
                   return ListView.separated(
                     separatorBuilder: (context, index) => const vSpace(10),
-                    itemCount: controller.filteredJobs.length, // Use the length of the filtered jobs
+                    itemCount: controller.filteredJobs.length,
                     itemBuilder: (BuildContext ctx, int index) {
-                      final job = controller.filteredJobs[index]; // Get the job from the list
-                      return JobTileWidget(job: job); // Pass the job to the widget
+                      final job = controller.filteredJobs[index]; 
+                      return JobTileWidget(job: job); 
                     },
                   );
                 }

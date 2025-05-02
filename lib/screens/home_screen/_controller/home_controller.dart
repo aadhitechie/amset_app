@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:amster_app/screens/job_screen/Job_model/job_model.dart'; // Import JobModel
+import 'package:amster_app/screens/job_screen/Job_model/job_model.dart'; 
 import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/api_exception.dart';
@@ -14,16 +14,15 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchJobs(); // Fetch jobs when the controller is initialized
+    fetchJobs(); 
   }
 
-  // Getter for filtered jobs
+
   List<JobModel> get filteredJobs {
     if (is_all_job.value) {
       return jobs; // Return all jobs if is_all_job is true
     } else {
-      // Implement logic to return saved jobs (e.g., from local storage or another API)
-      // For now, let's return an empty list
+     
       return [];
     }
   }
@@ -34,7 +33,7 @@ class HomeController extends GetxController {
     errorMessage('');
     try {
       final response = await ApiServices()
-          .getMethod(ApiEndpoints.getAllJobs); // Replace with your API endpoint
+          .getMethod(ApiEndpoints.getAllJobs); 
 
       if (response.data != null) {
         try {

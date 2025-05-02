@@ -1,0 +1,2 @@
+C:/Users/Hamada Salim G Trd/OneDrive/Desktop/flutter/amset/amset_app/android/app/.cxx/RelWithDebInfo/5c66325w/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Hamada Salim G Trd/OneDrive/Desktop/flutter/amset/amset_app/android/app/.cxx/RelWithDebInfo/5c66325w/x86_64/CMakeFiles/rebuild_cache.dir

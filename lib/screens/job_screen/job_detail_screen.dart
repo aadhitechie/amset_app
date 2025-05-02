@@ -141,7 +141,7 @@ class JobDetailScreen extends StatelessWidget {
             PrimaryButton.icon(
               text: 'Save',
               onPressed: () {
-                // TODO: Implement save functionality
+               
               },
               icon: const Icon(Icons.star_border, color: kWhite),
               backgroundColor: Colors.black87,
@@ -150,7 +150,7 @@ class JobDetailScreen extends StatelessWidget {
             PrimaryButton(
               text: 'Apply Now',
               onPressed: () {
-                // TODO: Implement apply functionality
+              
               },
               backgroundColor: Colors.black87,
             )
