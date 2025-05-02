@@ -1,53 +1,69 @@
-
-import 'package:amster_app/routes.dart';
-import 'package:amster_app/widgets/avatar_widget.dart';
-import 'package:amster_app/widgets/reusable.dart';
+import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:amster_app/routes.dart';
+import 'package:amster_app/widgets/avatar_widget.dart';
+import 'package:amster_app/widgets/reusable.dart';
 
 class JobTileWidget extends StatelessWidget {
-  const JobTileWidget({
-    super.key,
-  });
+  final JobModel job;
+
+  const JobTileWidget({super.key, required this.job});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>Get.toNamed(Routes.jobDetail),
+      onTap: () => Get.toNamed(Routes.jobDetail, arguments: job),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.black12,
-          borderRadius: BorderRadius.all(Radius.circular(10.r))
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
         ),
         child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.w),
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
           child: Column(
             children: [
               Row(
-                mainAxisAlignment:MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   AvatarWidget(
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s',
-                      size: 50.w),
-                      const hSpace(10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    imageUrl: job.companyLogo,
+                    size: 50.w,
+                  ),
+                  const hSpace(10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        job.title,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        job.companyName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 10.sp,
+                        ),
+                      ),
+                      const vSpace(5),
+                      Row(
                         children: [
-                        const Text('Graphic designer',style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text('Amset acdemy LLP',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 10.sp),
-                        ),
-                        const vSpace(5),
-                        Row(children: [
-                          Icon(Icons.work,size: 10.w,),
+                          Icon(
+                            Icons.work,
+                            size: 10.w,
+                          ),
                           const hSpace(2),
-                          Text('5 Years',style: TextStyle(fontSize: 10.sp),)
-                        ],)
-                      ],)
+                          Text(
+                            job.experienceLevel,
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

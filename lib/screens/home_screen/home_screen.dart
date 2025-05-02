@@ -16,11 +16,11 @@ class HomeScreen extends GetWidget<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: commonAppBar(
-          greetingText: 'Hi👋',
-          nameText: 'Sabeer',
-          avatar:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
-          ),
+        greetingText: 'Hi👋',
+        nameText: 'Sabeer',
+        avatar:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
@@ -52,14 +52,16 @@ class HomeScreen extends GetWidget<HomeController> {
             const vSpace(10),
             Obx(
               () => Row(
-               mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   PrimaryButton(
                     text: 'Featured jobs',
                     onPressed: () {
                       controller.is_all_job(true);
                     },
-                    textStyle: TextStyle(color: controller.is_all_job.value ? kWhite : kBlack,),
+                    textStyle: TextStyle(
+                      color: controller.is_all_job.value ? kWhite : kBlack,
+                    ),
                     backgroundColor:
                         controller.is_all_job.value ? themeColor : kTransparent,
                     outlined: true,
@@ -74,28 +76,40 @@ class HomeScreen extends GetWidget<HomeController> {
                     },
                     backgroundColor:
                         controller.is_all_job.value ? kTransparent : themeColor,
-                          textStyle: TextStyle(color: controller.is_all_job.value ? kBlack : kWhite,),
+                    textStyle: TextStyle(
+                      color: controller.is_all_job.value ? kBlack : kWhite,
+                    ),
                     outlined: true,
                     outlineBorderColor: themeColor,
                     outlineBorderWidth: 2,
                   ),
-                   const hSpace(15),
-                    const hSpace(1),
-                    const hSpace(1),
-                
+                  const hSpace(15),
+                  const hSpace(1),
+                  const hSpace(1),
                 ],
               ),
             ),
             const vSpace(20),
             Expanded(
-                child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return const vSpace(10);
-                    },
-                    itemCount: 5,
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (controller.errorMessage.value.isNotEmpty) {
+                  return Center(child: Text('Error: ${controller.errorMessage.value}'));
+                } else if (controller.filteredJobs.isEmpty) {
+                  return const Center(child: Text('No jobs found.'));
+                } else {
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => const vSpace(10),
+                    itemCount: controller.filteredJobs.length, // Use the length of the filtered jobs
                     itemBuilder: (BuildContext ctx, int index) {
-                      return const JobTileWidget();
-                    }))
+                      final job = controller.filteredJobs[index]; // Get the job from the list
+                      return JobTileWidget(job: job); // Pass the job to the widget
+                    },
+                  );
+                }
+              }),
+            ),
           ],
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:amster_app/routes.dart';
-import 'package:amster_app/screens/auth/_controller/otp_controller.dart';
 import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/utils/utils.dart';

@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:amster_app/screens/job_screen/_controller/job_controller.dart';
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
@@ -5,9 +8,6 @@ import 'package:amster_app/widgets/input_field.dart';
 import 'package:amster_app/widgets/job_tile_widget.dart';
 import 'package:amster_app/widgets/primary_button.dart';
 import 'package:amster_app/widgets/reusable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class JobScreen extends GetWidget<JobController> {
   const JobScreen({super.key});
@@ -28,7 +28,10 @@ class JobScreen extends GetWidget<JobController> {
               ),
               const vSpace(10),
               InputField.search(
-                onSearch: (val) {},
+                onSearch: (val) {
+                  // TODO: Implement search functionality
+                  print('Search term: $val');
+                },
                 borderRadius: 20.r,
                 hintText: 'search',
                 searchIcon: Icon(
@@ -44,13 +47,12 @@ class JobScreen extends GetWidget<JobController> {
                     PrimaryButton(
                       text: 'All jobs',
                       onPressed: () {
-                        controller.is_all_job(true);
+                        controller.isAllJob(true);
                       },
-                      backgroundColor: controller.is_all_job.value
-                          ? themeColor
-                          : kTransparent,
+                      backgroundColor:
+                          controller.isAllJob.value ? themeColor : kTransparent,
                       textStyle: TextStyle(
-                        color: controller.is_all_job.value ? kWhite : kBlack,
+                        color: controller.isAllJob.value ? kWhite : kBlack,
                       ),
                       outlined: true,
                       outlineBorderColor: themeColor,
@@ -60,34 +62,44 @@ class JobScreen extends GetWidget<JobController> {
                     PrimaryButton(
                       text: 'Saved jobs',
                       onPressed: () {
-                        controller.is_all_job(false);
+                        controller.isAllJob(false);
                       },
-                      backgroundColor: controller.is_all_job.value
-                          ? kTransparent
-                          : themeColor,
+                      backgroundColor:
+                          controller.isAllJob.value ? kTransparent : themeColor,
                       textStyle: TextStyle(
-                        color: controller.is_all_job.value ? kBlack : kWhite,
+                        color: controller.isAllJob.value ? kBlack : kWhite,
                       ),
                       outlined: true,
                       outlineBorderColor: themeColor,
                       outlineBorderWidth: 2,
                     ),
                     const hSpace(15),
-                    const hSpace(1),
-                    const hSpace(1),
                   ],
                 ),
               ),
               const vSpace(20),
               Expanded(
-                  child: ListView.separated(
-                      itemCount: 30,
-                      separatorBuilder: (context, index) {
-                        return const vSpace(10);
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (controller.errorMessage.value.isNotEmpty) {
+                    return Center(
+                        child: Text('Error: ${controller.errorMessage.value}'));
+                  } else if (controller.filteredJobs.isEmpty) {
+                    return const Center(child: Text('No jobs found.'));
+                  } else {
+                    return ListView.separated(
+                      itemCount: controller.filteredJobs.length,
+                      separatorBuilder: (context, index) => const vSpace(10),
+                      itemBuilder: (context, index) {
+                        final job = controller.filteredJobs[index];
+                        return JobTileWidget(
+                            key: ValueKey(job.id), job: job); // Add Key
                       },
-                      itemBuilder: (BuildContext ctx, int index) {
-                        return const JobTileWidget();
-                      }))
+                    );
+                  }
+                }),
+              ),
             ],
           ),
         ),

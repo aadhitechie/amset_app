@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/auth/_controller/signup_controller.dart';
 import 'package:amster_app/services/api_endpoints.dart';
@@ -129,16 +131,16 @@ class SignUpScreen extends GetWidget<SignupController> {
                             if (response.statusCode == 200) {
                               Get.toNamed(Routes.login);
                             } else {
-                              print('Error: ${response.statusMessage}');
+                              log('Error: ${response.statusMessage}');
                             }
                           } catch (e) {
-                            print('Error: $e');
+                            log('Error: $e');
                           }
                         } else {
-                          print("Phone or Email is empty!");
+                          log("Phone or Email is empty!");
                         }
                       } else {
-                        print("Form validation failed!");
+                        log("Form validation failed!");
                       }
                     },
                     isFullWidth: true,

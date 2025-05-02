@@ -1,3 +1,4 @@
+import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/bullet_list.dart';
 import 'package:amster_app/widgets/common_widget.dart';
@@ -12,6 +13,8 @@ class JobDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final JobModel job = Get.arguments;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -20,18 +23,31 @@ class JobDetailScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Job Details',
-                  style: fontRecoleta(
-                      fontSize: 18.sp, fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child:
+                          const Icon(Icons.arrow_back_ios, color: Colors.black),
+                    ),
+                    const hSpace(5),
+                    Text(
+                      'Job Details',
+                      style: fontRecoleta(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
                 const vSpace(50),
                 Container(
                   width: Get.width,
                   height: 80.w,
                   decoration: BoxDecoration(
-                      color: Colors.black12,
-                      borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                    color: Colors.black12,
+                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                  ),
                   child: Row(
                     children: [
                       const hSpace(30),
@@ -40,10 +56,15 @@ class JobDetailScreen extends StatelessWidget {
                         child: Container(
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.r)),
+                          ),
                           child: Image.network(
-                              'https://store-images.s-microsoft.com/image/apps.30645.9007199266245907.cb06f1f9-9154-408e-b4ef-d19f2325893b.ac3b465e-4384-42a8-9142-901c0405e1bc'),
+                            job.companyLogo,
+                            width: 50.w,
+                            height: 50.w,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Column(
@@ -51,12 +72,12 @@ class JobDetailScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextWidget(
-                            'Product Designer',
+                            job.title,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
                           ),
                           TextWidget(
-                            'Facebook',
+                            job.companyName,
                             fontSize: 12.sp,
                           )
                         ],
@@ -65,37 +86,21 @@ class JobDetailScreen extends StatelessWidget {
                   ),
                 ),
                 const vSpace(20),
-                TextWidget(
-                  'Location',
-                  fontSize: 12.sp,
-                  color: Colors.grey,
-                ),
+                TextWidget('Location', fontSize: 12.sp, color: Colors.grey),
                 const vSpace(1),
-                const TextWidget('Dubai'),
+                TextWidget(job.location),
                 const vSpace(30),
-                TextWidget(
-                  'Experience',
-                  fontSize: 12.sp,
-                  color: Colors.grey,
-                ),
+                TextWidget('Experience', fontSize: 12.sp, color: Colors.grey),
                 const vSpace(1),
-                const TextWidget('2-3 Years'),
+                TextWidget(job.experienceLevel),
                 const vSpace(30),
-                TextWidget(
-                  'Job Nature',
-                  fontSize: 12.sp,
-                  color: Colors.grey,
-                ),
+                TextWidget('Job Nature', fontSize: 12.sp, color: Colors.grey),
                 const vSpace(1),
-                const TextWidget('Full Time'),
+                TextWidget(job.jobType),
                 const vSpace(30),
-                TextWidget(
-                  'Deadline',
-                  fontSize: 12.sp,
-                  color: Colors.grey,
-                ),
+                TextWidget('Salary', fontSize: 12.sp, color: Colors.grey),
                 const vSpace(1),
-                const TextWidget('25/12/25'),
+                TextWidget('₹${job.salary}'),
                 const vSpace(20),
                 SizedBox(
                   width: Get.width,
@@ -104,35 +109,25 @@ class JobDetailScreen extends StatelessWidget {
                 const vSpace(20),
                 TextWidget('Description', fontSize: 15.sp, color: Colors.black),
                 const vSpace(10),
+                TextWidget(job.description, fontSize: 13.sp),
+                const vSpace(20),
+                TextWidget('Requirements',
+                    fontSize: 15.sp, color: Colors.black),
+                const vSpace(10),
                 BulletList(
-                    padding: EdgeInsets.zero,
-                    bulletType: BulletType.unordered(),
-                    bulletStyle: const TextStyle(fontSize: 4, color: Colors.black),
-                    bulletSpacing: 5.w,
-                    bulletHeight: 16.sp,
-                    shrinkWrap: true,
-                    textStyle: TextStyle(fontSize: 13.sp),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemSpacing: 10,
-                    items: const [
-                      "Responsible for managing a vast digital library of creative assets, including images, videos, and sounds, ensuring their accessibility and organization for internal design teams. Requires strong visual aesthetic, meticulous categorization skills, and proficiency in digital asset management systems.",
-                      "Tap on the menu (three horizontal lines).",
-                      "And select \"Accounts Center\".",
-                      "Tap on \"Your Information and Permissions\".",
-                      "Choose \"Download Your Information\".",
-                      "Choose \"Download or transfer information\".",
-                      "Choose \"Some of your information\".",
-                      "Pick the specific types of information you want to import. For example, Content,Stories, Posts, and Short Videos.",
-                      "choose \"Download to device\".",
-                      "Select \"JSON\" for format.",
-                      "Select \"Medium\" for media quality.",
-                      "Then click on \"Create files\"",
-                      "Once the files are ready, click on \"Download to Device\"",
-                      "After downloading the file, click on \"Select import file\" button from VUDE.",
-                      "Choose the Instagram import file which starts with \"instagram-\" followed by your Instagram username. And click on Import.",
-                      "After successfully importing the files, they will be visible in your profile's import section shortly. Please allow some time for the files to appear.",
-                    ]),
-                const vSpace(50)
+                  padding: EdgeInsets.zero,
+                  bulletType: BulletType.unordered(),
+                  bulletStyle:
+                      const TextStyle(fontSize: 4, color: Colors.black),
+                  bulletSpacing: 5.w,
+                  bulletHeight: 16.sp,
+                  shrinkWrap: true,
+                  textStyle: TextStyle(fontSize: 13.sp),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemSpacing: 10,
+                  items: job.requirements,
+                ),
+                const vSpace(65)
               ],
             ),
           ),
@@ -145,18 +140,20 @@ class JobDetailScreen extends StatelessWidget {
           children: [
             PrimaryButton.icon(
               text: 'Save',
-              onPressed: () {},
-              icon: const Icon(
-                Icons.star_border,
-                color: kWhite,
-              ),
+              onPressed: () {
+                // TODO: Implement save functionality
+              },
+              icon: const Icon(Icons.star_border, color: kWhite),
               backgroundColor: Colors.black87,
             ),
             const hSpace(30),
             PrimaryButton(
-                text: 'Apply Now',
-                onPressed: () {},
-                backgroundColor: Colors.black87)
+              text: 'Apply Now',
+              onPressed: () {
+                // TODO: Implement apply functionality
+              },
+              backgroundColor: Colors.black87,
+            )
           ],
         ),
       ),
