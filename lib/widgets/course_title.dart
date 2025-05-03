@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:amster_app/screens/course_screen/Course_model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,15 +26,14 @@ class CourseTitle extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
             ),
-            child: Image.network(
-              course.imageUrl ?? '',
+            child: CachedNetworkImage(
+              imageUrl: course.imageUrl ?? '',
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/png/no_image.jpg',
-                  fit: BoxFit.cover,
-                );
-              },
+              // placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/png/no_image.jpg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const hSpace(20),
@@ -49,13 +49,13 @@ class CourseTitle extends StatelessWidget {
                 ),
                 const vSpace(5),
                 TextWidget(
-                  'Chapters: ${course.chapters?.length ?? 0}',
-                  fontSize: 10.sp,
+                  'Instructor: Sabeer Ibrahim',
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                 ),
                 TextWidget(
-                  'Price: ₹${course.price ?? 0}',
-                  fontSize: 10.sp,
+                  'Chapters: ${course.chapters?.length ?? 0}',
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ],
