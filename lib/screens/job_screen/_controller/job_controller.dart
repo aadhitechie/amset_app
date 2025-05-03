@@ -55,7 +55,17 @@ class JobController extends GetxController {
     if (isAllJob.value) {
       return jobs; // Show all jobs
     } else {
-      return jobs.sublist(0, jobs.length > 2 ? 2 : jobs.length);
+      return jobs.sublist(0, jobs.length);
     }
   }
-}
+} 
+
+
+// List<JobModel> get filteredJobs {
+//     if (isAllJob.value) {
+//       return jobs; // Show all jobs
+//     } else {
+//       return jobs.sublist(0, jobs.length > 2 ? 2 : jobs.length);
+//     }
+//   }
+// }

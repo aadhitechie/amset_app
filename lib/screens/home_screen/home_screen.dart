@@ -105,6 +105,7 @@ class HomeScreen extends GetWidget<HomeController> {
                     itemBuilder: (BuildContext ctx, int index) {
                       final job = controller.filteredJobs[index]; 
                       return JobTileWidget(job: job); 
+                      
                     },
                   );
                 }
