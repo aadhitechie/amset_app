@@ -29,7 +29,9 @@ class CourseTitle extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: course.imageUrl ?? '',
               fit: BoxFit.cover,
-              // placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+              placeholder: (context, url) => Container(
+                color: Colors.grey[200], // Or any other placeholder color
+              ),
               errorWidget: (context, url, error) => Image.asset(
                 'assets/png/no_image.jpg',
                 fit: BoxFit.cover,

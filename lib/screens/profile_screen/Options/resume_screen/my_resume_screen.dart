@@ -3,6 +3,7 @@ import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
 import 'package:amster_app/widgets/primary_button.dart';
 import 'package:amster_app/widgets/resumer_preview.dart';
+import 'package:amster_app/widgets/reusable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,22 +18,21 @@ class ResumeUploadScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: scaffoldBackgroundColor,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        surfaceTintColor: kTransparent,
-        centerTitle: true,
-        title: TextWidget(
-          'Upload Your Resume',
-          fontSize: 20.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kBlack,
-            size: 22.w,
-          ),
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () => Get.back(),
+              child: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Upload Resume',
+              style: fontRecoleta(fontSize: 22.sp, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
       body: SafeArea(

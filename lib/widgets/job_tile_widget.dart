@@ -37,26 +37,31 @@ class JobTileWidget extends StatelessWidget {
                     children: [
                       Text(
                         job.title,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                        ),
                       ),
                       Text(
                         job.companyName,
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10.sp,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[700],
                         ),
                       ),
                       const vSpace(5),
                       Row(
                         children: [
                           Icon(
-                            Icons.work,
-                            size: 10.w,
+                            Icons.business_center,
+                            size: 14.w,
                           ),
-                          const hSpace(2),
+                          const hSpace(4),
                           Text(
                             job.experienceLevel,
-                            style: TextStyle(fontSize: 10.sp),
+                            style: TextStyle(fontSize: 13.sp),
                           ),
                         ],
                       ),

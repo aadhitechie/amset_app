@@ -1,5 +1,6 @@
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
+import 'package:amster_app/widgets/reusable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -12,22 +13,21 @@ class LiveStreamingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: scaffoldBackgroundColor,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        surfaceTintColor: kTransparent,
-        centerTitle: true,
-        title: TextWidget(
-          'Live Streaming',
-          fontSize: 20.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kBlack,
-            size: 22.w,
-          ),
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () => Get.back(),
+              child: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Live Streaming',
+              style: fontRecoleta(fontSize: 22.sp, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
       body: SafeArea(

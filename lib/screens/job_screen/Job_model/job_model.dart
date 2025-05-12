@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final jobModel = jobModelFromJson(jsonString);
+
 import 'dart:convert';
 
 List<JobModel> jobModelFromJson(String str) =>
@@ -17,7 +21,7 @@ class JobModel {
   String experienceLevel;
   List<String> requirements;
   String companyLogo;
-  List<dynamic> applicants;
+  List<Applicant> applicants;
   int v;
 
   JobModel({
@@ -35,35 +39,21 @@ class JobModel {
     required this.v,
   });
 
-  factory JobModel.fromJson(Map<String, dynamic> json) {
-    List<String> parsedRequirements = [];
-    if (json["requirements"] != null) {
-      if (json["requirements"] is List) {
-        parsedRequirements = (json["requirements"] as List<dynamic>)
-            .map<String>((item) => item.toString())
-            .toList();
-      } else {
-        parsedRequirements = [json["requirements"].toString()];
-      }
-    }
-
-    return JobModel(
-      id: json["_id"],
-      title: json["title"],
-      description: json["description"],
-      companyName: json["companyName"],
-      location: json["location"],
-      salary: json["salary"],
-      jobType: json["jobType"],
-      experienceLevel: json["experienceLevel"],
-      requirements: parsedRequirements,
-      companyLogo: json["companyLogo"] is List
-          ? (json["companyLogo"].isNotEmpty ? json["companyLogo"][0] : '')
-          : json["companyLogo"] ?? '',
-      applicants: List<dynamic>.from(json["applicants"].map((x) => x)),
-      v: json["__v"],
-    );
-  }
+  factory JobModel.fromJson(Map<String, dynamic> json) => JobModel(
+        id: json["_id"],
+        title: json["title"],
+        description: json["description"],
+        companyName: json["companyName"],
+        location: json["location"],
+        salary: json["salary"],
+        jobType: json["jobType"],
+        experienceLevel: json["experienceLevel"],
+        requirements: List<String>.from(json["requirements"].map((x) => x)),
+        companyLogo: json["companyLogo"],
+        applicants: List<Applicant>.from(
+            json["applicants"].map((x) => Applicant.fromJson(x))),
+        v: json["__v"],
+      );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
@@ -74,9 +64,33 @@ class JobModel {
         "salary": salary,
         "jobType": jobType,
         "experienceLevel": experienceLevel,
-        "requirements": requirements,
+        "requirements": List<dynamic>.from(requirements.map((x) => x)),
         "companyLogo": companyLogo,
-        "applicants": List<dynamic>.from(applicants.map((x) => x)),
+        "applicants": List<dynamic>.from(applicants.map((x) => x.toJson())),
         "__v": v,
+      };
+}
+
+class Applicant {
+  String applicantId;
+  String status;
+  String id;
+
+  Applicant({
+    required this.applicantId,
+    required this.status,
+    required this.id,
+  });
+
+  factory Applicant.fromJson(Map<String, dynamic> json) => Applicant(
+        applicantId: json["applicantId"],
+        status: json["status"],
+        id: json["_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "applicantId": applicantId,
+        "status": status,
+        "_id": id,
       };
 }

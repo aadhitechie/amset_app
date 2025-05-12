@@ -1,10 +1,15 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:amster_app/screens/auth/user_model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
   static const TOKEN = 'token';
   static const LOGIN = 'isLogin';
+  static const USER = 'user_data';
   //-----------------------Basic operations-------------------------------
   Future<void> setString(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -72,4 +77,23 @@ class LocalStorage {
   Future setSignOut() async {
     await removeAllItem();
   }
+
+
+  //-----------------------User-------------------------------
+  Future<void> saveUser(UserModel user) async {
+    await setString(USER, jsonEncode(user.toJson()));
+  }
+
+  Future<UserModel?> getUser() async {
+  final jsonStr = await getString(USER);
+  log("Raw user json: $jsonStr"); 
+  if (jsonStr == null) return null;
+  return UserModel.fromJson(jsonDecode(jsonStr));
 }
+
+
+  Future<void> clearUser() async {
+    await removeItem(USER);
+  }
+}
+

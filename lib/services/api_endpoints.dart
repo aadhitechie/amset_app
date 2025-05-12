@@ -15,4 +15,5 @@ class ApiEndpoints {
   //-----------------------Course-------------------------------
   static const getAllCourses = "user/course";
   static const getAllJobs = "/job";
+  
 }

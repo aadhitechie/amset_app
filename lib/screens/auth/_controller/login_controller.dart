@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:amster_app/routes.dart';
+import 'package:amster_app/screens/auth/user_model/user_model.dart';
 import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/services/api_service.dart';
@@ -40,30 +43,38 @@ class Logincontroller extends GetxController {
   //     Utils.showError(error);
   //   }).whenComplete(() => isLoading(false));
   // }
-  login() {
+  login() async {
     isLoading(true);
+    try {
+      final response = await ApiServices().postMethod(
+        ApiEndpoints.login,
+        data: {
+          'email': emailController.text,
+          'password': passwordController.text,
+        },
+      );
 
-    ApiServices().postMethod(
-      ApiEndpoints.login,
-      data: {
-        'email': emailController.text,
-        'password': passwordController.text
-      }, // POST data payload
-    ).then(
-      (value) {
-        if (value.data?['message'] == 'Login successful') {
-          LocalStorage().saveToken(value.data?['token']);
-          LocalStorage().setLogin();
-          Get.offNamed(Routes.bottomNav);
-          return;
-        }
-        Utils.showError(const ApiException('Invalid login credentials.'));
-      },
-    ).onError(
-      (error, stackTrace) {
-        Utils.showError(const ApiException('Login failed.'));
-      },
-    ).whenComplete(() => isLoading(false));
+      if (response.data != null &&
+          response.data['message'] == 'Login successful') {
+        final userModel = UserModel.fromJson(response.data);
+
+        final localStorage = LocalStorage();
+        await localStorage.saveToken(userModel.token);
+        await localStorage.saveUser(userModel); 
+        await localStorage.setLogin();
+
+        log("Saved user full name: ${userModel.user.fullName}");
+
+        Get.offNamed(Routes.bottomNav); 
+        return;
+      }
+
+      Utils.showError(const ApiException('Invalid login credentials.'));
+    } catch (error) {
+      Utils.showError(ApiException(error.toString()));
+    } finally {
+      isLoading(false);
+    }
   }
 
   static onOtpSuccess(DioResponse response) {

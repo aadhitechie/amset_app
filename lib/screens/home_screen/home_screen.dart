@@ -15,12 +15,17 @@ class HomeScreen extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: commonAppBar(
+     appBar: PreferredSize(
+  preferredSize: const Size.fromHeight(kToolbarHeight),
+  child: Obx(() => commonAppBar(
         greetingText: 'Hi👋',
-        nameText: 'Sabeer',
-        avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
-      ),
+        nameText: controller.userFullName.value,
+        avatar: controller.userAvatar.value.isNotEmpty
+            ? controller.userAvatar.value
+            : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
+      )),
+),
+
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
@@ -95,7 +100,8 @@ class HomeScreen extends GetWidget<HomeController> {
                 if (controller.isLoading.value) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (controller.errorMessage.value.isNotEmpty) {
-                  return Center(child: Text('Error: ${controller.errorMessage.value}'));
+                  return Center(
+                      child: Text('Error: ${controller.errorMessage.value}'));
                 } else if (controller.filteredJobs.isEmpty) {
                   return const Center(child: Text('No jobs found.'));
                 } else {
@@ -103,9 +109,8 @@ class HomeScreen extends GetWidget<HomeController> {
                     separatorBuilder: (context, index) => const vSpace(10),
                     itemCount: controller.filteredJobs.length,
                     itemBuilder: (BuildContext ctx, int index) {
-                      final job = controller.filteredJobs[index]; 
-                      return JobTileWidget(job: job); 
-                      
+                      final job = controller.filteredJobs[index];
+                      return JobTileWidget(job: job);
                     },
                   );
                 }

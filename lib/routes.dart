@@ -10,7 +10,7 @@ import 'package:amster_app/screens/auth/otp/otp_screen.dart';
 import 'package:amster_app/screens/auth/signup_screen.dart/signup_screen.dart';
 import 'package:amster_app/screens/bottom_nav/bottomnav_screen.dart';
 import 'package:amster_app/screens/chapters_list/chapters_list.dart';
-import 'package:amster_app/screens/job_screen/job_detail_screen.dart';
+import 'package:amster_app/screens/Job_detail_screen/job_detail_screen.dart';
 import 'package:amster_app/screens/profile_screen/Options/live_screen/live_screen.dart';
 import 'package:amster_app/screens/profile_screen/Options/resume_screen/my_resume_screen.dart';
 import 'package:amster_app/screens/profile_screen/Options/terms_and_conditions/terms_and_conditions.dart';
