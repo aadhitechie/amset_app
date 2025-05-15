@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/job_services.dart';
+import 'package:amster_app/services/local_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +16,21 @@ class JobDetailController extends GetxController {
     super.onInit();
     final JobModel job = Get.arguments as JobModel;
     checkIfAlreadyApplied(job.id);
-    // Optionally: checkIfAlreadySaved(job.id); // if such endpoint exists
   }
 
   Future<void> checkIfAlreadyApplied(String jobId) async {
     try {
+      final locallyApplied = await LocalStorage().isJobApplied(jobId);
+      if (locallyApplied) {
+        alreadyApplied.value = true;
+        return;
+      }
+
       final hasAlreadyApplied = await JobService.hasUserApplied(jobId);
-      alreadyApplied.value = hasAlreadyApplied;
+      if (hasAlreadyApplied) {
+        alreadyApplied.value = true;
+        await LocalStorage().addAppliedJob(jobId);
+      }
     } catch (e) {
       log('Error checking if already applied: $e');
       Get.snackbar('Error', 'Failed to check application status: $e',
@@ -40,12 +49,16 @@ class JobDetailController extends GetxController {
 
       if (success) {
         alreadyApplied.value = true;
+        await LocalStorage().addAppliedJob(jobId);
+
         Get.snackbar('Success', 'Applied to the job successfully',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.green,
             colorText: Colors.white);
       } else {
         alreadyApplied.value = true;
+        await LocalStorage().addAppliedJob(jobId);
+
         Get.snackbar('Info', 'You have already applied for this job',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.blue,

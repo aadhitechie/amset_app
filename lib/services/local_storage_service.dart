@@ -10,6 +10,7 @@ class LocalStorage {
   static const TOKEN = 'token';
   static const LOGIN = 'isLogin';
   static const USER = 'user_data';
+  static const APPLIED_JOBS = 'applied_jobs';
   //-----------------------Basic operations-------------------------------
   Future<void> setString(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -78,22 +79,36 @@ class LocalStorage {
     await removeAllItem();
   }
 
-
   //-----------------------User-------------------------------
   Future<void> saveUser(UserModel user) async {
     await setString(USER, jsonEncode(user.toJson()));
   }
 
   Future<UserModel?> getUser() async {
-  final jsonStr = await getString(USER);
-  log("Raw user json: $jsonStr"); 
-  if (jsonStr == null) return null;
-  return UserModel.fromJson(jsonDecode(jsonStr));
-}
-
+    final jsonStr = await getString(USER);
+    log("Raw user json: $jsonStr");
+    if (jsonStr == null) return null;
+    return UserModel.fromJson(jsonDecode(jsonStr));
+  }
 
   Future<void> clearUser() async {
     await removeItem(USER);
   }
-}
 
+//-----------------------storing applied job IDs-------------------------------
+
+  Future<void> addAppliedJob(String jobId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getStringList(APPLIED_JOBS) ?? [];
+    if (!existing.contains(jobId)) {
+      existing.add(jobId);
+      await prefs.setStringList(APPLIED_JOBS, existing);
+    }
+  }
+
+  Future<bool> isJobApplied(String jobId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final appliedJobs = prefs.getStringList(APPLIED_JOBS) ?? [];
+    return appliedJobs.contains(jobId);
+  }
+}
