@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amster_app/routes.dart';
@@ -56,16 +57,21 @@ class Logincontroller extends GetxController {
 
       if (response.data != null &&
           response.data['message'] == 'Login successful') {
-        final userModel = UserModel.fromJson(response.data);
+        try {
+          final userModel = UserModel.fromJson(response.data);
 
-        final localStorage = LocalStorage();
-        await localStorage.saveToken(userModel.token);
-        await localStorage.saveUser(userModel); 
-        await localStorage.setLogin();
+          final localStorage = LocalStorage();
+          await localStorage.saveToken(userModel.token);
+          await localStorage.saveUser(userModel);
+          await localStorage.setLogin();
 
-        log("Saved user full name: ${userModel.user.fullName}");
+          log("Saved user full name: ${userModel.user.fullName}");
 
-        Get.offNamed(Routes.bottomNav); 
+          Get.offNamed(Routes.bottomNav);
+        } catch (e) {
+          log("UserModel parsing failed: $e");
+          Utils.showError(const ApiException('User data parsing error.'));
+        }
         return;
       }
 

@@ -10,7 +10,7 @@ import 'package:amster_app/utils/utils.dart';
 
 class HomeController extends GetxController {
   RxBool is_all_job = true.obs;
-  RxList<JobModel> jobs = <JobModel>[].obs; 
+  RxList<JobModel> jobs = <JobModel>[].obs;
   RxString errorMessage = ''.obs;
   RxBool isLoading = false.obs;
   RxString userFullName = ''.obs;
@@ -68,17 +68,15 @@ class HomeController extends GetxController {
 
   //---------------- User Profile ------------------//
 
- void loadUserProfile() async {
-  final userModel = await _storage.getUser();
-  if (userModel != null) {
-    userFullName.value = userModel.user.fullName;
-    userAvatar.value = userModel.user.image; 
-    log("Loaded avatar: ${userAvatar.value}");
-  } else {
-    userFullName.value = 'User';
-    userAvatar.value = ''; 
+  void loadUserProfile() async {
+    final userModel = await _storage.getUser();
+    if (userModel != null) {
+      userFullName.value = userModel.user.fullName;
+      userAvatar.value = userModel.user.image;
+      log("Loaded avatar: ${userAvatar.value}");
+    } else {
+      userFullName.value = 'User';
+      userAvatar.value = '';
+    }
   }
-}
-
-
 }

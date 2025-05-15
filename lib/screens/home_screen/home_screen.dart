@@ -15,17 +15,16 @@ class HomeScreen extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: PreferredSize(
-  preferredSize: const Size.fromHeight(kToolbarHeight),
-  child: Obx(() => commonAppBar(
-        greetingText: 'Hi👋',
-        nameText: controller.userFullName.value,
-        avatar: controller.userAvatar.value.isNotEmpty
-            ? controller.userAvatar.value
-            : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
-      )),
-),
-
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Obx(() => commonAppBar(
+              greetingText: 'Hi👋',
+              nameText: controller.userFullName.value,
+              avatar: controller.userAvatar.value.isNotEmpty
+                  ? controller.userAvatar.value
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
+            )),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(

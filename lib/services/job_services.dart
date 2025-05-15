@@ -86,42 +86,26 @@ class JobService {
 // ------------------------- Save Jobs --------------------------//
 
   static Future<bool> saveJob(String jobId) async {
+    final token = await LocalStorage().getToken();
     final url =
         Uri.parse('https://amset-server.vercel.app/api/job/save/$jobId');
+    final response = await http.post(url, headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    });
 
-    log('Saving job with ID: $jobId');
-    final token = await _localStorage.getToken();
-    if (token == null || token.isEmpty) {
-      log('Error: No authentication token found.');
-      return false;
-    }
+    return response.statusCode == 200;
+  }
 
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
+  static Future<bool> unsaveJob(String jobId) async {
+    final token = await LocalStorage().getToken();
+    final url =
+        Uri.parse('https://amset-server.vercel.app/api/job/unsave/$jobId');
+    final response = await http.post(url, headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    });
 
-      log('Save Job Response status code: ${response.statusCode}');
-      log('Save Job Response body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        log('Successfully saved job.');
-        return true;
-      } else if (response.statusCode == 400 &&
-          response.body.contains('already saved')) {
-        log('Job already saved.');
-        return false;
-      } else {
-        log('Failed to save job. Status code: ${response.statusCode}, Body: ${response.body}');
-        return false;
-      }
-    } catch (e) {
-      log('Error saving job: $e');
-      return false;
-    }
+    return response.statusCode == 200;
   }
 }
