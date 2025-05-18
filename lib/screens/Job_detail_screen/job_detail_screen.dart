@@ -225,7 +225,7 @@ class JobDetailScreen extends StatelessWidget {
 
                         return PrimaryButton(
                           text: alreadyApplied
-                              ? '✅ Applied'
+                              ? 'Applied'
                               : isApplying
                                   ? '⏳ Applying...'
                                   : 'Apply Now',
