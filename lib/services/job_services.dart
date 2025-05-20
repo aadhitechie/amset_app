@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/local_storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -97,15 +98,39 @@ class JobService {
     return response.statusCode == 200;
   }
 
-  static Future<bool> unsaveJob(String jobId) async {
-    final token = await LocalStorage().getToken();
-    final url =
-        Uri.parse('https://amset-server.vercel.app/api/job/unsave/$jobId');
-    final response = await http.post(url, headers: {
+  // static Future<bool> unsaveJob(String jobId) async {
+  //   final token = await LocalStorage().getToken();
+  //   final url =
+  //       Uri.parse('https://amset-server.vercel.app/api/job/unsave/$jobId');
+  //   final response = await http.post(url, headers: {
+  //     'Authorization': 'Bearer $token',
+  //     'Content-Type': 'application/json',
+  //   });
+
+  //   return response.statusCode == 200;
+  // }
+
+
+
+  static Future<JobModel?> fetchJobById(String jobId) async {
+  final token = await LocalStorage().getToken();
+  final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
+
+  try {
+    final response = await http.get(url, headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     });
 
-    return response.statusCode == 200;
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return JobModel.fromJson(data['job']); // Adjust key if needed
+    }
+    return null;
+  } catch (e) {
+    log('Error fetching job by ID: $e');
+    return null;
   }
+}
+
 }

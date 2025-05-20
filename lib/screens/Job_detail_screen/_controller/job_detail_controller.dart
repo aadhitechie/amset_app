@@ -16,6 +16,7 @@ class JobDetailController extends GetxController {
     super.onInit();
     final JobModel job = Get.arguments as JobModel;
     checkIfAlreadyApplied(job.id);
+    checkIfAlreadySaved(job.id);
   }
 
   Future<void> checkIfAlreadyApplied(String jobId) async {
@@ -37,6 +38,17 @@ class JobDetailController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white);
+    }
+  }
+
+  Future<void> checkIfAlreadySaved(String jobId) async {
+    try {
+      final locallySaved = await LocalStorage().isJobSaved(jobId);
+      if (locallySaved) {
+        alreadySaved.value = true;
+      }
+    } catch (e) {
+      log('Error checking if already saved: $e');
     }
   }
 
@@ -84,15 +96,16 @@ class JobDetailController extends GetxController {
 
       if (success) {
         alreadySaved.value = true;
+        await LocalStorage().addSavedJob(jobId);
+
         Get.snackbar('Saved', 'Job saved successfully',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.green,
             colorText: Colors.white);
       } else {
-        Get.snackbar('Info', 'Job already saved',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.blue,
-            colorText: Colors.white);
+        // If the backend says already saved, silently treat it as success
+        alreadySaved.value = true;
+        await LocalStorage().addSavedJob(jobId);
       }
     } catch (e) {
       log('Error saving job: $e');

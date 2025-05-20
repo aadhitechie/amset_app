@@ -1,14 +1,17 @@
 import 'package:get/get.dart';
-import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:dio/dio.dart';
+import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
+import 'package:amster_app/services/local_storage_service.dart';
 
 class JobController extends GetxController {
+  final Dio _dio = Dio();
+  final _storage = LocalStorage();
+
   RxBool isAllJob = true.obs;
   RxList<JobModel> jobs = <JobModel>[].obs;
+  RxList<JobModel> savedJobs = <JobModel>[].obs;
   RxBool isLoading = false.obs;
   RxString errorMessage = ''.obs;
-
-  final Dio _dio = Dio();
 
   @override
   void onInit() {
@@ -26,45 +29,47 @@ class JobController extends GetxController {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
-        jobs.value = data.map((e) => JobModel.fromJson(e)).toList();
+        final fetchedJobs = data.map((e) => JobModel.fromJson(e)).toList();
+        jobs.value = fetchedJobs;
+
+        await loadSavedJobsFromUser(fetchedJobs);
       } else {
         errorMessage.value =
             'Failed to load jobs. Status code: ${response.statusCode}';
-        printError(info: errorMessage.value);
       }
     } on DioException catch (e) {
       if (e.response != null) {
         errorMessage.value =
             'Server error: ${e.response?.statusCode} - ${e.response?.statusMessage}';
-        printError(
-            info:
-                'Server error: ${e.response?.statusCode} - ${e.response?.statusMessage}');
       } else {
-        errorMessage.value = 'Error connecting to the server: ${e.message}';
-        printError(info: 'Error connecting to the server: ${e.message}');
+        errorMessage.value = 'Connection error: ${e.message}';
       }
     } catch (e) {
       errorMessage.value = 'Unexpected error: ${e.toString()}';
-      printError(info: 'Unexpected error: ${e.toString()}');
     } finally {
       isLoading.value = false;
     }
   }
 
-  List<JobModel> get filteredJobs {
-    if (isAllJob.value) {
-      return jobs; // Show all jobs
+  Future<void> loadSavedJobsFromUser(List<JobModel> allJobs) async {
+    final userModel = await _storage.getUser();
+    if (userModel != null) {
+      final savedIds = userModel.user.savedJobs;
+      savedJobs.value =
+          allJobs.where((job) => savedIds.contains(job.id)).toList();
     } else {
-      return jobs.sublist(0, jobs.length > 1 ? 1 : jobs.length);
+      savedJobs.clear();
+    }
+  }
+
+  List<JobModel> get filteredJobs {
+    return isAllJob.value ? jobs : savedJobs;
+  }
+
+  void toggleTab(bool showAll) async {
+    isAllJob.value = showAll;
+    if (!showAll) {
+      await loadSavedJobsFromUser(jobs);
     }
   }
 }
-
-// List<JobModel> get filteredJobs {
-//     if (isAllJob.value) {
-//       return jobs; // Show all jobs
-//     } else {
-//       return jobs.sublist(0, jobs.length > 2 ? 2 : jobs.length);
-//     }
-//   }
-// }

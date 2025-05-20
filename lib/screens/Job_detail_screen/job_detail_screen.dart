@@ -197,22 +197,22 @@ class JobDetailScreen extends StatelessWidget {
 
                         return PrimaryButton.icon(
                           text: alreadySaved
-                              ? '✅ Saved'
+                              ? 'Saved'
                               : isSaving
                                   ? '⏳ Saving...'
                                   : 'Save',
                           isEnabled: !alreadySaved && !isSaving,
                           isLoading: isSaving,
-                          onPressed: alreadySaved
-                              ? () {}
-                              : () {
-                                  if (!isSaving) {
-                                    jobController.saveJob(job.id);
-                                  }
-                                },
+                          onPressed: () {
+                            if (!alreadySaved && !isSaving) {
+                              jobController.saveJob(job.id);
+                            }
+                          },
                           icon:
                               const Icon(Icons.bookmark_border, color: kWhite),
-                          backgroundColor: Colors.grey[850]!,
+                          backgroundColor: alreadySaved
+                              ? Colors.grey.shade600
+                              : Colors.grey.shade900,
                         );
                       }),
                     ),

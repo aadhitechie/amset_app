@@ -61,9 +61,7 @@ class JobScreen extends GetWidget<JobController> {
                     const hSpace(10),
                     PrimaryButton(
                       text: 'Saved jobs',
-                      onPressed: () {
-                        controller.isAllJob(false);
-                      },
+                      onPressed: () => controller.toggleTab(false),
                       backgroundColor:
                           controller.isAllJob.value ? kTransparent : themeColor,
                       textStyle: TextStyle(

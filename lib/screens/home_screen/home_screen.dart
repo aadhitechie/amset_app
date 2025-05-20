@@ -76,7 +76,9 @@ class HomeScreen extends GetWidget<HomeController> {
                   PrimaryButton(
                     text: 'Saved jobs',
                     onPressed: () {
-                      controller.is_all_job(false);
+                      controller.toggleAllJobs(false);
+                      controller.loadSavedJobsFromUser(
+                          controller.jobs); // Re-apply filter
                     },
                     backgroundColor:
                         controller.is_all_job.value ? kTransparent : themeColor,

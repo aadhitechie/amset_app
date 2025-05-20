@@ -1,21 +1,24 @@
 import 'dart:developer';
-
-import 'package:amster_app/services/local_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
+import 'package:amster_app/services/local_storage_service.dart';
 import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/utils/utils.dart';
 
 class HomeController extends GetxController {
+  final _storage = LocalStorage();
+
   RxBool is_all_job = true.obs;
   RxList<JobModel> jobs = <JobModel>[].obs;
+  RxList<JobModel> savedJobs = <JobModel>[].obs;
+
   RxString errorMessage = ''.obs;
   RxBool isLoading = false.obs;
+
   RxString userFullName = ''.obs;
   RxString userAvatar = ''.obs;
-  final _storage = LocalStorage();
 
   @override
   void onInit() {
@@ -25,14 +28,10 @@ class HomeController extends GetxController {
   }
 
   List<JobModel> get filteredJobs {
-    if (is_all_job.value) {
-      return jobs; // Return all jobs if is_all_job is true
-    } else {
-      return [];
-    }
+    return is_all_job.value ? jobs : savedJobs;
   }
 
-  // Function to fetch jobs from the API
+  //---------------- Load All Jobs from API ----------------//
   Future<void> fetchJobs() async {
     isLoading(true);
     errorMessage('');
@@ -40,15 +39,11 @@ class HomeController extends GetxController {
       final response = await ApiServices().getMethod(ApiEndpoints.getAllJobs);
 
       if (response.data != null) {
-        try {
-          List<JobModel> fetchedJobs = (response.data as List)
-              .map((job) => JobModel.fromJson(job))
-              .toList();
-          jobs.value = fetchedJobs;
-        } catch (e) {
-          errorMessage('Error parsing jobs: ${e.toString()}');
-          Utils.showError(ApiException('Error parsing jobs: ${e.toString()}'));
-        }
+        List<JobModel> fetchedJobs = (response.data as List)
+            .map((job) => JobModel.fromJson(job))
+            .toList();
+        jobs.value = fetchedJobs;
+        await loadSavedJobsFromUser(fetchedJobs);
       } else {
         errorMessage('No jobs found');
         Utils.showError(const ApiException('No jobs found'));
@@ -61,13 +56,28 @@ class HomeController extends GetxController {
     }
   }
 
-  // Function to toggle the is_all_job flag
+  //---------------- Load Saved Jobs from UserModel ----------------//
+  Future<void> loadSavedJobsFromUser(List<JobModel> allJobs) async {
+  final userModel = await _storage.getUser();
+  if (userModel != null) {
+    final savedIds = userModel.user.savedJobs;
+    log('Saved Job IDs: $savedIds');
+    savedJobs.value =
+        allJobs.where((job) => savedIds.contains(job.id)).toList();
+    log('Saved Jobs Found: ${savedJobs.length}');
+  } else {
+    savedJobs.clear();
+    log('No user model found when trying to load saved jobs.');
+  }
+}
+
+
+  //---------------- Toggle Tabs ----------------//
   void toggleAllJobs(bool value) {
     is_all_job.value = value;
   }
 
-  //---------------- User Profile ------------------//
-
+  //---------------- Load User Profile ----------------//
   void loadUserProfile() async {
     final userModel = await _storage.getUser();
     if (userModel != null) {

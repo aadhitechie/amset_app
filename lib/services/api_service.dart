@@ -7,7 +7,6 @@ import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/local_storage_service.dart';
 import 'package:dio/dio.dart';
 
-
 import '../core/constant.dart';
 import 'api_exception.dart';
 
@@ -39,7 +38,6 @@ class ApiServices {
     }
   }
 
-
   ApiServices.custom(
       {BaseOptions? options, bool makeLog = true, bool prettyLog = false}) {
     if (options != null) dio.options = options;
@@ -67,8 +65,8 @@ class ApiServices {
   Future<Response> postMethod(String path,
       {JSON? parameters, JSON? data, CancelToken? cancelToken}) async {
     try {
-      final response =
-          await dio.post(path, queryParameters: parameters, data: data,cancelToken: cancelToken);
+      final response = await dio.post(path,
+          queryParameters: parameters, data: data, cancelToken: cancelToken);
       return response;
     } catch (e) {
       throw ApiException.handle(e);
@@ -222,7 +220,7 @@ class ApiServices {
             }
           }).onError((error, stackTrace) {
             log('error on RefreshToken $error');
-         //   get_x.Get.offNamed(Routes.login);
+            //   get_x.Get.offNamed(Routes.login);
           });
         } else {
           handler.next(e);

@@ -11,6 +11,7 @@ class LocalStorage {
   static const LOGIN = 'isLogin';
   static const USER = 'user_data';
   static const APPLIED_JOBS = 'applied_jobs';
+  static const SAVED_JOBS = 'saved_jobs';
   //-----------------------Basic operations-------------------------------
   Future<void> setString(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -110,5 +111,22 @@ class LocalStorage {
     final prefs = await SharedPreferences.getInstance();
     final appliedJobs = prefs.getStringList(APPLIED_JOBS) ?? [];
     return appliedJobs.contains(jobId);
+  }
+
+//-----------------------storing saved job IDs-------------------------------
+
+  Future<void> addSavedJob(String jobId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getStringList(SAVED_JOBS) ?? [];
+    if (!existing.contains(jobId)) {
+      existing.add(jobId);
+      await prefs.setStringList(SAVED_JOBS, existing);
+    }
+  }
+
+  Future<bool> isJobSaved(String jobId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedJobs = prefs.getStringList(SAVED_JOBS) ?? [];
+    return savedJobs.contains(jobId);
   }
 }
