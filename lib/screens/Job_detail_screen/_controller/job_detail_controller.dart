@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:amster_app/screens/home_screen/_controller/home_controller.dart';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/job_services.dart';
 import 'package:amster_app/services/local_storage_service.dart';
@@ -94,9 +95,11 @@ class JobDetailController extends GetxController {
       isSaving.value = true;
       final success = await JobService.saveJob(jobId);
 
-      if (success) {
-        alreadySaved.value = true;
-        await LocalStorage().addSavedJob(jobId);
+     if (success) {
+  alreadySaved.value = true;
+  await LocalStorage().addSavedJob(jobId);
+  await LocalStorage().addSavedJobToUser(jobId); // add this
+  Get.find<HomeController>().refreshSavedJobs(); // new method
 
         Get.snackbar('Saved', 'Job saved successfully',
             snackPosition: SnackPosition.BOTTOM,

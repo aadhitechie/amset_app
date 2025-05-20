@@ -58,19 +58,18 @@ class HomeController extends GetxController {
 
   //---------------- Load Saved Jobs from UserModel ----------------//
   Future<void> loadSavedJobsFromUser(List<JobModel> allJobs) async {
-  final userModel = await _storage.getUser();
-  if (userModel != null) {
-    final savedIds = userModel.user.savedJobs;
-    log('Saved Job IDs: $savedIds');
-    savedJobs.value =
-        allJobs.where((job) => savedIds.contains(job.id)).toList();
-    log('Saved Jobs Found: ${savedJobs.length}');
-  } else {
-    savedJobs.clear();
-    log('No user model found when trying to load saved jobs.');
+    final userModel = await _storage.getUser();
+    if (userModel != null) {
+      final savedIds = userModel.user.savedJobs;
+      log('Saved Job IDs: $savedIds');
+      savedJobs.value =
+          allJobs.where((job) => savedIds.contains(job.id)).toList();
+      log('Saved Jobs Found: ${savedJobs.length}');
+    } else {
+      savedJobs.clear();
+      log('No user model found when trying to load saved jobs.');
+    }
   }
-}
-
 
   //---------------- Toggle Tabs ----------------//
   void toggleAllJobs(bool value) {
@@ -88,5 +87,10 @@ class HomeController extends GetxController {
       userFullName.value = 'User';
       userAvatar.value = '';
     }
+  }
+
+  void refreshSavedJobs() {
+    final currentJobs = jobs;
+    loadSavedJobsFromUser(currentJobs);
   }
 }

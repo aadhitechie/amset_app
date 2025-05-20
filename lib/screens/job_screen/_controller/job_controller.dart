@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
@@ -54,9 +56,15 @@ class JobController extends GetxController {
   Future<void> loadSavedJobsFromUser(List<JobModel> allJobs) async {
     final userModel = await _storage.getUser();
     if (userModel != null) {
-      final savedIds = userModel.user.savedJobs;
+      final savedIds =
+          userModel.user.savedJobs.map((e) => e.toString()).toList();
+      log('🔍 Saved Job IDs: $savedIds');
+      log('📦 All Jobs: ${allJobs.map((e) => e.id).toList()}');
+
       savedJobs.value =
-          allJobs.where((job) => savedIds.contains(job.id)).toList();
+          allJobs.where((job) => savedIds.contains(job.id.toString())).toList();
+
+      log('✅ Matched Saved Jobs: ${savedJobs.length}');
     } else {
       savedJobs.clear();
     }

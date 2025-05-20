@@ -9,7 +9,10 @@ import 'package:amster_app/widgets/reusable.dart';
 class JobTileWidget extends StatelessWidget {
   final JobModel job;
 
-  const JobTileWidget({super.key, required this.job});
+   JobTileWidget({
+  required this.job,
+  Key? key,
+}) : super(key: key ?? ValueKey(job.id)); 
 
   @override
   Widget build(BuildContext context) {

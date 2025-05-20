@@ -91,8 +91,7 @@ class JobScreen extends GetWidget<JobController> {
                       separatorBuilder: (context, index) => const vSpace(10),
                       itemBuilder: (context, index) {
                         final job = controller.filteredJobs[index];
-                        return JobTileWidget(
-                            key: ValueKey(job.id), job: job); // Add Key
+                        return JobTileWidget(job: job, key: ValueKey(job.id));
                       },
                     );
                   }

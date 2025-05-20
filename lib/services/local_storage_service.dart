@@ -129,4 +129,17 @@ class LocalStorage {
     final savedJobs = prefs.getStringList(SAVED_JOBS) ?? [];
     return savedJobs.contains(jobId);
   }
+
+
+  Future<void> addSavedJobToUser(String jobId) async {
+  final userModel = await getUser();
+  if (userModel != null && !userModel.user.savedJobs.contains(jobId)) {
+    userModel.user.savedJobs.add(jobId);
+    await saveUser(userModel); // overwrite updated model
+  }
 }
+
+}
+
+
+
