@@ -1,20 +1,21 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'package:http/http.dart' as http;
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/local_storage_service.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class JobService {
   static final LocalStorage _localStorage = LocalStorage();
 
-// ------------------------- Applu for Job --------------------------//
+  //--------------------------- Apply for Job ---------------------------//
 
   static Future<bool> applyToJob(String jobId) async {
+    final token = await _localStorage.getToken();
     final url =
         Uri.parse('https://amset-server.vercel.app/api/job/apply/$jobId');
 
     log('Applying to job with ID: $jobId');
-    final token = await _localStorage.getToken();
+
     if (token == null || token.isEmpty) {
       log('Error: No authentication token found.');
       return false;
@@ -29,8 +30,8 @@ class JobService {
         },
       );
 
-      log('Apply Job Response status code: ${response.statusCode}');
-      log('Apply Job Response body: ${response.body}');
+      log('Apply Job Response status: ${response.statusCode}');
+      log('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         log('Successfully applied to job.');
@@ -40,20 +41,21 @@ class JobService {
         log('User has already applied for this job.');
         return false;
       } else {
-        log('Failed to apply to job. Status code: ${response.statusCode}, Body: ${response.body}');
+        log('Failed to apply. Status: ${response.statusCode}, Body: ${response.body}');
         return false;
       }
     } catch (e) {
-      log('Error applying to job: $e');
+      log('Exception while applying: $e');
       return false;
     }
   }
 
-// ------------------------- Checking for applied user --------------------------//
+  //--------------------------- Check Application Status ---------------------------//
 
   static Future<bool> hasUserApplied(String jobId) async {
-    final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
     final token = await _localStorage.getToken();
+    final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
+
     if (token == null || token.isEmpty) {
       log('Error: No authentication token found.');
       return false;
@@ -68,69 +70,69 @@ class JobService {
         },
       );
 
-      log('Check Applied Response status code: ${response.statusCode}');
-      log('Check Applied Response body: ${response.body}');
+      log('Check Applied Response status: ${response.statusCode}');
+      log('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         return responseData['hasApplied'] ?? false;
       } else {
-        log('Failed to check if applied. Status code: ${response.statusCode}, Body: ${response.body}');
+        log('Check failed. Status: ${response.statusCode}, Body: ${response.body}');
         return false;
       }
     } catch (e) {
-      log('Error checking if applied: $e');
+      log('Exception while checking application: $e');
       return false;
     }
   }
 
-// ------------------------- Save Jobs --------------------------//
+  //--------------------------- Save Job ---------------------------//
 
   static Future<bool> saveJob(String jobId) async {
-    final token = await LocalStorage().getToken();
+    final token = await _localStorage.getToken();
     final url =
         Uri.parse('https://amset-server.vercel.app/api/job/save/$jobId');
-    final response = await http.post(url, headers: {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    });
 
-    return response.statusCode == 200;
+    if (token == null || token.isEmpty) return false;
+
+    try {
+      final response = await http.post(url, headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      });
+
+      log('Save Job Response: ${response.statusCode}');
+      return response.statusCode == 200;
+    } catch (e) {
+      log('Exception while saving job: $e');
+      return false;
+    }
   }
 
-  // static Future<bool> unsaveJob(String jobId) async {
-  //   final token = await LocalStorage().getToken();
-  //   final url =
-  //       Uri.parse('https://amset-server.vercel.app/api/job/unsave/$jobId');
-  //   final response = await http.post(url, headers: {
-  //     'Authorization': 'Bearer $token',
-  //     'Content-Type': 'application/json',
-  //   });
-
-  //   return response.statusCode == 200;
-  // }
-
-
+  //--------------------------- Fetch Job by ID ---------------------------//
 
   static Future<JobModel?> fetchJobById(String jobId) async {
-  final token = await LocalStorage().getToken();
-  final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
+    final token = await _localStorage.getToken();
+    final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
 
-  try {
-    final response = await http.get(url, headers: {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    });
+    if (token == null || token.isEmpty) return null;
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return JobModel.fromJson(data['job']); // Adjust key if needed
+    try {
+      final response = await http.get(url, headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return JobModel.fromJson(data['job']); // Adjust key if necessary
+      }
+
+      log('Failed to fetch job. Status: ${response.statusCode}');
+      return null;
+    } catch (e) {
+      log('Exception while fetching job by ID: $e');
+      return null;
     }
-    return null;
-  } catch (e) {
-    log('Error fetching job by ID: $e');
-    return null;
   }
-}
-
 }

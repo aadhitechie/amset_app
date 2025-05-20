@@ -2,17 +2,19 @@
 
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:amster_app/screens/auth/user_model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:amster_app/screens/auth/user_model/user_model.dart';
 
 class LocalStorage {
+  // ---------------------- Keys ---------------------- //
   static const TOKEN = 'token';
   static const LOGIN = 'isLogin';
   static const USER = 'user_data';
   static const APPLIED_JOBS = 'applied_jobs';
   static const SAVED_JOBS = 'saved_jobs';
-  //-----------------------Basic operations-------------------------------
+
+  // ---------------------- Basic Operations ---------------------- //
+
   Future<void> setString(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
@@ -53,34 +55,37 @@ class LocalStorage {
     await prefs.clear();
   }
 
-  //-----------------------Token-------------------------------
+  // ---------------------- Token ---------------------- //
+
   Future<String?> getToken() async {
     return getString(TOKEN);
   }
 
-  saveToken(String token) async {
+  Future<void> saveToken(String token) async {
     await setString(TOKEN, token);
   }
 
-  clearToken() async {
+  Future<void> clearToken() async {
     await removeItem(TOKEN);
   }
 
-  //-----------------------Login-------------------------------
-  Future setLogin() async {
+  // ---------------------- Login ---------------------- //
+
+  Future<void> setLogin() async {
     await setString(LOGIN, 'true');
   }
 
   Future<bool> isLogin() async {
-    var isLogin = await getString(LOGIN);
+    final isLogin = await getString(LOGIN);
     return isLogin == 'true';
   }
 
-  Future setSignOut() async {
+  Future<void> setSignOut() async {
     await removeAllItem();
   }
 
-  //-----------------------User-------------------------------
+  // ---------------------- User Model ---------------------- //
+
   Future<void> saveUser(UserModel user) async {
     await setString(USER, jsonEncode(user.toJson()));
   }
@@ -96,7 +101,7 @@ class LocalStorage {
     await removeItem(USER);
   }
 
-//-----------------------storing applied job IDs-------------------------------
+  // ---------------------- Applied Jobs ---------------------- //
 
   Future<void> addAppliedJob(String jobId) async {
     final prefs = await SharedPreferences.getInstance();
@@ -113,7 +118,7 @@ class LocalStorage {
     return appliedJobs.contains(jobId);
   }
 
-//-----------------------storing saved job IDs-------------------------------
+  // ---------------------- Saved Jobs ---------------------- //
 
   Future<void> addSavedJob(String jobId) async {
     final prefs = await SharedPreferences.getInstance();
@@ -130,16 +135,12 @@ class LocalStorage {
     return savedJobs.contains(jobId);
   }
 
-
+  /// Add job ID to `savedJobs` inside the stored `UserModel`
   Future<void> addSavedJobToUser(String jobId) async {
-  final userModel = await getUser();
-  if (userModel != null && !userModel.user.savedJobs.contains(jobId)) {
-    userModel.user.savedJobs.add(jobId);
-    await saveUser(userModel); // overwrite updated model
+    final userModel = await getUser();
+    if (userModel != null && !userModel.user.savedJobs.contains(jobId)) {
+      userModel.user.savedJobs.add(jobId);
+      await saveUser(userModel); // Overwrite updated model
+    }
   }
 }
-
-}
-
-
-

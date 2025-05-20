@@ -1,16 +1,21 @@
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:amster_app/screens/home_screen/_controller/home_controller.dart';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/job_services.dart';
 import 'package:amster_app/services/local_storage_service.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
 class JobDetailController extends GetxController {
+  //--------------------------- Reactive State ---------------------------//
+
   var isApplying = false.obs;
   var alreadyApplied = false.obs;
+
   var isSaving = false.obs;
   var alreadySaved = false.obs;
+
+  //--------------------------- Lifecycle ---------------------------//
 
   @override
   void onInit() {
@@ -20,6 +25,9 @@ class JobDetailController extends GetxController {
     checkIfAlreadySaved(job.id);
   }
 
+  //--------------------------- Application Status ---------------------------//
+
+  /// Check if user has already applied (local or remote)
   Future<void> checkIfAlreadyApplied(String jobId) async {
     try {
       final locallyApplied = await LocalStorage().isJobApplied(jobId);
@@ -42,6 +50,9 @@ class JobDetailController extends GetxController {
     }
   }
 
+  //--------------------------- Saved Status ---------------------------//
+
+  /// Check if this job is saved locally
   Future<void> checkIfAlreadySaved(String jobId) async {
     try {
       final locallySaved = await LocalStorage().isJobSaved(jobId);
@@ -53,6 +64,9 @@ class JobDetailController extends GetxController {
     }
   }
 
+  //--------------------------- Apply Action ---------------------------//
+
+  /// Trigger job application through API and local cache
   Future<void> applyToJob(String jobId) async {
     if (alreadyApplied.value) return;
 
@@ -88,6 +102,9 @@ class JobDetailController extends GetxController {
     }
   }
 
+  //--------------------------- Save Action ---------------------------//
+
+  /// Trigger job save through API and update UI/local cache
   Future<void> saveJob(String jobId) async {
     if (alreadySaved.value) return;
 
@@ -95,18 +112,19 @@ class JobDetailController extends GetxController {
       isSaving.value = true;
       final success = await JobService.saveJob(jobId);
 
-     if (success) {
-  alreadySaved.value = true;
-  await LocalStorage().addSavedJob(jobId);
-  await LocalStorage().addSavedJobToUser(jobId); // add this
-  Get.find<HomeController>().refreshSavedJobs(); // new method
+      if (success) {
+        alreadySaved.value = true;
+
+        await LocalStorage().addSavedJob(jobId);
+        await LocalStorage().addSavedJobToUser(jobId);
+        Get.find<HomeController>().refreshSavedJobs();
 
         Get.snackbar('Saved', 'Job saved successfully',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.green,
             colorText: Colors.white);
       } else {
-        // If the backend says already saved, silently treat it as success
+        // API reports "already saved" — treat as success
         alreadySaved.value = true;
         await LocalStorage().addSavedJob(jobId);
       }

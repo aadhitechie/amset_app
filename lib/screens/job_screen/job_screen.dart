@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,7 @@ class JobScreen extends GetWidget<JobController> {
               InputField.search(
                 onSearch: (val) {
                   // TODO: Implement search functionality
-                  print('Search term: $val');
+                  log('Search term: $val');
                 },
                 borderRadius: 20.r,
                 hintText: 'search',

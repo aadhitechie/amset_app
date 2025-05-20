@@ -1,19 +1,25 @@
 import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/local_storage_service.dart';
 
 class JobController extends GetxController {
+  //--------------------------- Dependencies ---------------------------//
+
   final Dio _dio = Dio();
   final _storage = LocalStorage();
 
+  //--------------------------- Reactive State ---------------------------//
+
   RxBool isAllJob = true.obs;
-  RxList<JobModel> jobs = <JobModel>[].obs;
-  RxList<JobModel> savedJobs = <JobModel>[].obs;
   RxBool isLoading = false.obs;
   RxString errorMessage = ''.obs;
+
+  RxList<JobModel> jobs = <JobModel>[].obs;
+  RxList<JobModel> savedJobs = <JobModel>[].obs;
+
+  //--------------------------- Lifecycle ---------------------------//
 
   @override
   void onInit() {
@@ -21,9 +27,12 @@ class JobController extends GetxController {
     fetchJobs();
   }
 
+  //--------------------------- Data Fetching ---------------------------//
+
+  /// Fetch all jobs from backend and then map saved jobs from local user model
   Future<void> fetchJobs() async {
-    isLoading.value = true;
-    errorMessage.value = '';
+    isLoading(true);
+    errorMessage('');
 
     try {
       final response =
@@ -40,40 +49,39 @@ class JobController extends GetxController {
             'Failed to load jobs. Status code: ${response.statusCode}';
       }
     } on DioException catch (e) {
-      if (e.response != null) {
-        errorMessage.value =
-            'Server error: ${e.response?.statusCode} - ${e.response?.statusMessage}';
-      } else {
-        errorMessage.value = 'Connection error: ${e.message}';
-      }
+      errorMessage.value = e.response != null
+          ? 'Server error: ${e.response?.statusCode} - ${e.response?.statusMessage}'
+          : 'Connection error: ${e.message}';
     } catch (e) {
       errorMessage.value = 'Unexpected error: ${e.toString()}';
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
+  /// Load saved job IDs from the locally stored user model and map them from job list
   Future<void> loadSavedJobsFromUser(List<JobModel> allJobs) async {
     final userModel = await _storage.getUser();
+
     if (userModel != null) {
       final savedIds =
           userModel.user.savedJobs.map((e) => e.toString()).toList();
-      log('🔍 Saved Job IDs: $savedIds');
-      log('📦 All Jobs: ${allJobs.map((e) => e.id).toList()}');
 
       savedJobs.value =
           allJobs.where((job) => savedIds.contains(job.id.toString())).toList();
 
-      log('✅ Matched Saved Jobs: ${savedJobs.length}');
+      log('✅ Saved Jobs Matched: ${savedJobs.length}');
     } else {
       savedJobs.clear();
     }
   }
 
-  List<JobModel> get filteredJobs {
-    return isAllJob.value ? jobs : savedJobs;
-  }
+  //--------------------------- Filtering & UI Toggle ---------------------------//
 
+  /// Get filtered jobs based on current tab selection
+  List<JobModel> get filteredJobs => isAllJob.value ? jobs : savedJobs;
+
+  /// Switch between Featured and Saved jobs
   void toggleTab(bool showAll) async {
     isAllJob.value = showAll;
     if (!showAll) {

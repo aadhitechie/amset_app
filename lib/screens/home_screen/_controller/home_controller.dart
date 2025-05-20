@@ -8,17 +8,26 @@ import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/utils/utils.dart';
 
 class HomeController extends GetxController {
+  //--------------------------- Variables ---------------------------//
+
   final _storage = LocalStorage();
 
-  RxBool is_all_job = true.obs;
+  // UI state
+  RxBool isAllJob = true.obs;
+
+  // Data lists
   RxList<JobModel> jobs = <JobModel>[].obs;
   RxList<JobModel> savedJobs = <JobModel>[].obs;
 
-  RxString errorMessage = ''.obs;
+  // Loading & error state
   RxBool isLoading = false.obs;
+  RxString errorMessage = ''.obs;
 
+  // User profile info
   RxString userFullName = ''.obs;
   RxString userAvatar = ''.obs;
+
+  //--------------------------- Lifecycle ---------------------------//
 
   @override
   void onInit() {
@@ -27,14 +36,17 @@ class HomeController extends GetxController {
     loadUserProfile();
   }
 
-  List<JobModel> get filteredJobs {
-    return is_all_job.value ? jobs : savedJobs;
-  }
+  //--------------------------- Public Getters ---------------------------//
 
-  //---------------- Load All Jobs from API ----------------//
+  List<JobModel> get filteredJobs => isAllJob.value ? jobs : savedJobs;
+
+  //--------------------------- Job Fetching ---------------------------//
+
+  /// Fetch all jobs from the server and load saved jobs subset
   Future<void> fetchJobs() async {
     isLoading(true);
     errorMessage('');
+
     try {
       final response = await ApiServices().getMethod(ApiEndpoints.getAllJobs);
 
@@ -43,6 +55,7 @@ class HomeController extends GetxController {
             .map((job) => JobModel.fromJson(job))
             .toList();
         jobs.value = fetchedJobs;
+
         await loadSavedJobsFromUser(fetchedJobs);
       } else {
         errorMessage('No jobs found');
@@ -56,14 +69,19 @@ class HomeController extends GetxController {
     }
   }
 
-  //---------------- Load Saved Jobs from UserModel ----------------//
+  //--------------------------- Saved Jobs ---------------------------//
+
+  /// Load saved job IDs from user model and map them from full jobs list
   Future<void> loadSavedJobsFromUser(List<JobModel> allJobs) async {
     final userModel = await _storage.getUser();
+
     if (userModel != null) {
       final savedIds = userModel.user.savedJobs;
       log('Saved Job IDs: $savedIds');
+
       savedJobs.value =
           allJobs.where((job) => savedIds.contains(job.id)).toList();
+
       log('Saved Jobs Found: ${savedJobs.length}');
     } else {
       savedJobs.clear();
@@ -71,14 +89,17 @@ class HomeController extends GetxController {
     }
   }
 
-  //---------------- Toggle Tabs ----------------//
-  void toggleAllJobs(bool value) {
-    is_all_job.value = value;
+  /// Re-applies saved job filtering (e.g., after saving a new job)
+  void refreshSavedJobs() {
+    loadSavedJobsFromUser(jobs);
   }
 
-  //---------------- Load User Profile ----------------//
+  //--------------------------- User Profile ---------------------------//
+
+  /// Load user full name and avatar from local storage
   void loadUserProfile() async {
     final userModel = await _storage.getUser();
+
     if (userModel != null) {
       userFullName.value = userModel.user.fullName;
       userAvatar.value = userModel.user.image;
@@ -89,8 +110,10 @@ class HomeController extends GetxController {
     }
   }
 
-  void refreshSavedJobs() {
-    final currentJobs = jobs;
-    loadSavedJobsFromUser(currentJobs);
+  //--------------------------- Tab Switching ---------------------------//
+
+  /// Switch between 'All Jobs' and 'Saved Jobs'
+  void toggleAllJobs(bool value) {
+    isAllJob.value = value;
   }
 }
