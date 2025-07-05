@@ -15,9 +15,9 @@ class SignupController extends GetxController {
   TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs;
-  RxString countryIso = 'GB'.obs;
+  RxString countryIso = 'IN'.obs;
   var validatephoneNo = countries.firstWhere((element) => element.code == 'GB');
-  RxString countryCode = '44'.obs;
+  RxString countryCode = '91'.obs;
 
   Future<DioResponse> sendSignUpOtp() async {
     return ApiServices(token: false).postMethod(

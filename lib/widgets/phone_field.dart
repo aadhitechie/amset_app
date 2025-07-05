@@ -59,6 +59,7 @@ Widget reUseCountryTextField(
                       padding:
                           EdgeInsets.symmetric(horizontal: 15.w, vertical: 7.h),
                       child: IntlPhoneField(
+                        
                         countries: countries,
                         dropdownIcon: const Icon(
                           Icons.keyboard_arrow_down,
