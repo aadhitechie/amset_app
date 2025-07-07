@@ -1,55 +1,84 @@
-import 'package:amster_app/widgets/reusable.dart';
+import 'package:amster_app/screens/Chapter%20Player/Chapter_detail_page.dart';
+import 'package:amster_app/screens/course_screen/Course_model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:amster_app/widgets/common_widget.dart';
+import 'package:amster_app/widgets/reusable.dart';
 
 class ChaptersTileWidget extends StatelessWidget {
+  final Chapter chapter;
+  final int index;
+  final String imageUrl;
+
   const ChaptersTileWidget({
     super.key,
+    required this.chapter,
+    required this.index,
+    required this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          clipBehavior: Clip.hardEdge,
-          width: 80.w,
-          height: 60.w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10.r)),
-          ),
-          child: Image.network(
-            'https://t3.ftcdn.net/jpg/02/04/52/72/360_F_204527293_o9ut8AIm2PaXQg22sSqLMH354X8weheJ.jpg',
-            fit: BoxFit.cover,
-          ),
-        ),
-        const hSpace(20),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextWidget(
-                'Budget Analyst',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        Get.to(() => const ChapterDetailPage(), arguments: {
+          'title': chapter.title,
+          'description': chapter.description ?? 'No description available.',
+          'videoUrl': chapter.videoUrl ?? '',
+        });
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 6.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              clipBehavior: Clip.hardEdge,
+              width: 80.w,
+              height: 60.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
               ),
-              TextWidget(
-                'Part 1',
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl.isNotEmpty
+                    ? imageUrl
+                    : 'https://via.placeholder.com/150',
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
-            ],
-          ),
+            ),
+            const hSpace(20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextWidget(
+                    chapter.title,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                  TextWidget(
+                    'Part ${index + 1}',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.play_circle_fill,
+              color: Colors.green,
+              size: 30.w,
+            ),
+          ],
         ),
-        Icon(
-          Icons.play_circle_fill,
-          color: Colors.green,
-          size: 30.w,
-        ),
-      ],
+      ),
     );
   }
 }

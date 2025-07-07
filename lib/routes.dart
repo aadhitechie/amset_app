@@ -57,7 +57,7 @@ class AppPages {
         binding: JobBinding()),
     GetPage(
       name: Routes.chapterList,
-      page: () => const ChapterListScreen(),
+      page: () => ChapterListScreen(),
     ),
     GetPage(
       name: Routes.termsAndConditions,

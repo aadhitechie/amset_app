@@ -111,6 +111,7 @@ class HomeScreen extends GetWidget<HomeController> {
                 } else if (controller.errorMessage.value.isNotEmpty) {
                   return Center(
                       child: Text('Error: ${controller.errorMessage.value}'));
+                      
                 } else if (controller.filteredJobs.isEmpty) {
                   return const Center(child: Text('No jobs found.'));
                 } else {

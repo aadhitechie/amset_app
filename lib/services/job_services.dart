@@ -11,8 +11,7 @@ class JobService {
 
   static Future<bool> applyToJob(String jobId) async {
     final token = await _localStorage.getToken();
-    final url =
-        Uri.parse('https://amset-server.vercel.app/api/job/apply/$jobId');
+    final url = Uri.parse('https://api-amset.vercel.app/api/job/apply/$jobId');
 
     log('Applying to job with ID: $jobId');
 
@@ -54,7 +53,7 @@ class JobService {
 
   static Future<bool> hasUserApplied(String jobId) async {
     final token = await _localStorage.getToken();
-    final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
+    final url = Uri.parse('https://api-amset.vercel.app/api/job/$jobId');
 
     if (token == null || token.isEmpty) {
       log('Error: No authentication token found.');
@@ -90,8 +89,7 @@ class JobService {
 
   static Future<bool> saveJob(String jobId) async {
     final token = await _localStorage.getToken();
-    final url =
-        Uri.parse('https://amset-server.vercel.app/api/job/save/$jobId');
+    final url = Uri.parse('https://api-amset.vercel.app/api/job/save/$jobId');
 
     if (token == null || token.isEmpty) return false;
 
@@ -113,7 +111,7 @@ class JobService {
 
   static Future<JobModel?> fetchJobById(String jobId) async {
     final token = await _localStorage.getToken();
-    final url = Uri.parse('https://amset-server.vercel.app/api/job/$jobId');
+    final url = Uri.parse('https://api-amset.vercel.app/api/job/$jobId');
 
     if (token == null || token.isEmpty) return null;
 

@@ -1,13 +1,16 @@
+import 'package:amster_app/screens/chapters_list/_controller/chapterlist_controller.dart';
 import 'package:amster_app/widgets/chapters_tile.dart';
 import 'package:amster_app/widgets/reusable.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:amster_app/widgets/common_widget.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 
 class ChapterListScreen extends StatelessWidget {
-  const ChapterListScreen({super.key});
+  ChapterListScreen({super.key});
+
+  final controller = Get.put(ChapterListController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,24 @@ class ChapterListScreen extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.bottomLeft,
                   children: [
-                    Image.network(
-                      'https://t3.ftcdn.net/jpg/02/04/52/72/360_F_204527293_o9ut8AIm2PaXQg22sSqLMH354X8weheJ.jpg',
+                    CachedNetworkImage(
+                      imageUrl: controller.course.imageUrl,
                       height: 180.h,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        height: 180.h,
+                        width: double.infinity,
+                        color: Colors.grey[300],
+                        child: const Center(
+                            child: CircularProgressIndicator(strokeWidth: 2)),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        height: 180.h,
+                        width: double.infinity,
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.error, color: Colors.red),
+                      ),
                     ),
                     Container(
                       padding: EdgeInsets.all(15.w),
@@ -45,7 +61,7 @@ class ChapterListScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextWidget(
-                            'Budget Analyst',
+                            controller.course.title,
                             fontSize: 22.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -62,15 +78,27 @@ class ChapterListScreen extends StatelessWidget {
                 ),
               ),
               const vSpace(20),
-              Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (BuildContext ctx, int index) {
-                        return const ChaptersTileWidget();
-                      },
-                      separatorBuilder: (BuildContext ctx, int index) {
-                        return const vSpace(10);
-                      },
-                      itemCount: 10)),
+             Expanded(
+  child: Obx(() {
+    if (controller.isLoading.value) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return ListView.separated(
+      itemCount: controller.chapters.length,
+      separatorBuilder: (context, index) => const vSpace(10),
+      itemBuilder: (context, index) {
+        final chapter = controller.chapters[index];
+        return ChaptersTileWidget(
+          chapter: chapter,
+          index: index,
+          imageUrl: controller.course.imageUrl,
+        );
+      },
+    );
+  }),
+)
+
             ],
           ),
         ),

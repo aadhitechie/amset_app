@@ -15,9 +15,15 @@ class CourseTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    if (!course.isPublished) {
+      return const SizedBox.shrink(); 
+    }
+
     return GestureDetector(
       onTap: () => Get.toNamed(Routes.chapterList, arguments: course),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             clipBehavior: Clip.hardEdge,
@@ -30,7 +36,7 @@ class CourseTitle extends StatelessWidget {
               imageUrl: course.imageUrl ?? '',
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
-                color: Colors.grey[200], // Or any other placeholder color
+                color: Colors.grey[200],
               ),
               errorWidget: (context, url, error) => Image.asset(
                 'assets/png/no_image.jpg',
@@ -51,7 +57,7 @@ class CourseTitle extends StatelessWidget {
                 ),
                 const vSpace(5),
                 TextWidget(
-                  'Instructor: Sabeer Ibrahim',
+                  'Instructor: ${course.instructor?.fullName ?? 'Unknown'}',
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                 ),

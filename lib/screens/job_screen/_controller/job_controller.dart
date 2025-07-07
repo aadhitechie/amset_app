@@ -35,8 +35,22 @@ class JobController extends GetxController {
     errorMessage('');
 
     try {
-      final response =
-          await _dio.get('https://amset-server.vercel.app/api/job');
+      final token = await _storage.getToken();
+
+      if (token == null) {
+        errorMessage.value = 'You are not logged in. Please login again.';
+        isLoading(false);
+        return;
+      }
+
+      final response = await _dio.get(
+        'https://api-amset.vercel.app/api/job',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;

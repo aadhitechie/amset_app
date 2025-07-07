@@ -1,7 +1,8 @@
+import 'package:amster_app/widgets/course_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:amster_app/widgets/common_widget.dart';
-import 'package:amster_app/widgets/course_title.dart';
+
 import 'package:amster_app/widgets/reusable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:amster_app/screens/course_screen/_controller/course_controller.dart';
