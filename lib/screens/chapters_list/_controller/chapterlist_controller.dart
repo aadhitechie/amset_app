@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 class ChapterListController extends GetxController {
   late Course course;
 
-  final chapters = <Chapter>[].obs; // ✅ Declare observable chapter list
-  final isLoading = false.obs; // ✅ Declare observable loading state
+  final chapters = <Chapter>[].obs; 
+  final isLoading = false.obs;
 
   @override
   void onInit() {
@@ -17,9 +17,9 @@ class ChapterListController extends GetxController {
 
     if (Get.arguments != null && Get.arguments is Course) {
       course = Get.arguments as Course;
-      fetchChapters(); // ✅ Load chapters immediately
+      fetchChapters();
     } else {
-      log('❗ No course passed to ChapterListController.');
+      log('No course passed to ChapterListController.');
     }
   }
 
@@ -27,8 +27,7 @@ class ChapterListController extends GetxController {
     isLoading.value = true;
     chapters.clear();
 
-    final token = await LocalStorage().getToken(); // Get the stored JWT token
-
+    final token = await LocalStorage().getToken();
     for (final chapterId in course.chapters) {
       final url =
           'https://api-amset.vercel.app/api/chapter/$chapterId?courseId=${course.id}';
@@ -46,10 +45,10 @@ class ChapterListController extends GetxController {
           final data = jsonDecode(response.body);
           chapters.add(Chapter.fromJson(data));
         } else {
-          log('❌ Failed to load chapter $chapterId — Status: ${response.statusCode}');
+          log('Failed to load chapter $chapterId — Status: ${response.statusCode}');
         }
       } catch (e) {
-        log('❗ Error loading chapter $chapterId: $e');
+        log(' Error loading chapter $chapterId: $e');
       }
     }
 

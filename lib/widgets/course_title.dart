@@ -33,7 +33,7 @@ class CourseTitle extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: CachedNetworkImage(
-              imageUrl: course.imageUrl ?? '',
+              imageUrl: course.imageUrl,
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
                 color: Colors.grey[200],

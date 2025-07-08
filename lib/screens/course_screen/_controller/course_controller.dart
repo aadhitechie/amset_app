@@ -45,7 +45,6 @@ class CourseController extends GetxController {
         final jsonResponse = jsonDecode(response.body);
         final parsed = CourseModel.fromJson(jsonResponse);
 
-        // ✅ USE .courses not .course
         final publishedCourses =
             parsed.courses.where((c) => c.isPublished).toList();
 
