@@ -53,7 +53,7 @@ AppBar commonAppBar({
     actions: [
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [AvatarWidget(imageUrl: avatar, size: 60.w)],
+        children: [AvatarWidget(imageUrl: avatar,size: 50.w,)],
       ),
       const hSpace(10)
     ],

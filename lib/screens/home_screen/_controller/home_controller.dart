@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:amster_app/screens/_models/carousel_model.dart';
 import 'package:get/get.dart';
 import 'package:amster_app/screens/job_screen/Job_model/job_model.dart';
 import 'package:amster_app/services/local_storage_service.dart';
@@ -34,6 +35,7 @@ class HomeController extends GetxController {
     super.onInit();
     fetchJobs();
     loadUserProfile();
+      fetchCarouselData();
   }
 
   //--------------------------- Public Getters ---------------------------//
@@ -116,4 +118,58 @@ class HomeController extends GetxController {
   void toggleAllJobs(bool value) {
     isAllJob.value = value;
   }
+
+
+  final RxList<CarouselModel> carouselList = <CarouselModel>[].obs;
+  final RxBool isCarouselLoading = false.obs;
+  final RxString carouselErrorMessage = ''.obs;
+
+  Future<void> fetchCarouselData() async {
+    try {
+      isCarouselLoading.value = true;
+      carouselErrorMessage.value = '';
+      
+      final response = await getCarousel();
+      
+      if (response.statusCode == 200) {
+        carouselList.clear();
+        
+        // Handle different response structures
+        dynamic data = response.data;
+        List<dynamic> carouselData = [];
+        
+        if (data is List) {
+          carouselData = data;
+        } else if (data is Map && data.containsKey('data')) {
+          carouselData = data['data'];
+        } else if (data is Map && data.containsKey('carousel')) {
+          carouselData = data['carousel'];
+        } else {
+          carouselData = [data];
+        }
+        
+        // Convert to CarouselModel objects
+        for (var item in carouselData) {
+          carouselList.add(CarouselModel.fromJson(item));
+        }
+        
+        print('Carousel data loaded: ${carouselList.length} items');
+      } else {
+        carouselErrorMessage.value = 'Failed to load carousel data';
+      }
+    } catch (e) {
+      carouselErrorMessage.value = 'Error loading carousel';
+      print('Error fetching carousel: $e');
+    } finally {
+      isCarouselLoading.value = false;
+    }
+  }
+
+  // API method to get carousel data
+  Future<DioResponse> getCarousel() async {
+    return ApiServices(token: false).getMethod(ApiEndpoints.carousel);
+  }
+
+
+
 }

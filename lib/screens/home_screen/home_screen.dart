@@ -4,6 +4,7 @@ import 'package:amster_app/widgets/common_appbar.dart';
 import 'package:amster_app/widgets/job_tile_widget.dart';
 import 'package:amster_app/widgets/primary_button.dart';
 import 'package:amster_app/widgets/reusable.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -40,23 +41,46 @@ class HomeScreen extends GetWidget<HomeController> {
               style: fontRecoleta(fontSize: 16.sp, fontWeight: FontWeight.bold),
             ),
             const vSpace(20),
-            Container(
-              clipBehavior: Clip.hardEdge,
-              width: Get.width,
-              height: 250.w,
-              decoration: BoxDecoration(
-                color: kBlack,
-                borderRadius: BorderRadius.all(Radius.circular(30.r)),
-              ),
-              child: Image.asset(
-                'assets/png/mm.png',
-                fit: BoxFit.cover,
-              ),
-            ),
 
             const vSpace(20),
-
-            // Job Recommendations Title
+            Obx(
+              ()=> CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 2),
+                ),
+                items: controller.carouselList
+                    .map((carouselItem) => Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                          ),
+                          child: Center(
+                            child: (carouselItem.imageUrl?.isEmpty ?? true)
+                                ? CircularProgressIndicator()
+                                : Image.network(
+                                    carouselItem.imageUrl!,
+                                    fit: BoxFit.cover,
+                                    width: Get.width,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const CircularProgressIndicator();
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        color: Colors.grey[300],
+                                        child: const Icon(Icons.image,
+                                            size: 50, color: Colors.grey),
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            const vSpace(20),
             Text(
               'Job recommendations',
               style: fontRecoleta(fontSize: 16.sp, fontWeight: FontWeight.bold),

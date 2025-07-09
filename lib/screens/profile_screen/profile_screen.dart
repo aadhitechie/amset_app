@@ -75,32 +75,41 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 )),
             const vSpace(30),
-            const Column(
+             Column(
               children: [
-                ProfileOptions(
-                  icon: 'assets/svg/profile-outlined.svg',
-                  title: 'Edit profile',
+                GestureDetector(
+                  onTap: () {
+                    print('jjjj');
+                    Get.toNamed(Routes.editProfile);
+                  },
+                  child: Container(
+                   color: kTransparent,
+                    child: const ProfileOptions(
+                      icon: 'assets/svg/profile-outlined.svg',
+                      title: 'Edit profile',
+                    ),
+                  ),
                 ),
-                vSpace(10),
-                ProfileOptions(
-                  icon: 'assets/svg/resume.svg',
-                  title: 'My resume',
-                  route: Routes.resumeUpload,
-                ),
-                vSpace(10),
-                ProfileOptions(
+                const vSpace(10),
+                // ProfileOptions(
+                //   icon: 'assets/svg/resume.svg',
+                //   title: 'My resume',
+                //   route: Routes.resumeUpload,
+                // ),
+                // vSpace(10),
+                const ProfileOptions(
                   icon: 'assets/svg/live.svg',
                   title: 'Live',
                   route: Routes.livePage,
                 ),
-                vSpace(10),
-                ProfileOptions(
+                const vSpace(10),
+                const ProfileOptions(
                   icon: 'assets/svg/terms.svg',
                   title: 'Terms and conditions',
                   route: Routes.termsAndConditions,
                 ),
-                vSpace(10),
-                ProfileOptions(
+                const vSpace(10),
+                const ProfileOptions(
                   icon: 'assets/svg/logout.svg',
                   title: 'Logout',
                 ),
