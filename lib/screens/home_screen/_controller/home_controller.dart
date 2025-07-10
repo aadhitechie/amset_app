@@ -35,7 +35,7 @@ class HomeController extends GetxController {
     super.onInit();
     fetchJobs();
     loadUserProfile();
-      fetchCarouselData();
+    fetchCarouselData();
   }
 
   //--------------------------- Public Getters ---------------------------//
@@ -119,7 +119,6 @@ class HomeController extends GetxController {
     isAllJob.value = value;
   }
 
-
   final RxList<CarouselModel> carouselList = <CarouselModel>[].obs;
   final RxBool isCarouselLoading = false.obs;
   final RxString carouselErrorMessage = ''.obs;
@@ -128,16 +127,16 @@ class HomeController extends GetxController {
     try {
       isCarouselLoading.value = true;
       carouselErrorMessage.value = '';
-      
+
       final response = await getCarousel();
-      
+
       if (response.statusCode == 200) {
         carouselList.clear();
-        
+
         // Handle different response structures
         dynamic data = response.data;
         List<dynamic> carouselData = [];
-        
+
         if (data is List) {
           carouselData = data;
         } else if (data is Map && data.containsKey('data')) {
@@ -147,12 +146,12 @@ class HomeController extends GetxController {
         } else {
           carouselData = [data];
         }
-        
+
         // Convert to CarouselModel objects
         for (var item in carouselData) {
           carouselList.add(CarouselModel.fromJson(item));
         }
-        
+
         print('Carousel data loaded: ${carouselList.length} items');
       } else {
         carouselErrorMessage.value = 'Failed to load carousel data';
@@ -169,7 +168,4 @@ class HomeController extends GetxController {
   Future<DioResponse> getCarousel() async {
     return ApiServices(token: false).getMethod(ApiEndpoints.carousel);
   }
-
-
-
 }

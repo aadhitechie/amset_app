@@ -9,10 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
-   final LogoutController logoutController = Get.put(LogoutController());
+  final LogoutController logoutController = Get.put(LogoutController());
 
-   ProfileScreen({super.key});
-  
+  ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 )),
             const vSpace(30),
-             Column(
+            Column(
               children: [
                 GestureDetector(
                   onTap: () {
@@ -83,10 +82,11 @@ class ProfileScreen extends StatelessWidget {
                     Get.toNamed(Routes.editProfile);
                   },
                   child: Container(
-                   color: kTransparent,
+                    color: kTransparent,
                     child: const ProfileOptions(
                       icon: 'assets/svg/profile-outlined.svg',
                       title: 'Edit profile',
+                      route: Routes.editProfile,
                     ),
                   ),
                 ),
@@ -141,7 +141,7 @@ class ProfileOptions extends StatelessWidget {
     this.route,
   });
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final LogoutController logoutController = Get.find<LogoutController>();
 

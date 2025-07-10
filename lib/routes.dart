@@ -1,9 +1,9 @@
 import 'package:amster_app/onboarding/onboarding_screen.dart';
 import 'package:amster_app/screens/_bindings/bottomnav_binding.dart';
+import 'package:amster_app/screens/_bindings/edit_profile_binging.dart';
 import 'package:amster_app/screens/_bindings/job_binding.dart';
 import 'package:amster_app/screens/_bindings/login_binding.dart';
 import 'package:amster_app/screens/_bindings/onboarding_binding.dart';
-import 'package:amster_app/screens/_bindings/profile_binding.dart';
 import 'package:amster_app/screens/_bindings/signup_binding.dart';
 import 'package:amster_app/screens/_bindings/splash_binding.dart';
 import 'package:amster_app/screens/auth/login_screen/login_screen.dart';
@@ -78,10 +78,15 @@ class AppPages {
       name: Routes.otp,
       page: () => const OtpScreen(),
     ),
-     GetPage(
+    //  GetPage(
+    //   name: Routes.editProfile,
+    //   page: () =>  EditProfileScreen(),
+    //   binding: ProfileBinding()
+    // ),
+    GetPage(
       name: Routes.editProfile,
-      page: () =>  EditProfileScreen(),
-      binding: ProfileBinding()
-    )
+      page: () => const EditProfileScreen(),
+      binding: EditProfileBinding(),
+    ),
   ];
 }

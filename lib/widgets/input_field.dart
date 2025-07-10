@@ -48,6 +48,7 @@ class InputField extends StatefulWidget {
       this.labelStyle,
       this.sValidateDelay = 0,
       this.height,
+      this.onTap,
       this.textAlign,
       this.focusBorderColor,
       this.alignLabelWithHint,
@@ -105,6 +106,7 @@ class InputField extends StatefulWidget {
     this.suffixIconTransform,
     this.onTapOutSide,
     this.sValidatorIconPair,
+      this.onTap,
     this.capitalizeFirst = false,
   })  : isSearch = false,
         suffix = null,
@@ -160,6 +162,7 @@ class InputField extends StatefulWidget {
     this.suffixIconTransform,
     this.onTapOutSide,
     this.sValidatorIconPair,
+      this.onTap,
     this.capitalizeFirst = false,
   })  : isPassword = false,
         isSearch = true,
@@ -208,6 +211,7 @@ class InputField extends StatefulWidget {
   final Transform Function(Widget child)? suffixIconTransform;
   final Color? focusBorderColor;
   final Function(PointerEvent event)? onTapOutSide;
+  final VoidCallback? onTap; 
   //for search
   final bool searchOnTextChange;
   final int? debounceDelay;
@@ -333,6 +337,7 @@ class InputFieldState extends State<InputField> {
           minLines: widget.minLines,
           maxLines: widget.maxLines,
           readOnly: widget.readOnly,
+              onTap: widget.onTap,
           textCapitalization: widget.capitalizeFirst ??
                   (!widget.isPassword ||
                       !widget.isSearch ||

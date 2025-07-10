@@ -1,14 +1,16 @@
-import 'package:amster_app/screens/profile_screen/_controller/profile_controller.dart';
+import 'package:amster_app/widgets/reusable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:amster_app/screens/profile_screen/Options/edit_profile_screen/_controller/edit_profile_screen_controller.dart';
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/common_widget.dart';
 import 'package:amster_app/widgets/input_field.dart';
 import 'package:amster_app/widgets/primary_button.dart';
-import 'package:amster_app/widgets/reusable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_date_pickers/flutter_date_pickers.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-class EditProfileScreen extends GetWidget<ProfileController> {
+
+class EditProfileScreen extends GetWidget<EditProfileScreenController> {
+  const EditProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +20,7 @@ class EditProfileScreen extends GetWidget<ProfileController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Full Name
-                 vSpace(50),
+                const vSpace(50),
                 InputField(
                   height: 40.w,
                   controller: controller.fullNameController,
@@ -31,9 +32,7 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                   hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                   borderColor: kTransparent,
                 ),
-                vSpace(10),
-
-                // Secondary Phone
+                const vSpace(10),
                 InputField(
                   height: 40.w,
                   controller: controller.secondaryphoneController,
@@ -44,11 +43,11 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                   textStyle: TextStyle(fontSize: 16.sp),
                   hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                   borderColor: kTransparent,
-                
                 ),
-                vSpace(10),
+                const vSpace(10),
+                const vSpace(10),
 
-                // Address Row 1: Street + City
+                // Address
                 Row(
                   children: [
                     Expanded(
@@ -60,11 +59,12 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                         hintText: 'Street',
                         labelStyle: const TextStyle(color: themeColor),
                         textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        hintStyle:
+                            TextStyle(color: Colors.black.withOpacity(0.5)),
                         borderColor: kTransparent,
                       ),
                     ),
-                    hSpace(10),
+                    const hSpace(10),
                     Expanded(
                       child: InputField(
                         height: 40.w,
@@ -74,15 +74,14 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                         hintText: 'City',
                         labelStyle: const TextStyle(color: themeColor),
                         textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        hintStyle:
+                            TextStyle(color: Colors.black.withOpacity(0.5)),
                         borderColor: kTransparent,
                       ),
                     ),
                   ],
                 ),
-                vSpace(10),
-
-                // Address Row 2: District + State
+                const vSpace(10),
                 Row(
                   children: [
                     Expanded(
@@ -94,11 +93,12 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                         hintText: 'District',
                         labelStyle: const TextStyle(color: themeColor),
                         textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        hintStyle:
+                            TextStyle(color: Colors.black.withOpacity(0.5)),
                         borderColor: kTransparent,
                       ),
                     ),
-                    hSpace(10),
+                    const hSpace(10),
                     Expanded(
                       child: InputField(
                         height: 40.w,
@@ -108,15 +108,14 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                         hintText: 'State',
                         labelStyle: const TextStyle(color: themeColor),
                         textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        hintStyle:
+                            TextStyle(color: Colors.black.withOpacity(0.5)),
                         borderColor: kTransparent,
                       ),
                     ),
                   ],
                 ),
-                vSpace(10),
-
-                // Pin + Post Office
+                const vSpace(10),
                 Row(
                   children: [
                     Expanded(
@@ -128,12 +127,12 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                         hintText: '110025',
                         labelStyle: const TextStyle(color: themeColor),
                         textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        hintStyle:
+                            TextStyle(color: Colors.black.withOpacity(0.5)),
                         borderColor: kTransparent,
-                       
                       ),
                     ),
-                    hSpace(10),
+                    const hSpace(10),
                     Expanded(
                       child: InputField(
                         height: 40.w,
@@ -143,15 +142,14 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                         hintText: 'Post Office',
                         labelStyle: const TextStyle(color: themeColor),
                         textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        hintStyle:
+                            TextStyle(color: Colors.black.withOpacity(0.5)),
                         borderColor: kTransparent,
                       ),
                     ),
                   ],
                 ),
-                vSpace(10),
-
-                // Country
+                const vSpace(10),
                 InputField(
                   height: 40.w,
                   controller: controller.countryController,
@@ -163,206 +161,353 @@ class EditProfileScreen extends GetWidget<ProfileController> {
                   hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                   borderColor: kTransparent,
                 ),
-                  vSpace(40),
-                  TextWidget('Education'),
-                  vSpace(10),
-                   InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'School',
-                  hintText: 'School',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                 InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Degree',
-                  hintText: 'Degree',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Field Of Study',
-                  hintText: 'Field',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                GestureDetector(
-                  onTap: (){
-                    print('hello')
-;                  }
-  //                 WeekPicker(
-  //     selectedDate: selectedDate,
-  //     onChanged: onNewSelected,
-  //     firstDate: firstAllowedDate,
-  //     lastDate: lastAllowedDate,
-  //     datePickerStyles: styles
-  // )
-  ,
-                  child: InputField(
-                    height: 40.w,
-                    controller: controller.countryController,
-                    borderType: InputFieldBorderType.external,
-                    label: 'Start Of Date',
-                    hintText: 'Start Of Date',
-                    labelStyle: const TextStyle(color: themeColor),
-                    textStyle: TextStyle(fontSize: 16.sp),
-                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                    borderColor: kTransparent,
-                    readOnly: true,
+                const vSpace(30),
+
+                // Title
+
+                /// EDUCATION SECTION
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  TextWidget('Education', fontSize: 16.sp),
+                ]),
+                const vSpace(10),
+
+                Obx(() => Column(
+                      children: [
+                        ...List.generate(controller.educationList.length,
+                            (index) {
+                          final edu = controller.educationList[index];
+                          return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => edu.isExpanded.toggle(),
+                                    child: Container(
+                                      width: double.infinity,
+                                      color: Colors.grey.shade200,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 0, horizontal: 15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Education ${index + 1}',
+                                              style:
+                                                  TextStyle(fontSize: 14.sp)),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(Icons.delete,
+                                                    color: Colors.red,
+                                                    size: 20),
+                                                onPressed: () => controller
+                                                    .removeEducation(index),
+                                              ),
+                                              Icon(
+                                                edu.isExpanded.value
+                                                    ? Icons.expand_less
+                                                    : Icons.expand_more,
+                                                size: 20,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  if (edu.isExpanded.value)
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 8, bottom: 16),
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.05),
+                                            blurRadius: 4,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          ...[
+                                            edu.schoolController,
+                                            edu.degreeController,
+                                            edu.fieldOfStudyController,
+                                            edu.startDateController,
+                                            edu.endDateController,
+                                            edu.gradeController,
+                                            edu.descriptionController
+                                          ].asMap().entries.map((entry) {
+                                            final i = entry.key;
+                                            final controller = entry.value;
+
+                                            final hint = [
+                                              'School',
+                                              'Degree',
+                                              'Field of Study',
+                                              'Start Date (YYYY-MM-DD)',
+                                              'End Date (YYYY-MM-DD)',
+                                              'Grade',
+                                              'Description'
+                                            ][i];
+
+                                            return Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade100,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: InputField(
+                                                controller: controller,
+                                                hintText: hint,
+                                                borderType:
+                                                    InputFieldBorderType.none,
+                                                readOnly: i == 3 || i == 4,
+                                                onTap: (i == 3 || i == 4)
+                                                    ? () async {
+                                                        final picked =
+                                                            await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime(1970),
+                                                          lastDate:
+                                                              DateTime(2100),
+                                                        );
+                                                        if (picked != null) {
+                                                          controller.text = picked
+                                                              .toIso8601String()
+                                                              .split('T')
+                                                              .first;
+                                                        }
+                                                      }
+                                                    : null,
+                                              ),
+                                            );
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                              ));
+                        }),
+                        const vSpace(10),
+                        GestureDetector(
+                          onTap: controller.addEducation,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Icon(Icons.add, color: Colors.blue),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Add Education',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+
+                const vSpace(30),
+
+                /// EXPERIENCE SECTION
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  TextWidget('Experience', fontSize: 16.sp),
+                ]),
+                const vSpace(10),
+
+                const vSpace(10),
+
+                Obx(
+                  () => Column(
+                    children: [
+                      ...List.generate(controller.experienceList.length,
+                          (index) {
+                        final exp = controller.experienceList[index];
+                        return Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () => exp.isExpanded.toggle(),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: Colors.grey.shade200,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Experience ${index + 1}',
+                                            style: TextStyle(fontSize: 14.sp)),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(Icons.delete,
+                                                  color: Colors.red, size: 20),
+                                              onPressed: () => controller
+                                                  .removeExperience(index),
+                                            ),
+                                            Icon(
+                                              exp.isExpanded.value
+                                                  ? Icons.expand_less
+                                                  : Icons.expand_more,
+                                              size: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                if (exp.isExpanded.value)
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 8, bottom: 16),
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.05),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        ...[
+                                          exp.titleController,
+                                          exp.companyController,
+                                          exp.locationController,
+                                          exp.startDateController,
+                                          exp.endDateController,
+                                          exp.descriptionController,
+                                          exp.sectorController
+                                        ].asMap().entries.map((entry) {
+                                          final i = entry.key;
+                                          final controller = entry.value;
+
+                                          final hint = [
+                                            'Role',
+                                            'Company',
+                                            'Location',
+                                            'Start Date (YYYY-MM-DD)',
+                                            'End Date (YYYY-MM-DD)',
+                                            'Description',
+                                            'Sector'
+                                          ][i];
+
+                                          return Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade100,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: InputField(
+                                              controller: controller,
+                                              hintText: hint,
+                                              borderType:
+                                                  InputFieldBorderType.none,
+                                              readOnly: i == 3 || i == 4,
+                                              onTap: (i == 3 || i == 4)
+                                                  ? () async {
+                                                      final picked =
+                                                          await showDatePicker(
+                                                        context: context,
+                                                        initialDate:
+                                                            DateTime.now(),
+                                                        firstDate:
+                                                            DateTime(1970),
+                                                        lastDate:
+                                                            DateTime(2100),
+                                                      );
+                                                      if (picked != null) {
+                                                        controller.text = picked
+                                                            .toIso8601String()
+                                                            .split('T')
+                                                            .first;
+                                                      }
+                                                    }
+                                                  : null,
+                                            ),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ));
+                      }),
+                      const vSpace(10),
+                      GestureDetector(
+                        onTap: controller.addExperience,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.add, color: Colors.blue),
+                            const SizedBox(width: 4),
+                            Text(
+                              'Add Experience',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                 vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'End Of Date',
-                  hintText: 'End Of Date',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Grade',
-                  hintText: 'Grade',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                 vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Description',
-                  hintText: 'Description',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                 vSpace(40),
-                 TextWidget('Experience'),
-                 vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Role',
-                  hintText: 'Role',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Company',
-                  hintText: 'Company',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Location',
-                  hintText: 'Location',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextWidget('Start Date',fontSize: 12.sp,),
+                    TextWidget('Currently Working', fontSize: 14.sp),
+                    Obx(() => Switch(
+                          value: controller.experienceCurrentlyWorking.value,
+                          onChanged: (val) =>
+                              controller.experienceCurrentlyWorking.value = val,
+                        )),
                   ],
                 ),
-                Container(),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'End Date',
-                  hintText: 'End Date',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Currently Working',
-                  hintText: 'Yes/No',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Description',
-                  hintText: 'Description',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(10),
-                InputField(
-                  height: 40.w,
-                  controller: controller.countryController,
-                  borderType: InputFieldBorderType.external,
-                  label: 'Sector',
-                  hintText: 'Sector',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  borderColor: kTransparent,
-                ),
-                vSpace(50),
-                PrimaryButton(text: 'Update', onPressed: (){
 
-                },
-                isFullWidth: true,),
-                 vSpace(50),
+                const vSpace(50),
+                PrimaryButton(
+                  text: 'Update',
+                  onPressed: () {
+                    controller.updateProfileWithOptionalSections();
+                  },
+                  isFullWidth: true,
+                ),
+                const vSpace(50),
               ],
             ),
           ),
