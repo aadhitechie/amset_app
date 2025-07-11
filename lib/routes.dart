@@ -1,5 +1,6 @@
 import 'package:amster_app/onboarding/onboarding_screen.dart';
 import 'package:amster_app/screens/_bindings/bottomnav_binding.dart';
+import 'package:amster_app/screens/_bindings/edit_profile_binging.dart';
 import 'package:amster_app/screens/_bindings/job_binding.dart';
 import 'package:amster_app/screens/_bindings/login_binding.dart';
 import 'package:amster_app/screens/_bindings/onboarding_binding.dart';
@@ -11,6 +12,7 @@ import 'package:amster_app/screens/auth/signup_screen.dart/signup_screen.dart';
 import 'package:amster_app/screens/bottom_nav/bottomnav_screen.dart';
 import 'package:amster_app/screens/chapters_list/chapters_list.dart';
 import 'package:amster_app/screens/Job_detail_screen/job_detail_screen.dart';
+import 'package:amster_app/screens/profile_screen/Options/edit_profile_screen/edit_profile_screen.dart';
 import 'package:amster_app/screens/profile_screen/Options/live_screen/live_screen.dart';
 import 'package:amster_app/screens/profile_screen/Options/resume_screen/my_resume_screen.dart';
 import 'package:amster_app/screens/profile_screen/Options/terms_and_conditions/terms_and_conditions.dart';
@@ -28,6 +30,7 @@ class Routes {
   static const String termsAndConditions = '/termsAndConditions';
   static const String resumeUpload = '/resumeUpload';
   static const String livePage = '/livePage';
+  static const String editProfile = '/editProfile';
   static const String otp = '/otp';
 }
 
@@ -74,6 +77,16 @@ class AppPages {
     GetPage(
       name: Routes.otp,
       page: () => const OtpScreen(),
-    )
+    ),
+    //  GetPage(
+    //   name: Routes.editProfile,
+    //   page: () =>  EditProfileScreen(),
+    //   binding: ProfileBinding()
+    // ),
+    GetPage(
+      name: Routes.editProfile,
+      page: () => const EditProfileScreen(),
+      binding: EditProfileBinding(),
+    ),
   ];
 }

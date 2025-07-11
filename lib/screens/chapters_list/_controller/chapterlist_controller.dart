@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class ChapterListController extends GetxController {
   late Course course;
 
-  final chapters = <Chapter>[].obs; 
+  final chapters = <Chapter>[].obs;
   final isLoading = false.obs;
 
   @override

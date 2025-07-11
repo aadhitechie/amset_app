@@ -9,10 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
-   final LogoutController logoutController = Get.put(LogoutController());
+  final LogoutController logoutController = Get.put(LogoutController());
 
-   ProfileScreen({super.key});
-  
+  ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,32 +74,42 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 )),
             const vSpace(30),
-            const Column(
+            Column(
               children: [
-                ProfileOptions(
-                  icon: 'assets/svg/profile-outlined.svg',
-                  title: 'Edit profile',
+                GestureDetector(
+                  onTap: () {
+                    print('jjjj');
+                    Get.toNamed(Routes.editProfile);
+                  },
+                  child: Container(
+                    color: kTransparent,
+                    child: const ProfileOptions(
+                      icon: 'assets/svg/profile-outlined.svg',
+                      title: 'Edit profile',
+                      route: Routes.editProfile,
+                    ),
+                  ),
                 ),
-                vSpace(10),
-                ProfileOptions(
-                  icon: 'assets/svg/resume.svg',
-                  title: 'My resume',
-                  route: Routes.resumeUpload,
-                ),
-                vSpace(10),
-                ProfileOptions(
+                const vSpace(10),
+                // ProfileOptions(
+                //   icon: 'assets/svg/resume.svg',
+                //   title: 'My resume',
+                //   route: Routes.resumeUpload,
+                // ),
+                // vSpace(10),
+                const ProfileOptions(
                   icon: 'assets/svg/live.svg',
                   title: 'Live',
                   route: Routes.livePage,
                 ),
-                vSpace(10),
-                ProfileOptions(
+                const vSpace(10),
+                const ProfileOptions(
                   icon: 'assets/svg/terms.svg',
                   title: 'Terms and conditions',
                   route: Routes.termsAndConditions,
                 ),
-                vSpace(10),
-                ProfileOptions(
+                const vSpace(10),
+                const ProfileOptions(
                   icon: 'assets/svg/logout.svg',
                   title: 'Logout',
                 ),
@@ -132,7 +141,7 @@ class ProfileOptions extends StatelessWidget {
     this.route,
   });
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final LogoutController logoutController = Get.find<LogoutController>();
 
