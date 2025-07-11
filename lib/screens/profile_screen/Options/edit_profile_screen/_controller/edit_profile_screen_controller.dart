@@ -46,16 +46,16 @@ class EditProfileScreenController extends GetxController {
   }
 
   void removeEducation(int index) {
-  if (index >= 0 && index < educationList.length) {
-    educationList.removeAt(index);
+    if (index >= 0 && index < educationList.length) {
+      educationList.removeAt(index);
+    }
   }
-}
 
-void removeExperience(int index) {
-  if (index >= 0 && index < experienceList.length) {
-    experienceList.removeAt(index);
+  void removeExperience(int index) {
+    if (index >= 0 && index < experienceList.length) {
+      experienceList.removeAt(index);
+    }
   }
-}
 
   Future<void> fetchProfile() async {
     isLoading(true);

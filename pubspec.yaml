@@ -49,6 +49,8 @@ dependencies:
   razorpay_flutter: ^1.4.0
   flutter_date_pickers: ^0.4.3
   youtube_player_iframe: ^5.2.1
+  carousel_slider: ^5.1.1
+  dotted_border: ^3.1.0
 
 dev_dependencies:
   flutter_test:

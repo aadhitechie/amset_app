@@ -14,13 +14,39 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.w),
+        body: SafeArea(
+            child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30.w),
+      child: Column(children: [
+        // 🔷 iOS Back Button Row
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              'Edit Profile',
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+
+        Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const vSpace(50),
+                const vSpace(20),
+
                 InputField(
                   height: 40.w,
                   controller: controller.fullNameController,
@@ -512,7 +538,8 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
             ),
           ),
         ),
-      ),
-    );
+      ]),
+    )));
+    ;
   }
 }

@@ -1,30 +1,30 @@
 import 'package:get/get.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class ChapterPlayerController extends GetxController {
-  final RxString title = 'Sample Chapter Title'.obs;
-  final RxString description =
-      'This is a sample description for the chapter.'.obs;
+  final RxString title = ''.obs;
+  final RxString description = ''.obs;
 
   late YoutubePlayerController ytController;
 
   @override
   void onInit() {
     super.onInit();
-    ytController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
-              'https://www.youtube.com/watch?v=dQw4w9WgXcQ') ??
-          '',
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
+    final args = Get.arguments as Map<String, dynamic>?;
+
+    title.value = args?['title'] ?? 'Untitled';
+    description.value = args?['description'] ?? 'No description available.';
+    final videoUrl = args?['videoUrl'] ?? '';
+
+    final videoId = YoutubePlayerController.convertUrlToId(videoUrl) ?? '';
+
+    ytController = YoutubePlayerController.fromVideoId(
+      videoId: videoId,
+      params: const YoutubePlayerParams(
+        // autoPlay: true,
+        showControls: false, // hides *all* player controls
+        showFullscreenButton: true,
       ),
     );
-  }
-
-  @override
-  void onClose() {
-    ytController.dispose();
-    super.onClose();
   }
 }

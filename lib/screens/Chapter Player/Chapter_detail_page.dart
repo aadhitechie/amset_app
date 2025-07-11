@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:amster_app/widgets/common_widget.dart';
 
 class ChapterDetailPage extends StatefulWidget {
@@ -12,123 +11,90 @@ class ChapterDetailPage extends StatefulWidget {
   State<ChapterDetailPage> createState() => _ChapterDetailPageState();
 }
 
-class _ChapterDetailPageState extends State<ChapterDetailPage> {
-  late String title;
-  late String description;
-  late String videoUrl;
-
+class _ChapterDetailPageState extends State<ChapterDetailPage>
+    with WidgetsBindingObserver {
+  late final Map<String, dynamic> args;
+  late final String title;
+  late final String description;
+  late final String videoUrl;
+  late final String videoId;
   late YoutubePlayerController ytController;
-  bool _isFullScreen = false;
 
   @override
   void initState() {
     super.initState();
-    final args = Get.arguments as Map<String, dynamic>;
+    WidgetsBinding.instance.addObserver(this);
 
+    args = Get.arguments as Map<String, dynamic>;
     title = args['title'] ?? 'Untitled';
     description = args['description'] ?? 'No description available.';
     videoUrl = args['videoUrl'] ?? '';
+    videoId = YoutubePlayerController.convertUrlToId(videoUrl) ?? '';
 
-    final videoId = YoutubePlayer.convertUrlToId(videoUrl) ?? '';
-    ytController = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-        enableCaption: true,
-        isLive: false,
-        forceHD: false,
-      ),
+    ytController = YoutubePlayerController.fromVideoId(
+      videoId: videoId,
+      autoPlay: true,
     );
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
   }
 
   @override
   void dispose() {
-    ytController.dispose();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    ytController.close();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _isFullScreen
-          ? null
-          : AppBar(
-              title: Text(title),
-              centerTitle: true,
-            ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Video player (fullscreen-safe)
-            if (videoUrl.isNotEmpty &&
-                YoutubePlayer.convertUrlToId(videoUrl) != null)
-              YoutubePlayerBuilder(
-                player: YoutubePlayer(
-                  controller: ytController,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.amber,
-                  progressColors: const ProgressBarColors(
-                    playedColor: Colors.green,
-                    handleColor: Colors.green,
-                  ),
-                ),
-                onEnterFullScreen: () {
-                  SystemChrome.setPreferredOrientations([
-                    DeviceOrientation.landscapeLeft,
-                    DeviceOrientation.landscapeRight,
-                  ]);
-                  setState(() => _isFullScreen = true);
-                },
-                onExitFullScreen: () {
-                  SystemChrome.setPreferredOrientations([
-                    DeviceOrientation.portraitUp,
-                  ]);
-                  setState(() => _isFullScreen = false);
-                },
-                builder: (context, player) {
-                  return AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: player,
-                  );
-                },
-              )
-            else
-              const Center(child: Text('No valid video URL provided.')),
+  void didChangeMetrics() {
+    // This is called when the app's dimensions change (fullscreen enter/exit)
+    setState(() {}); // triggers rebuild and ScreenUtil re-reads MediaQuery
+  }
 
-            // Description only if not fullscreen
-            if (!_isFullScreen)
-              Padding(
-                padding: EdgeInsets.all(20.w),
+  @override
+  Widget build(BuildContext context) {
+    return YoutubePlayerScaffold(
+      controller: ytController,
+      builder: (context, player) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+            centerTitle: true,
+          ),
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextWidget(
-                      "Description",
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: player,
                     ),
-                    const SizedBox(height: 10),
-                    TextWidget(
-                      description,
-                      fontSize: 14.sp,
+                    Padding(
+                      padding: EdgeInsets.all(20.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                            "Description",
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          SizedBox(height: 10.h),
+                          TextWidget(
+                            description,
+                            fontSize: 14.sp,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-          ],
-        ),
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

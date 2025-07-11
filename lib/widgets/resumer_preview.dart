@@ -16,11 +16,11 @@ class ResumePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DottedBorder(
-      borderType: BorderType.RRect,
-      radius: const Radius.circular(12),
-      dashPattern: const [5, 5],
-      strokeWidth: 2,
-      color: Colors.grey,
+      // borderType: BorderType.BorderType.RRect, // Correct usage of BorderType
+      // radius: const Radius.circular(12),
+      // dashPattern: const [5, 5],
+      // strokeWidth: 2,
+      // color: Colors.grey,
       child: Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: 130.h,

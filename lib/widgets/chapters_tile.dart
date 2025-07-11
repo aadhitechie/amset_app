@@ -24,7 +24,7 @@ class ChaptersTileWidget extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        Get.to(() => const ChapterDetailPage(), arguments: {
+        Get.to(() =>  ChapterDetailPage(), arguments: {
           'title': chapter.title,
           'description': chapter.description ?? 'No description available.',
           'videoUrl': chapter.videoUrl ?? '',
