@@ -1,5 +1,6 @@
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/profile_screen/_controller/logout_controller.dart';
+import 'package:amster_app/screens/profile_screen/_controller/profile_controller.dart';
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/avatar_widget.dart';
 import 'package:amster_app/widgets/common_widget.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
+  final ProfileController controller = Get.put(ProfileController());
   final LogoutController logoutController = Get.put(LogoutController());
 
   ProfileScreen({super.key});
@@ -17,114 +19,135 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextWidget(
-              'Profile',
-              fontSize: 25.sp,
-              fontWeight: FontWeight.bold,
-            ),
-            const vSpace(50),
-            Align(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextWidget(
+                'Profile',
+                fontSize: 25.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              const vSpace(50),
+              Align(
                 alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    AvatarWidget(
-                        imageUrl:
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
-                        size: 124.w),
-                    const vSpace(10),
-                    const TextWidget(
-                      'Sabeer Ibrahim',
-                      fontWeight: FontWeight.w700,
-                    ),
-                    const vSpace(40),
-                    Container(
-                      width: Get.width,
-                      height: 50.w,
-                      decoration: BoxDecoration(
-                          color: themeColor.withOpacity(0.2),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.r))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
+                child: Obx(
+                  () => Column(
+                    children: [
+                      Stack(
                         children: [
-                          Row(
-                            children: [
-                              SvgIcon(
-                                'assets/svg/incomplete.svg',
-                                size: 20.w,
-                              ),
-                              const hSpace(10),
-                              TextWidget(
-                                'Try resume building for easy apply',
-                                fontSize: 13.sp,
-                              ),
-                            ],
+                          AvatarWidget(
+                            imageUrl: controller.imageUrl.value.isNotEmpty
+                                ? controller.imageUrl.value
+                                : 'https://via.placeholder.com/150',
+                            size: 124.w,
                           ),
-                          const Icon(Icons.arrow_forward),
-                          //hSpace(15),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () => controller.pickAndUploadImage(),
+                              child: CircleAvatar(
+                                radius: 18.w,
+                                backgroundColor: themeColor,
+                                child: controller.isUploading.value
+                                    ? SizedBox(
+                                        width: 18.w,
+                                        height: 18.w,
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.camera_alt,
+                                        size: 18.w,
+                                        color: Colors.white,
+                                      ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    )
-                  ],
-                )),
-            const vSpace(30),
-            Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    print('jjjj');
-                    Get.toNamed(Routes.editProfile);
-                  },
-                  child: Container(
-                    color: kTransparent,
-                    child: const ProfileOptions(
-                      icon: 'assets/svg/profile-outlined.svg',
-                      title: 'Edit profile',
-                      route: Routes.editProfile,
-                    ),
+                      const vSpace(10),
+                      TextWidget(
+                        controller.fullName.value,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      const vSpace(40),
+                      Container(
+                        width: Get.width,
+                        height: 50.w,
+                        decoration: BoxDecoration(
+                          color: themeColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.r),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Row(
+                              children: [
+                                SvgIcon(
+                                  'assets/svg/incomplete.svg',
+                                  size: 20.w,
+                                ),
+                                const hSpace(10),
+                                TextWidget(
+                                  'Try resume building for easy apply',
+                                  fontSize: 13.sp,
+                                ),
+                              ],
+                            ),
+                            const Icon(Icons.arrow_forward),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                const vSpace(10),
-                // ProfileOptions(
-                //   icon: 'assets/svg/resume.svg',
-                //   title: 'My resume',
-                //   route: Routes.resumeUpload,
-                // ),
-                // vSpace(10),
-                const ProfileOptions(
-                  icon: 'assets/svg/live.svg',
-                  title: 'Live',
-                  route: Routes.livePage,
-                ),
-                const vSpace(10),
-                const ProfileOptions(
-                  icon: 'assets/svg/terms.svg',
-                  title: 'Terms and conditions',
-                  route: Routes.termsAndConditions,
-                ),
-                const vSpace(10),
-                const ProfileOptions(
-                  icon: 'assets/svg/logout.svg',
-                  title: 'Logout',
-                ),
-              ],
-            )
-          ],
+              ),
+              const vSpace(30),
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.toNamed(Routes.editProfile),
+                    child: Container(
+                      color: kTransparent,
+                      child: const ProfileOptions(
+                        icon: 'assets/svg/profile-outlined.svg',
+                        title: 'Edit profile',
+                        route: Routes.editProfile,
+                      ),
+                    ),
+                  ),
+                  const vSpace(10),
+                  const ProfileOptions(
+                    icon: 'assets/svg/live.svg',
+                    title: 'Live',
+                    route: Routes.livePage,
+                  ),
+                  const vSpace(10),
+                  const ProfileOptions(
+                    icon: 'assets/svg/terms.svg',
+                    title: 'Terms and conditions',
+                    route: Routes.termsAndConditions,
+                  ),
+                  const vSpace(10),
+                  ProfileOptions(
+                    icon: 'assets/svg/logout.svg',
+                    title: 'Logout',
+                    onTap: () => logoutController.logout(),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-      )),
-    );
-  }
-
-  SizedBox divider() {
-    return SizedBox(
-      width: Get.width,
-      child: const Divider(color: Colors.grey, thickness: 1.0),
+      ),
     );
   }
 }
@@ -133,24 +156,24 @@ class ProfileOptions extends StatelessWidget {
   final String title;
   final String icon;
   final String? route;
+  final VoidCallback? onTap;
 
   const ProfileOptions({
     super.key,
     required this.title,
     required this.icon,
     this.route,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final LogoutController logoutController = Get.find<LogoutController>();
-
     return GestureDetector(
       onTap: () {
-        if (route != null) {
+        if (onTap != null) {
+          onTap!();
+        } else if (route != null) {
           Get.toNamed(route!);
-        } else if (title == 'Logout') {
-          logoutController.logout();
         }
       },
       child: Padding(

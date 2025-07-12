@@ -99,16 +99,22 @@ class HomeController extends GetxController {
   //--------------------------- User Profile ---------------------------//
 
   /// Load user full name and avatar from local storage
+  /// Load user full name and avatar from local storage
   void loadUserProfile() async {
     final userModel = await _storage.getUser();
 
     if (userModel != null) {
-      userFullName.value = userModel.user.fullName;
-      userAvatar.value = userModel.user.image;
+      userFullName.value =
+          userModel.user.fullName.isNotEmpty ? userModel.user.fullName : 'User';
+
+      userAvatar.value = (userModel.user.image.trim().isNotEmpty)
+          ? userModel.user.image.trim()
+          : 'https://via.placeholder.com/150';
+
       log("Loaded avatar: ${userAvatar.value}");
     } else {
       userFullName.value = 'User';
-      userAvatar.value = '';
+      userAvatar.value = 'https://via.placeholder.com/150';
     }
   }
 
@@ -152,13 +158,13 @@ class HomeController extends GetxController {
           carouselList.add(CarouselModel.fromJson(item));
         }
 
-        print('Carousel data loaded: ${carouselList.length} items');
+        log('Carousel data loaded: ${carouselList.length} items');
       } else {
         carouselErrorMessage.value = 'Failed to load carousel data';
       }
     } catch (e) {
       carouselErrorMessage.value = 'Error loading carousel';
-      print('Error fetching carousel: $e');
+      log('Error fetching carousel: $e');
     } finally {
       isCarouselLoading.value = false;
     }
@@ -168,4 +174,15 @@ class HomeController extends GetxController {
   Future<DioResponse> getCarousel() async {
     return ApiServices(token: false).getMethod(ApiEndpoints.carousel);
   }
+
+
+  void refreshUserProfile() async {
+  final userModel = await _storage.getUser();
+  if (userModel != null) {
+    userFullName.value = userModel.user.fullName;
+    userAvatar.value = userModel.user.image;
+    log("Refreshed avatar: ${userAvatar.value}");
+  }
+}
+
 }

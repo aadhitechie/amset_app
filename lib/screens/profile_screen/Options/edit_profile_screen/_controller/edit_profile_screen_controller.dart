@@ -13,6 +13,9 @@ class EditProfileScreenController extends GetxController {
   final RxString errorMessage = ''.obs;
   final RxBool experienceCurrentlyWorking = false.obs;
 
+  final RxBool noEducation = false.obs;
+  final RxBool isFresher = false.obs;
+
   // top-level fields
   final fullNameController = TextEditingController();
   final secondaryphoneController = TextEditingController();

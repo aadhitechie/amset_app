@@ -9,10 +9,10 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String message;
-  bool success;
-  String token;
-  User user;
+  final String message;
+  final bool success;
+  final String token;
+  final User user;
 
   UserModel({
     required this.message,
@@ -20,6 +20,20 @@ class UserModel {
     required this.token,
     required this.user,
   });
+
+  UserModel copyWith({
+    String? message,
+    bool? success,
+    String? token,
+    User? user,
+  }) {
+    return UserModel(
+      message: message ?? this.message,
+      success: success ?? this.success,
+      token: token ?? this.token,
+      user: user ?? this.user,
+    );
+  }
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         message: json["message"],
@@ -37,189 +51,271 @@ class UserModel {
 }
 
 class User {
-  String id;
-  String username;
-  String email;
-  String mobileNumber;
-  bool isAdmin;
-  int v;
-  List<dynamic> courses;
-  DateTime updatedAt;
-  String image;
-  String address;
-  String district;
-  String fullName;
-  String postOffice;
-  String pinCode;
-  String secondaryMobileNumber;
-  List<Answer> answers;
-  List<String> completedChapters;
-  List<CourseCoin> courseCoins;
-  bool deleted;
-  String bioDescription;
-  bool hasAllAccess;
-  List<String> savedJobs;
+  final String id;
+  final String fullName;
+  final String email;
+  final String mobileNumber;
+  final String? secondaryMobileNumber;
+  final bool hasAllAccess;
+  final bool isAdmin;
+  final bool deleted;
+  final List<String> course;
+  final List<String> completedChapters;
+  final List<String> savedJobs;
+  final List<Experience> experience;
+  final List<Education> education;
+  final List<dynamic> answers;
+  final Address address;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String image; // Make final
+  final int v;
 
   User({
     required this.id,
-    required this.username,
+    required this.fullName,
     required this.email,
     required this.mobileNumber,
+    this.secondaryMobileNumber,
+    required this.hasAllAccess,
     required this.isAdmin,
-    required this.v,
-    required this.courses,
+    required this.deleted,
+    required this.course,
+    required this.completedChapters,
+    required this.savedJobs,
+    required this.experience,
+    required this.education,
+    required this.answers,
+    required this.address,
+    required this.createdAt,
     required this.updatedAt,
     required this.image,
-    required this.address,
-    required this.district,
-    required this.fullName,
-    required this.postOffice,
-    required this.pinCode,
-    required this.secondaryMobileNumber,
-    required this.answers,
-    required this.completedChapters,
-    required this.courseCoins,
-    required this.deleted,
-    required this.bioDescription,
-    required this.hasAllAccess,
-    required this.savedJobs,
+    required this.v,
   });
+
+  User copyWith({
+    String? id,
+    String? fullName,
+    String? email,
+    String? mobileNumber,
+    String? secondaryMobileNumber,
+    bool? hasAllAccess,
+    bool? isAdmin,
+    bool? deleted,
+    List<String>? course,
+    List<String>? completedChapters,
+    List<String>? savedJobs,
+    List<Experience>? experience,
+    List<Education>? education,
+    List<dynamic>? answers,
+    Address? address,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? image,
+    int? v,
+  }) {
+    return User(
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      secondaryMobileNumber: secondaryMobileNumber ?? this.secondaryMobileNumber,
+      hasAllAccess: hasAllAccess ?? this.hasAllAccess,
+      isAdmin: isAdmin ?? this.isAdmin,
+      deleted: deleted ?? this.deleted,
+      course: course ?? this.course,
+      completedChapters: completedChapters ?? this.completedChapters,
+      savedJobs: savedJobs ?? this.savedJobs,
+      experience: experience ?? this.experience,
+      education: education ?? this.education,
+      answers: answers ?? this.answers,
+      address: address ?? this.address,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      image: image ?? this.image,
+      v: v ?? this.v,
+    );
+  }
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["_id"] ?? '',
-        username: json["username"] ?? '',
-        email: json["email"] ?? '',
-        mobileNumber: json["mobileNumber"] ?? '',
-        isAdmin: json["isAdmin"] ?? false,
-        v: json["__v"] ?? 0,
-        courses:
-            json["courses"] != null ? List<dynamic>.from(json["courses"]) : [],
-        updatedAt: DateTime.tryParse(json["updatedAt"] ?? '') ?? DateTime.now(),
+        id: json['_id'] ?? '',
+        fullName: json['fullName'] ?? '',
+        email: json['email'] ?? '',
+        mobileNumber: json['mobileNumber'] ?? '',
+        secondaryMobileNumber: json['secondaryMobileNumber'],
+        hasAllAccess: json['hasAllAccess'] ?? false,
+        isAdmin: json['isAdmin'] ?? false,
+        deleted: json['deleted'] ?? false,
+        course: List<String>.from(json['course'] ?? []),
+        completedChapters: List<String>.from(json['completedChapters'] ?? []),
+        savedJobs: List<String>.from(json['savedJobs'] ?? []),
+        experience: (json['experience'] as List?)
+                ?.map((x) => Experience.fromJson(x))
+                .toList() ??
+            [],
+        education: (json['education'] as List?)
+                ?.map((x) => Education.fromJson(x))
+                .toList() ??
+            [],
+        answers: json['answers'] ?? [],
+        address: Address.fromJson(json['address'] ?? {}),
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']),
         image: json["image"] ?? '',
-        address: json["address"] ?? '',
-        district: json["district"] ?? '',
-        fullName: json["fullName"] ?? '',
-        postOffice: json["postOffice"] ?? '',
-        pinCode: json["pinCode"] ?? '',
-        secondaryMobileNumber: json["secondaryMobileNumber"] ?? '',
-        answers: json["answers"] != null
-            ? List<Answer>.from(json["answers"].map((x) => Answer.fromJson(x)))
-            : [],
-        completedChapters: json["completedChapters"] != null
-            ? List<String>.from(json["completedChapters"])
-            : [],
-        courseCoins: json["courseCoins"] != null
-            ? List<CourseCoin>.from(
-                json["courseCoins"].map((x) => CourseCoin.fromJson(x)))
-            : [],
-        deleted: json["deleted"] ?? false,
-        bioDescription: json["bioDescription"] ?? '',
-        hasAllAccess: json["hasAllAccess"] ?? false,
-        savedJobs: json["savedJobs"] != null
-            ? List<String>.from(json["savedJobs"])
-            : [],
+        v: json['__v'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "username": username,
-        "email": email,
-        "mobileNumber": mobileNumber,
-        "isAdmin": isAdmin,
-        "__v": v,
-        "courses": List<dynamic>.from(courses.map((x) => x)),
-        "updatedAt": updatedAt.toIso8601String(),
+        '_id': id,
+        'fullName': fullName,
+        'email': email,
+        'mobileNumber': mobileNumber,
+        'secondaryMobileNumber': secondaryMobileNumber,
+        'hasAllAccess': hasAllAccess,
+        'isAdmin': isAdmin,
+        'deleted': deleted,
+        'course': course,
+        'completedChapters': completedChapters,
+        'savedJobs': savedJobs,
+        'experience': experience.map((x) => x.toJson()).toList(),
+        'education': education.map((x) => x.toJson()).toList(),
+        'answers': answers,
+        'address': address.toJson(),
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
         "image": image,
-        "address": address,
-        "district": district,
-        "fullName": fullName,
-        "postOffice": postOffice,
-        "pinCode": pinCode,
-        "secondaryMobileNumber": secondaryMobileNumber,
-        "answers": List<dynamic>.from(answers.map((x) => x.toJson())),
-        "completedChapters":
-            List<dynamic>.from(completedChapters.map((x) => x)),
-        "courseCoins": List<dynamic>.from(courseCoins.map((x) => x.toJson())),
-        "deleted": deleted,
-        "bioDescription": bioDescription,
-        "hasAllAccess": hasAllAccess,
-        "savedJobs": List<dynamic>.from(savedJobs.map((x) => x)),
+        '__v': v,
       };
 }
 
-class Answer {
-  String chapterId;
-  String courseId;
-  List<UserAnswer> userAnswers;
-  String id;
+class Address {
+  final String street;
+  final String city;
+  final String district;
+  final String state;
+  final String pinCode;
+  final String country;
+  final String postOffice;
 
-  Answer({
-    required this.chapterId,
-    required this.courseId,
-    required this.userAnswers,
-    required this.id,
+  Address({
+    required this.street,
+    required this.city,
+    required this.district,
+    required this.state,
+    required this.pinCode,
+    required this.country,
+    required this.postOffice,
   });
 
-  factory Answer.fromJson(Map<String, dynamic> json) => Answer(
-        chapterId: json["chapterId"],
-        courseId: json["courseId"],
-        userAnswers: List<UserAnswer>.from(
-            json["userAnswers"].map((x) => UserAnswer.fromJson(x))),
-        id: json["_id"],
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        street: json['street'] ?? '',
+        city: json['city'] ?? '',
+        district: json['district'] ?? '',
+        state: json['state'] ?? '',
+        pinCode: json['pinCode'] ?? '',
+        country: json['country'] ?? '',
+        postOffice: json['postOffice'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
-        "chapterId": chapterId,
-        "courseId": courseId,
-        "userAnswers": List<dynamic>.from(userAnswers.map((x) => x.toJson())),
-        "_id": id,
+        'street': street,
+        'city': city,
+        'district': district,
+        'state': state,
+        'pinCode': pinCode,
+        'country': country,
+        'postOffice': postOffice,
       };
 }
 
-class UserAnswer {
-  String questionId;
-  int selectedOptionIndex;
-  String id;
+class Experience {
+  final String title;
+  final String company;
+  final String location;
+  final String sector;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
+  final bool currentlyWorking;
+  final String id;
 
-  UserAnswer({
-    required this.questionId,
-    required this.selectedOptionIndex,
+  Experience({
+    required this.title,
+    required this.company,
+    required this.location,
+    required this.sector,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+    required this.currentlyWorking,
     required this.id,
   });
 
-  factory UserAnswer.fromJson(Map<String, dynamic> json) => UserAnswer(
-        questionId: json["questionId"],
-        selectedOptionIndex: json["selectedOptionIndex"],
-        id: json["_id"],
+  factory Experience.fromJson(Map<String, dynamic> json) => Experience(
+        title: json['title'] ?? '',
+        company: json['company'] ?? '',
+        location: json['location'] ?? '',
+        sector: json['sector'] ?? '',
+        description: json['description'] ?? '',
+        startDate: DateTime.parse(json['startDate']),
+        endDate: DateTime.parse(json['endDate']),
+        currentlyWorking: json['currentlyWorking'] ?? false,
+        id: json['_id'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
-        "questionId": questionId,
-        "selectedOptionIndex": selectedOptionIndex,
-        "_id": id,
+        'title': title,
+        'company': company,
+        'location': location,
+        'sector': sector,
+        'description': description,
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+        'currentlyWorking': currentlyWorking,
+        '_id': id,
       };
 }
 
-class CourseCoin {
-  String courseId;
-  int coins;
-  String id;
+class Education {
+  final String school;
+  final String degree;
+  final String fieldOfStudy;
+  final String grade;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String id;
 
-  CourseCoin({
-    required this.courseId,
-    required this.coins,
+  Education({
+    required this.school,
+    required this.degree,
+    required this.fieldOfStudy,
+    required this.grade,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
     required this.id,
   });
 
-  factory CourseCoin.fromJson(Map<String, dynamic> json) => CourseCoin(
-        courseId: json["courseId"],
-        coins: json["coins"],
-        id: json["_id"],
+  factory Education.fromJson(Map<String, dynamic> json) => Education(
+        school: json['school'] ?? '',
+        degree: json['degree'] ?? '',
+        fieldOfStudy: json['fieldOfStudy'] ?? '',
+        grade: json['grade'] ?? '',
+        description: json['description'] ?? '',
+        startDate: DateTime.parse(json['startDate']),
+        endDate: DateTime.parse(json['endDate']),
+        id: json['_id'] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
-        "courseId": courseId,
-        "coins": coins,
-        "_id": id,
+        'school': school,
+        'degree': degree,
+        'fieldOfStudy': fieldOfStudy,
+        'grade': grade,
+        'description': description,
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+        '_id': id,
       };
 }

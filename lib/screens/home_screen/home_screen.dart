@@ -44,7 +44,7 @@ class HomeScreen extends GetWidget<HomeController> {
 
             const vSpace(20),
             Obx(
-              ()=> CarouselSlider(
+              () => CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,
                   autoPlayInterval: const Duration(seconds: 2),
@@ -53,7 +53,8 @@ class HomeScreen extends GetWidget<HomeController> {
                     .map((carouselItem) => Container(
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.r)),
                           ),
                           child: Center(
                             child: (carouselItem.imageUrl?.isEmpty ?? true)
@@ -135,7 +136,6 @@ class HomeScreen extends GetWidget<HomeController> {
                 } else if (controller.errorMessage.value.isNotEmpty) {
                   return Center(
                       child: Text('Error: ${controller.errorMessage.value}'));
-                      
                 } else if (controller.filteredJobs.isEmpty) {
                   return const Center(child: Text('No jobs found.'));
                 } else {
