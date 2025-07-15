@@ -26,18 +26,29 @@ class LoginScreen extends GetView<Logincontroller> {
             children: [
               Text(
                 'Welcome back to!',
-                style: fontDmSans(fontSize: 25.sp, color: kBlack),
+                style: fontDmSans(
+                  fontSize: 25.sp,
+                  color: kBlack,
+                  letterSpacing: -0.5,
+                ),
               ),
               Text(
                 'amset app',
-                style: fontDmSans(fontSize: 36.sp, color: themeColor),
+                style: fontDmSans(
+                  fontSize: 36.sp,
+                  color: themeColor,
+                  letterSpacing: -0.5,
+                ),
               ),
               const vSpace(30),
               InputField(
                 controller: controller.emailController,
                 borderType: InputFieldBorderType.external,
                 label: 'Email*',
-                labelStyle: const TextStyle(color: themeColor),
+                labelStyle: const TextStyle(
+                  color: themeColor,
+                  letterSpacing: -0.5,
+                ),
                 hintText: 'Email',
                 inputFormatters: [
                   TextInputFormatter.withFunction(
@@ -58,8 +69,9 @@ class LoginScreen extends GetView<Logincontroller> {
                 label: 'Password*',
                 borderColor: kTransparent,
                 hintText: '******',
-                textStyle: TextStyle(fontSize: 16.sp),
-                hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                textStyle: fontDmSans(fontSize: 16.sp, letterSpacing: -0.5),
+                hintStyle: fontDmSans(
+                    color: Colors.black.withOpacity(0.5), letterSpacing: -0.5),
               ),
               const vSpace(10),
               Align(
@@ -68,9 +80,12 @@ class LoginScreen extends GetView<Logincontroller> {
                   onTap: () {
                     // Get.toNamed(Routes.forgotPassword);
                   },
-                  child: const Text(
+                  child: const TextWidget(
                     'Forgot my password?',
-                    style: TextStyle(letterSpacing: 0.1, color: Colors.black54),
+                    style: TextStyle(
+                      letterSpacing: -0.5,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
               ),
@@ -95,27 +110,27 @@ class LoginScreen extends GetView<Logincontroller> {
                       backgroundColor: kBlack,
                     )),
               const vSpace(30),
-              Align(
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    //Get.toNamed(Routes.signup);
-                  },
-                  child: TextWidget(
-                    'or Login with',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        letterSpacing: 0.1,
-                        color: Colors.black87),
-                  ),
-                ),
-              ),
-              const vSpace(20),
-              Center(
-                  child: SvgIcon(
-                'assets/svg/icons8-google.svg',
-                size: 30.w,
-              ))
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       //Get.toNamed(Routes.signup);
+              //     },
+              //     child: TextWidget(
+              //       'or Login with',
+              //       style: TextStyle(
+              //           fontSize: 14.sp,
+              //           letterSpacing: -0.5,
+              //           color: Colors.black87),
+              //     ),
+              //   ),
+              // ),
+              // const vSpace(20),
+              // Center(
+              //     child: SvgIcon(
+              //   'assets/svg/icons8-google.svg',
+              //   size: 30.w,
+              // ))
             ],
           ),
         ),
@@ -129,7 +144,8 @@ class LoginScreen extends GetView<Logincontroller> {
             children: [
               TextWidget(
                 'Doesn’t have an account?',
-                fontSize: 13.sp,
+                fontSize: 14.sp,
+                letterSpacing: -0.5,
               ),
               GestureDetector(
                   onTap: () {
@@ -137,9 +153,10 @@ class LoginScreen extends GetView<Logincontroller> {
                   },
                   child: TextWidget(
                     '  Register here',
-                    fontSize: 13.sp,
+                    fontSize: 14.sp,
                     color: themeColor,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: -0.5,
                   )),
             ],
           ),

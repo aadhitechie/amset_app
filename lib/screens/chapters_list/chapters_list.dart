@@ -1,4 +1,5 @@
 import 'package:amster_app/screens/chapters_list/_controller/chapterlist_controller.dart';
+import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/chapters_tile.dart';
 import 'package:amster_app/widgets/reusable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -45,7 +46,11 @@ class ChapterListScreen extends StatelessWidget {
                         width: double.infinity,
                         color: Colors.grey[300],
                         child: const Center(
-                            child: CircularProgressIndicator(strokeWidth: 2)),
+                          child: CircularProgressIndicator(
+                            color: themeColor,
+                            strokeCap: StrokeCap.round,
+                          ),
+                        ),
                       ),
                       errorWidget: (context, url, error) => Container(
                         height: 180.h,
@@ -67,7 +72,7 @@ class ChapterListScreen extends StatelessWidget {
                               letterSpacing: -0.5),
                           Icon(
                             Icons.play_circle_fill,
-                            color: Colors.greenAccent,
+                            color: themeColor,
                             size: 40.w,
                           )
                         ],
@@ -80,7 +85,12 @@ class ChapterListScreen extends StatelessWidget {
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: themeColor,
+                        strokeCap: StrokeCap.round,
+                      ),
+                    );
                   }
 
                   return ListView.separated(

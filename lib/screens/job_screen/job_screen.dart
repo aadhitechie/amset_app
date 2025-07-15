@@ -31,7 +31,7 @@ class JobScreen extends GetWidget<JobController> {
               const vSpace(10),
               InputField.search(
                 onSearch: (val) {
-                  // TODO: Implement search functionality
+                  controller.updateSearchText(val); // Update search text
                   log('Search term: $val');
                 },
                 borderRadius: 20.r,

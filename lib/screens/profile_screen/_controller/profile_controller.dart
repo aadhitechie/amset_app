@@ -45,7 +45,7 @@ class ProfileController extends GetxController {
       fullName.value = (name.isNotEmpty) ? name : 'No Name';
       imageUrl.value = (image.isNotEmpty)
           ? image
-          : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s';
+          : 'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
 
       fullNameController.text = fullName.value;
 

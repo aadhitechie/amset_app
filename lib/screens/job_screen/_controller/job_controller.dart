@@ -15,6 +15,7 @@ class JobController extends GetxController {
   RxBool isAllJob = true.obs;
   RxBool isLoading = false.obs;
   RxString errorMessage = ''.obs;
+  RxString searchText = ''.obs; // Add this line
 
   RxList<JobModel> jobs = <JobModel>[].obs;
   RxList<JobModel> savedJobs = <JobModel>[].obs;
@@ -93,7 +94,19 @@ class JobController extends GetxController {
   //--------------------------- Filtering & UI Toggle ---------------------------//
 
   /// Get filtered jobs based on current tab selection
-  List<JobModel> get filteredJobs => isAllJob.value ? jobs : savedJobs;
+  List<JobModel> get filteredJobs {
+    List<JobModel> jobList = isAllJob.value ? jobs : savedJobs;
+
+    if (searchText.isEmpty) {
+      return jobList;
+    } else {
+      return jobList
+          .where((job) =>
+              job.title.toLowerCase().contains(searchText.toLowerCase()) ||
+              job.companyName.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    }
+  }
 
   /// Switch between Featured and Saved jobs
   void toggleTab(bool showAll) async {
@@ -101,5 +114,11 @@ class JobController extends GetxController {
     if (!showAll) {
       await loadSavedJobsFromUser(jobs);
     }
+  }
+
+  //--------------------------- Search Functionality ---------------------------//
+
+  void updateSearchText(String text) {
+    searchText.value = text;
   }
 }

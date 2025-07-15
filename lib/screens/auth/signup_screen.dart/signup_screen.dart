@@ -16,8 +16,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class SignUpScreen extends GetWidget<SignupController> {
-  const SignUpScreen({super.key});
+class SignUpScreen extends GetView<SignupController> {
+  SignUpScreen({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class SignUpScreen extends GetWidget<SignupController> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Form(
-              key: controller.signUpFormKey,
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,24 +39,38 @@ class SignUpScreen extends GetWidget<SignupController> {
                     children: [
                       Text(
                         'join ',
-                        style: fontDmSans(fontSize: 25.sp, color: kBlack),
+                        style: fontDmSans(
+                          fontSize: 25.sp,
+                          color: kBlack,
+                          letterSpacing: -0.5,
+                        ),
                       ),
                       Text(
                         'amset app',
-                        style: fontDmSans(fontSize: 25.sp, color: themeColor),
+                        style: fontDmSans(
+                          fontSize: 25.sp,
+                          color: themeColor,
+                          letterSpacing: -0.5,
+                        ),
                       ),
                       Text(
                         ' &',
                         style: TextStyle(
-                            fontSize: 20.sp,
-                            color: kBlack,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 20.sp,
+                          color: kBlack,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5,
+                        ),
                       ),
                     ],
                   ),
                   Text(
                     'take the next step in your career!',
-                    style: fontDmSans(fontSize: 20.sp, color: kBlack),
+                    style: fontDmSans(
+                      fontSize: 20.sp,
+                      color: kBlack,
+                      letterSpacing: -0.5,
+                    ),
                   ),
                   const vSpace(30),
                   InputField(
@@ -63,8 +79,20 @@ class SignUpScreen extends GetWidget<SignupController> {
                     label: 'Full Name',
                     borderColor: kTransparent,
                     hintText: 'Full Name',
-                    textStyle: TextStyle(fontSize: 14.sp),
-                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                    textStyle: fontDmSans(
+                      fontSize: 14.sp,
+                      letterSpacing: -0.5,
+                    ),
+                    hintStyle: fontDmSans(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your full name';
+                      }
+                      return null;
+                    },
                   ),
                   const vSpace(10),
                   InputField(
@@ -81,8 +109,14 @@ class SignUpScreen extends GetWidget<SignupController> {
                     sValidator: CommonValidators.signupEmailValidator,
                     label: 'Email*',
                     hintText: 'Email',
-                    textStyle: TextStyle(fontSize: 14.sp),
-                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                    textStyle: fontDmSans(
+                      fontSize: 14.sp,
+                      letterSpacing: -0.5,
+                    ),
+                    hintStyle: fontDmSans(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5,
+                    ),
                     borderColor: kTransparent,
                   ),
                   const vSpace(10),
@@ -98,8 +132,21 @@ class SignUpScreen extends GetWidget<SignupController> {
                     label: 'Password*',
                     borderColor: kTransparent,
                     hintText: 'Password',
-                    textStyle: TextStyle(fontSize: 14.sp),
-                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                    textStyle: fontDmSans(
+                      fontSize: 14.sp,
+                      letterSpacing: -0.5,
+                    ),
+                    hintStyle: fontDmSans(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      // Add more password validation rules here if needed
+                      return null;
+                    },
                   ),
                   const vSpace(10),
                   InputField.password(
@@ -108,67 +155,115 @@ class SignUpScreen extends GetWidget<SignupController> {
                     label: 'Confirm Password*',
                     borderColor: kTransparent,
                     hintText: 'Confirm Password',
-                    textStyle: TextStyle(fontSize: 14.sp),
-                    hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                  ),
-                  const vSpace(30),
-                  PrimaryButton(
-                    text: 'Sign up',
-                    onPressed: () async {
-                      if (controller.signUpFormKey.currentState != null &&
-                          controller.signUpFormKey.currentState!.validate()) {
-                        if (controller.phoneController.text.isNotEmpty &&
-                            controller.emailController.text.isNotEmpty) {
-                          try {
-                            final response = await ApiServices(token: false)
-                                .postMethod(ApiEndpoints.register, data: {
-                              "fullName": controller.fullNameController.text,
-                              "email": controller.emailController.text,
-                              "mobileNumber": controller.phoneController.text,
-                              "password": controller.passwordController.text,
-                            });
-
-                            if (response.statusCode == 200) {
-                              Get.toNamed(Routes.login);
-                            } else {
-                              log('Error: ${response.statusMessage}');
-                            }
-                          } catch (e) {
-                            log('Error: $e');
-                          }
-                        } else {
-                          log("Phone or Email is empty!");
-                        }
-                      } else {
-                        log("Form validation failed!");
-                      }
-                    },
-                    isFullWidth: true,
-                    borderRadius: 12.r,
-                    backgroundColor: kBlack,
-                  ),
-                  const vSpace(30),
-                  Align(
-                    alignment: Alignment.center,
-                    child: GestureDetector(
-                      onTap: () {
-                        //Get.toNamed(Routes.signup);
-                      },
-                      child: TextWidget(
-                        'or Register with',
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            letterSpacing: 0.1,
-                            color: Colors.black87),
-                      ),
+                    textStyle: fontDmSans(
+                      fontSize: 14.sp,
+                      letterSpacing: -0.5,
                     ),
+                    hintStyle: fontDmSans(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please confirm your password';
+                      }
+                      if (value != controller.passwordController.text) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
                   ),
-                  const vSpace(20),
-                  Center(
-                      child: SvgIcon(
-                    'assets/svg/icons8-google.svg',
-                    size: 30.w,
-                  ))
+                  const vSpace(30),
+                  Obx(() => controller.isLoading.value
+                      ? Center(
+                          child: SizedBox(
+                              height: 25.h,
+                              width: 25.w,
+                              child: const CircularProgressIndicator(
+                                color: kGreen,
+                                backgroundColor: kWhite,
+                                strokeCap: StrokeCap.round,
+                              )))
+                      : PrimaryButton(
+                          text: 'Sign up',
+                          textStyle: fontDmSans(
+                            letterSpacing: -0.5,
+                          ),
+                          onPressed: () async {
+                            final FormState? form = _formKey.currentState;
+                            if (form != null && form.validate()) {
+                              // Form is valid, proceed with signup
+                              if (controller.phoneController.text.isNotEmpty &&
+                                  controller.emailController.text.isNotEmpty) {
+                                controller.isLoading(true); // Start loading
+                                try {
+                                  final response = await ApiServices(
+                                          token: false)
+                                      .postMethod(ApiEndpoints.register, data: {
+                                    "fullName":
+                                        controller.fullNameController.text,
+                                    "email": controller.emailController.text,
+                                    "mobileNumber":
+                                        controller.phoneController.text,
+                                    "password":
+                                        controller.passwordController.text,
+                                  });
+
+                                  if (response.statusCode == 200) {
+                                    // Check for success in the response body
+                                    if (response.data != null &&
+                                        response.data['success'] == true) {
+                                      log('Registration successful! Response: ${response.data}'); // Log the response
+                                      try {
+                                        Get.offAllNamed(Routes
+                                            .login); // Use Get.offAllNamed
+                                      } catch (e) {
+                                        log('Error navigating to login: $e');
+                                      }
+                                    } else {
+                                      log('Error: Registration failed - ${response.data}'); // Log the entire response data
+                                    }
+                                  } else {
+                                    log('Error: ${response.statusMessage}');
+                                  }
+                                } catch (e) {
+                                  log('Error: $e');
+                                } finally {
+                                  controller.isLoading(false); // Stop loading
+                                }
+                              } else {
+                                log("Phone or Email is empty!");
+                              }
+                            } else {
+                              log("Form validation failed!");
+                            }
+                          },
+                          isFullWidth: true,
+                          borderRadius: 12.r,
+                          backgroundColor: kBlack,
+                        )),
+                  const vSpace(30),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       //Get.toNamed(Routes.signup);
+                  //     },
+                  //     child: TextWidget(
+                  //       'or Register with',
+                  //       style: TextStyle(
+                  //           fontSize: 14.sp,
+                  //           letterSpacing: -0.5,
+                  //           color: Colors.black87),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const vSpace(20),
+                  // Center(
+                  //     child: SvgIcon(
+                  //   'assets/svg/icons8-google.svg',
+                  //   size: 30.w,
+                  // ))
                 ],
               ),
             ),
@@ -184,7 +279,8 @@ class SignUpScreen extends GetWidget<SignupController> {
             children: [
               TextWidget(
                 'Already have an account?',
-                fontSize: 13.sp,
+                letterSpacing: -0.5,
+                fontSize: 14.sp,
               ),
               GestureDetector(
                   onTap: () {
@@ -192,9 +288,10 @@ class SignUpScreen extends GetWidget<SignupController> {
                   },
                   child: TextWidget(
                     '  Login here',
-                    fontSize: 13.sp,
+                    fontSize: 14.sp,
                     color: themeColor,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: -0.5,
                   )),
             ],
           ),

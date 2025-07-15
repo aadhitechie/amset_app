@@ -23,7 +23,7 @@ class HomeScreen extends GetWidget<HomeController> {
               nameText: controller.userFullName.value,
               avatar: controller.userAvatar.value.isNotEmpty
                   ? controller.userAvatar.value
-                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
+                  : 'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg',
             )),
       ),
 
@@ -61,7 +61,7 @@ class HomeScreen extends GetWidget<HomeController> {
                           ),
                           child: Center(
                             child: (carouselItem.imageUrl?.isEmpty ?? true)
-                                ? CircularProgressIndicator()
+                                ? const CircularProgressIndicator()
                                 : Image.network(
                                     carouselItem.imageUrl!,
                                     fit: BoxFit.cover,

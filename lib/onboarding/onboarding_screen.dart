@@ -69,7 +69,11 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                     Text(
                       controller
                           .onboardingData[controller.currentPage.value].title,
-                      style: fontDmSans(fontSize: 30.sp, color: Colors.black87),
+                      style: fontDmSans(
+                        fontSize: 30.sp,
+                        color: Colors.black87,
+                        letterSpacing: -0.5,
+                      ),
                     ),
                     // Text(
                     //  'amset academy',
@@ -78,9 +82,12 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                     const vSpace(10),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: TextWidget(controller
-                          .onboardingData[controller.currentPage.value]
-                          .subtitle),
+                      child: TextWidget(
+                        controller.onboardingData[controller.currentPage.value]
+                            .subtitle,
+                        letterSpacing: -0.5,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     const vSpace(30),
                     Obx(() {
@@ -90,12 +97,16 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                                 Get.offAllNamed(Routes.login);
                               },
                               text: "Get Started",
+                              textStyle: fontDmSans(
+                                  letterSpacing: -0.5, fontSize: 17.sp),
                               isFullWidth: true,
                               backgroundColor: themeColor,
                             )
                           : PrimaryButton(
                               onPressed: () => controller.nextPage(),
                               text: "Continue",
+                              textStyle: fontDmSans(
+                                  letterSpacing: -0.5, fontSize: 17.sp),
                               isFullWidth: true,
                               backgroundColor: kBlack,
                             );

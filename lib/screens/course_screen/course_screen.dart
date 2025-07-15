@@ -1,3 +1,4 @@
+import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/course_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,12 @@ class CourseScreen extends StatelessWidget {
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: themeColor,
+                        strokeCap: StrokeCap.round,
+                      ),
+                    );
                   }
 
                   if (controller.courses.isEmpty) {

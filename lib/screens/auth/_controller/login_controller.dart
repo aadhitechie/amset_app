@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/auth/user_model/user_model.dart';
 import 'package:amster_app/services/api_endpoints.dart';
-import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/local_storage_service.dart';
-import 'package:amster_app/utils/utils.dart';
+import 'package:amster_app/utils/snackbar_helper.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,7 +21,7 @@ class Logincontroller extends GetxController {
       'phone': '',
     };
     // if (isNumeric(val)) {
-    //   data["phone"] = val; //TODO:check phone ext
+    //   data["phone"] = val;
     // } else if (val.isEmail) {
     //   data["email"] = val;
     // } else if (isUsername(val)) {
@@ -42,14 +42,15 @@ class Logincontroller extends GetxController {
   //     Utils.showError(error);
   //   }).whenComplete(() => isLoading(false));
   // }
+
   login() async {
     isLoading(true);
     try {
       final response = await ApiServices().postMethod(
         ApiEndpoints.login,
         data: {
-          'email': emailController.text,
-          'password': passwordController.text,
+          'email': emailController.text.trim(),
+          'password': passwordController.text.trim(),
         },
       );
 
@@ -63,19 +64,33 @@ class Logincontroller extends GetxController {
           await localStorage.saveUser(userModel);
           await localStorage.setLogin();
 
-          log("Saved user full name: ${userModel.user.fullName}");
+          log("✅ Saved user full name: ${userModel.user.fullName}");
 
+          // SnackbarHelper.showSuccess('Logged in successfully!');
           Get.offNamed(Routes.bottomNav);
         } catch (e) {
           log("UserModel parsing failed: $e");
-          Utils.showError(const ApiException('User data parsing error.'));
+          SnackbarHelper.showError('Failed to parse user data.');
         }
         return;
       }
 
-      Utils.showError(const ApiException('Invalid login credentials.'));
+      // if we reach here, login failed but no exception
+      final errorMsg = response.data['error'] ?? 'Invalid login credentials.';
+      SnackbarHelper.showError(errorMsg);
     } catch (error) {
-      Utils.showError(ApiException(error.toString()));
+      log("Login failed: $error");
+
+      // try to extract server error message
+      String message = 'Something went wrong, please check your credentials.';
+      if (error is DioException && error.response?.data != null) {
+        final data = error.response?.data;
+        if (data is Map<String, dynamic> && data['error'] != null) {
+          message = data['error'].toString();
+        }
+      }
+
+      SnackbarHelper.showError(message);
     } finally {
       isLoading(false);
     }

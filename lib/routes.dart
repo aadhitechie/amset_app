@@ -48,7 +48,7 @@ class AppPages {
         name: Routes.login, page: () => LoginScreen(), binding: LoginBinding()),
     GetPage(
         name: Routes.signup,
-        page: () => const SignUpScreen(),
+        page: () => SignUpScreen(),
         binding: SignupBinding()),
     GetPage(
         name: Routes.bottomNav,
