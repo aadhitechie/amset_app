@@ -21,9 +21,11 @@ class ChapterPlayerController extends GetxController {
     ytController = YoutubePlayerController.fromVideoId(
       videoId: videoId,
       params: const YoutubePlayerParams(
-        // autoPlay: true,
-        showControls: false, // hides *all* player controls
-        showFullscreenButton: true,
+        showControls: false,
+        showFullscreenButton: false,
+        strictRelatedVideos: true,
+        showVideoAnnotations: false,
+        playsInline: true,
       ),
     );
   }

@@ -56,6 +56,7 @@ class _ChapterDetailPageState extends State<ChapterDetailPage>
       builder: (context, player) {
         return Scaffold(
           appBar: AppBar(
+            titleSpacing: 0,
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_new_rounded,
@@ -66,6 +67,7 @@ class _ChapterDetailPageState extends State<ChapterDetailPage>
               },
             ),
             title: TextWidget(
+              textAlign: TextAlign.left,
               title,
               letterSpacing: -0.5,
               fontSize: 20,

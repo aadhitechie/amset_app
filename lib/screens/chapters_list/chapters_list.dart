@@ -60,7 +60,8 @@ class ChapterListScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(15.w),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 10.h),
                       color: Colors.black.withOpacity(0.5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,11 +71,11 @@ class ChapterListScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               letterSpacing: -0.5),
-                          Icon(
-                            Icons.play_circle_fill,
-                            color: themeColor,
-                            size: 40.w,
-                          )
+                          // Icon(
+                          //   Icons.play_circle_fill,
+                          //   color: themeColor,
+                          //   size: 45.w,
+                          // )
                         ],
                       ),
                     ),
@@ -95,7 +96,7 @@ class ChapterListScreen extends StatelessWidget {
 
                   return ListView.separated(
                     itemCount: controller.chapters.length,
-                    separatorBuilder: (context, index) => const vSpace(10),
+                    separatorBuilder: (context, index) => const vSpace(4),
                     itemBuilder: (context, index) {
                       final chapter = controller.chapters[index];
                       return ChaptersTileWidget(
