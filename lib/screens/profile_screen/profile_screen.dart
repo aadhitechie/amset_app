@@ -24,11 +24,10 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextWidget(
-                'Profile',
-                fontSize: 25.sp,
-                fontWeight: FontWeight.bold,
-              ),
+              TextWidget('Profile',
+                  fontSize: 25.sp,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5),
               const vSpace(50),
               Align(
                 alignment: Alignment.center,
@@ -40,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
                           AvatarWidget(
                             imageUrl: controller.imageUrl.value.isNotEmpty
                                 ? controller.imageUrl.value
-                                : 'https://via.placeholder.com/150',
+                                : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s',
                             size: 124.w,
                           ),
                           Positioned(
@@ -73,6 +72,8 @@ class ProfileScreen extends StatelessWidget {
                       const vSpace(10),
                       TextWidget(
                         controller.fullName.value,
+                        letterSpacing: -0.5,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.w700,
                       ),
                       const vSpace(40),
@@ -96,10 +97,8 @@ class ProfileScreen extends StatelessWidget {
                                   size: 20.w,
                                 ),
                                 const hSpace(10),
-                                TextWidget(
-                                  'Try resume building for easy apply',
-                                  fontSize: 13.sp,
-                                ),
+                                TextWidget('Try resume building for easy apply',
+                                    fontSize: 15.sp, letterSpacing: -0.5),
                               ],
                             ),
                             const Icon(Icons.arrow_forward),
@@ -189,7 +188,7 @@ class ProfileOptions extends StatelessWidget {
                   color: themeColor,
                 ),
                 const hSpace(10),
-                TextWidget(title, fontSize: 15.sp),
+                TextWidget(title, fontSize: 15.sp, letterSpacing: -0.5),
               ],
             ),
             Icon(

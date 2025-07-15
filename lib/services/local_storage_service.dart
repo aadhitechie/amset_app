@@ -12,6 +12,8 @@ class LocalStorage {
   static const USER = 'user_data';
   static const APPLIED_JOBS = 'applied_jobs';
   static const SAVED_JOBS = 'saved_jobs';
+  static const PROFILE_UPDATED = 'profile_updated';
+
 
   // ---------------------- Basic Operations ---------------------- //
 
@@ -143,4 +145,13 @@ class LocalStorage {
       await saveUser(userModel); // Overwrite updated model
     }
   }
+
+
+  Future<void> setProfileUpdated(bool updated) async {
+  await setBool(PROFILE_UPDATED, updated);
+}
+
+Future<bool> isProfileUpdated() async {
+  return await getBool(PROFILE_UPDATED) ?? false;
+}
 }

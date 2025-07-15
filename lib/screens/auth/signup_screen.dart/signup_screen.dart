@@ -37,11 +37,11 @@ class SignUpScreen extends GetWidget<SignupController> {
                     children: [
                       Text(
                         'join ',
-                        style: fontRecoleta(fontSize: 25.sp, color: kBlack),
+                        style: fontDmSans(fontSize: 25.sp, color: kBlack),
                       ),
                       Text(
                         'amset app',
-                        style: fontRecoleta(fontSize: 25.sp, color: themeColor),
+                        style: fontDmSans(fontSize: 25.sp, color: themeColor),
                       ),
                       Text(
                         ' &',
@@ -54,7 +54,7 @@ class SignUpScreen extends GetWidget<SignupController> {
                   ),
                   Text(
                     'take the next step in your career!',
-                    style: fontRecoleta(fontSize: 20.sp, color: kBlack),
+                    style: fontDmSans(fontSize: 20.sp, color: kBlack),
                   ),
                   const vSpace(30),
                   InputField(

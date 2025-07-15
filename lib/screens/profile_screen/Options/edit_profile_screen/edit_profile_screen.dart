@@ -31,12 +31,12 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
               },
             ),
             SizedBox(width: 8.w),
-            Text(
+            TextWidget(
               'Edit Profile',
               style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-              ),
+                  fontSize: 25.sp,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.5),
             ),
           ],
         ),
@@ -52,10 +52,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                   controller: controller.fullNameController,
                   borderType: InputFieldBorderType.external,
                   label: 'Full Name',
-                  labelStyle: const TextStyle(color: themeColor),
+                  labelStyle:
+                      const TextStyle(color: themeColor, letterSpacing: -0.5),
                   hintText: 'Full Name',
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                  textStyle: TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                  hintStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5),
                   borderColor: kTransparent,
                 ),
                 const vSpace(10),
@@ -64,10 +67,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                   controller: controller.secondaryphoneController,
                   borderType: InputFieldBorderType.external,
                   label: 'Secondary Phone',
-                  labelStyle: const TextStyle(color: themeColor),
+                  labelStyle:
+                      const TextStyle(color: themeColor, letterSpacing: -0.5),
                   hintText: 'Secondary Phone',
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                  textStyle: TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                  hintStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5),
                   borderColor: kTransparent,
                 ),
                 const vSpace(10),
@@ -83,10 +89,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                         borderType: InputFieldBorderType.external,
                         label: 'Street',
                         hintText: 'Street',
-                        labelStyle: const TextStyle(color: themeColor),
-                        textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle:
-                            TextStyle(color: Colors.black.withOpacity(0.5)),
+                        labelStyle: const TextStyle(
+                            color: themeColor, letterSpacing: -0.5),
+                        textStyle:
+                            TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            letterSpacing: -0.5),
                         borderColor: kTransparent,
                       ),
                     ),
@@ -98,10 +107,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                         borderType: InputFieldBorderType.external,
                         label: 'City',
                         hintText: 'City',
-                        labelStyle: const TextStyle(color: themeColor),
-                        textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle:
-                            TextStyle(color: Colors.black.withOpacity(0.5)),
+                        labelStyle: const TextStyle(
+                            color: themeColor, letterSpacing: -0.5),
+                        textStyle:
+                            TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            letterSpacing: -0.5),
                         borderColor: kTransparent,
                       ),
                     ),
@@ -117,10 +129,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                         borderType: InputFieldBorderType.external,
                         label: 'District',
                         hintText: 'District',
-                        labelStyle: const TextStyle(color: themeColor),
-                        textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle:
-                            TextStyle(color: Colors.black.withOpacity(0.5)),
+                        labelStyle: const TextStyle(
+                            color: themeColor, letterSpacing: -0.5),
+                        textStyle:
+                            TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            letterSpacing: -0.5),
                         borderColor: kTransparent,
                       ),
                     ),
@@ -132,10 +147,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                         borderType: InputFieldBorderType.external,
                         label: 'State',
                         hintText: 'State',
-                        labelStyle: const TextStyle(color: themeColor),
-                        textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle:
-                            TextStyle(color: Colors.black.withOpacity(0.5)),
+                        labelStyle: const TextStyle(
+                            color: themeColor, letterSpacing: -0.5),
+                        textStyle:
+                            TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            letterSpacing: -0.5),
                         borderColor: kTransparent,
                       ),
                     ),
@@ -151,10 +169,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                         borderType: InputFieldBorderType.external,
                         label: 'PIN Code',
                         hintText: '110025',
-                        labelStyle: const TextStyle(color: themeColor),
-                        textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle:
-                            TextStyle(color: Colors.black.withOpacity(0.5)),
+                        labelStyle: const TextStyle(
+                            color: themeColor, letterSpacing: -0.5),
+                        textStyle:
+                            TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            letterSpacing: -0.5),
                         borderColor: kTransparent,
                       ),
                     ),
@@ -166,10 +187,13 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                         borderType: InputFieldBorderType.external,
                         label: 'Post Office',
                         hintText: 'Post Office',
-                        labelStyle: const TextStyle(color: themeColor),
-                        textStyle: TextStyle(fontSize: 16.sp),
-                        hintStyle:
-                            TextStyle(color: Colors.black.withOpacity(0.5)),
+                        labelStyle: const TextStyle(
+                            color: themeColor, letterSpacing: -0.5),
+                        textStyle:
+                            TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.5),
+                            letterSpacing: -0.5),
                         borderColor: kTransparent,
                       ),
                     ),
@@ -182,9 +206,12 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                   borderType: InputFieldBorderType.external,
                   label: 'Country',
                   hintText: 'India',
-                  labelStyle: const TextStyle(color: themeColor),
-                  textStyle: TextStyle(fontSize: 16.sp),
-                  hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                  labelStyle:
+                      const TextStyle(color: themeColor, letterSpacing: -0.5),
+                  textStyle: TextStyle(fontSize: 16.sp, letterSpacing: -0.5),
+                  hintStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                      letterSpacing: -0.5),
                   borderColor: kTransparent,
                 ),
                 const vSpace(30),
@@ -198,7 +225,8 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextWidget('Education', fontSize: 16.sp),
+                        TextWidget('Education',
+                            fontSize: 16.sp, letterSpacing: -0.5),
                         Obx(() => IconButton(
                               icon: Icon(
                                 Icons.add,
@@ -234,9 +262,10 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Education ${index + 1}',
-                                                style:
-                                                    TextStyle(fontSize: 14.sp)),
+                                            TextWidget('Education ${index + 1}',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    letterSpacing: -0.5)),
                                             Row(
                                               children: [
                                                 IconButton(
@@ -315,11 +344,15 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                                                 child: InputField(
                                                   controller: textCtrl,
                                                   hintText: hint,
-                                                  hintStyle: TextStyle(
-                                                      color: const Color
-                                                              .fromARGB(
-                                                              255, 83, 82, 82)
-                                                          .withOpacity(0.5)),
+                                                  hintStyle: fontDmSans(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                                  255,
+                                                                  83,
+                                                                  82,
+                                                                  82)
+                                                              .withOpacity(0.5),
+                                                      letterSpacing: -0.5),
                                                   borderType:
                                                       InputFieldBorderType.none,
                                                   readOnly: i == 3 || i == 4,
@@ -365,9 +398,10 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                                                 }
                                               : null,
                                     )),
-                                Text(
+                                TextWidget(
                                   'No History',
-                                  style: TextStyle(fontSize: 14.sp),
+                                  style: TextStyle(
+                                      fontSize: 14.sp, letterSpacing: -0.5),
                                 ),
                               ],
                             ),
@@ -385,7 +419,8 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextWidget('Experience', fontSize: 16.sp),
+                        TextWidget('Experience',
+                            fontSize: 16.sp, letterSpacing: -0.5),
                         Obx(() => IconButton(
                               icon: Icon(
                                 Icons.add,
@@ -421,9 +456,11 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Experience ${index + 1}',
-                                                style:
-                                                    TextStyle(fontSize: 14.sp)),
+                                            TextWidget(
+                                                'Experience ${index + 1}',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    letterSpacing: -0.5)),
                                             Row(
                                               children: [
                                                 IconButton(
@@ -503,10 +540,14 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                                                   controller: textCtrl,
                                                   hintText: hint,
                                                   hintStyle: TextStyle(
-                                                      color: const Color
-                                                              .fromARGB(
-                                                              255, 83, 82, 82)
-                                                          .withOpacity(0.5)),
+                                                      color:
+                                                          const Color.fromARGB(
+                                                                  255,
+                                                                  83,
+                                                                  82,
+                                                                  82)
+                                                              .withOpacity(0.5),
+                                                      letterSpacing: -0.5),
                                                   borderType:
                                                       InputFieldBorderType.none,
                                                   readOnly: i == 3 || i == 4,
@@ -552,9 +593,10 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
                                                 }
                                               : null,
                                     )),
-                                Text(
+                                TextWidget(
                                   'I am a Fresher',
-                                  style: TextStyle(fontSize: 14.sp),
+                                  style: TextStyle(
+                                      fontSize: 14.sp, letterSpacing: -0.5),
                                 ),
                               ],
                             ),
@@ -590,6 +632,5 @@ class EditProfileScreen extends GetWidget<EditProfileScreenController> {
         ),
       ]),
     )));
-    ;
   }
 }

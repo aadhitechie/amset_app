@@ -1,6 +1,7 @@
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/services/local_storage_service.dart';
 import 'package:amster_app/utils/constants.dart';
+import 'package:amster_app/widgets/common_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,17 +17,18 @@ class LogoutController extends GetxController {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              const TextWidget(
                 'Logout',
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                    letterSpacing: -0.5),
               ),
               const SizedBox(height: 10),
-              const Text(
+              const TextWidget(
                 'Are you sure you want to logout?',
+                letterSpacing: -0.5,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16, color: Colors.black54),
               ),
@@ -49,7 +51,7 @@ class LogoutController extends GetxController {
                           ),
                         ),
                       ),
-                      child: const Text('Cancel'),
+                      child: const TextWidget('Cancel', letterSpacing: -0.5),
                     ),
                   ),
 
@@ -69,7 +71,7 @@ class LogoutController extends GetxController {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text('Logout'),
+                      child: const TextWidget('Logout', letterSpacing: -0.5),
                     ),
                   ),
                 ],

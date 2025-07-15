@@ -26,6 +26,7 @@ class JobScreen extends GetWidget<JobController> {
                 'Jobs',
                 fontSize: 25.sp,
                 fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
               ),
               const vSpace(10),
               InputField.search(
@@ -35,6 +36,7 @@ class JobScreen extends GetWidget<JobController> {
                 },
                 borderRadius: 20.r,
                 hintText: 'search',
+                textStyle: fontDmSans(letterSpacing: -0.5),
                 searchIcon: Icon(
                   Icons.search,
                   size: 28.w,
@@ -52,7 +54,8 @@ class JobScreen extends GetWidget<JobController> {
                       },
                       backgroundColor:
                           controller.isAllJob.value ? themeColor : kTransparent,
-                      textStyle: TextStyle(
+                      textStyle: fontDmSans(
+                        letterSpacing: -0.5,
                         color: controller.isAllJob.value ? kWhite : kBlack,
                       ),
                       outlined: true,
@@ -65,7 +68,8 @@ class JobScreen extends GetWidget<JobController> {
                       onPressed: () => controller.toggleTab(false),
                       backgroundColor:
                           controller.isAllJob.value ? kTransparent : themeColor,
-                      textStyle: TextStyle(
+                      textStyle: fontDmSans(
+                        letterSpacing: -0.5,
                         color: controller.isAllJob.value ? kBlack : kWhite,
                       ),
                       outlined: true,
@@ -85,7 +89,11 @@ class JobScreen extends GetWidget<JobController> {
                     return Center(
                         child: Text('Error: ${controller.errorMessage.value}'));
                   } else if (controller.filteredJobs.isEmpty) {
-                    return const Center(child: Text('No jobs found.'));
+                    return const Center(
+                        child: TextWidget(
+                      'No jobs found.',
+                      letterSpacing: -0.5,
+                    ));
                   } else {
                     return ListView.separated(
                       itemCount: controller.filteredJobs.length,

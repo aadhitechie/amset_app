@@ -15,9 +15,8 @@ class CourseTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     if (!course.isPublished) {
-      return const SizedBox.shrink(); 
+      return const SizedBox.shrink();
     }
 
     return GestureDetector(
@@ -53,19 +52,18 @@ class CourseTitle extends StatelessWidget {
                   course.title,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
+                  letterSpacing: -0.5,
                   color: kBlack,
                 ),
                 const vSpace(5),
-                TextWidget(
-                  'Instructor: ${course.instructor?.fullName ?? 'Unknown'}',
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                TextWidget(
-                  'Chapters: ${course.chapters?.length ?? 0}',
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+                TextWidget('Instructor: ${course.instructor.fullName}',
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.5),
+                TextWidget('Chapters: ${course.chapters.length}',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.5),
               ],
             ),
           ),

@@ -33,7 +33,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             vSpace(120.w),
             Text(
               'Lets recover your  password',
-              style: fontRecoleta(fontSize: 36.sp, color: themeColor),
+              style: fontDmSans(fontSize: 36.sp, color: themeColor),
             ),
             const vSpace(30),
             InputField(

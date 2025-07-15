@@ -25,7 +25,10 @@ class TermsAndConditionsScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               'Terms and Conditions',
-              style: fontRecoleta(fontSize: 22.sp, fontWeight: FontWeight.bold),
+              style: fontDmSans(
+                  fontSize: 25.sp,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5),
             ),
           ],
         ),
@@ -39,9 +42,9 @@ class TermsAndConditionsScreen extends StatelessWidget {
               children: [
                 const vSpace(20),
                 TextWidget(
-                  "Before using the AMSET app, please read and understand these terms and conditions. By using the app, you agree to comply with these terms. If you do not agree, kindly refrain from using the app.",
-                  fontSize: 14.sp,
-                ),
+                    "Before using the AMSET app, please read and understand these terms and conditions. By using the app, you agree to comply with these terms. If you do not agree, kindly refrain from using the app.",
+                    fontSize: 16.sp,
+                    letterSpacing: -0.5),
                 const vSpace(24),
                 _buildSectionTitle("1. Purpose and Scope"),
                 _buildBulletList([
@@ -94,23 +97,23 @@ class TermsAndConditionsScreen extends StatelessWidget {
   }
 
   Widget _buildSectionTitle(String title) {
-    return TextWidget(
-      title,
-      fontSize: 16.sp,
-      fontWeight: FontWeight.bold,
-      color: kBlack,
-    );
+    return TextWidget(title,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.bold,
+        color: kBlack,
+        letterSpacing: -0.5);
   }
 
   Widget _buildBulletList(List<String> items) {
     return BulletList(
       padding: EdgeInsets.zero,
       bulletType: BulletType.unordered(),
-      bulletStyle: const TextStyle(fontSize: 4, color: Colors.black),
+      bulletStyle:
+          fontDmSans(fontSize: 4, color: Colors.black, letterSpacing: -0.5),
       bulletSpacing: 5.w,
       bulletHeight: 16.sp,
       shrinkWrap: true,
-      textStyle: TextStyle(fontSize: 13.sp),
+      textStyle: fontDmSans(fontSize: 16.sp, letterSpacing: -0.5),
       physics: const NeverScrollableScrollPhysics(),
       itemSpacing: 10,
       items: items,

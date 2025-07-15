@@ -38,7 +38,10 @@ class HomeScreen extends GetWidget<HomeController> {
             // Posters go here
             Text(
               'Tips for you',
-              style: fontRecoleta(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              style: fontDmSans(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5),
             ),
             const vSpace(20),
 
@@ -84,7 +87,11 @@ class HomeScreen extends GetWidget<HomeController> {
             const vSpace(20),
             Text(
               'Job recommendations',
-              style: fontRecoleta(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              style: fontDmSans(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+              ),
             ),
             const vSpace(10),
 
@@ -97,7 +104,8 @@ class HomeScreen extends GetWidget<HomeController> {
                     onPressed: () {
                       controller.isAllJob(true);
                     },
-                    textStyle: TextStyle(
+                    textStyle: fontDmSans(
+                      letterSpacing: -0.5,
                       color: controller.isAllJob.value ? kWhite : kBlack,
                     ),
                     backgroundColor:
@@ -113,7 +121,8 @@ class HomeScreen extends GetWidget<HomeController> {
                       controller.toggleAllJobs(false);
                       controller.loadSavedJobsFromUser(controller.jobs);
                     },
-                    textStyle: TextStyle(
+                    textStyle: fontDmSans(
+                      letterSpacing: -0.5,
                       color: controller.isAllJob.value ? kBlack : kWhite,
                     ),
                     backgroundColor:

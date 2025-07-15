@@ -26,11 +26,11 @@ class LoginScreen extends GetView<Logincontroller> {
             children: [
               Text(
                 'Welcome back to!',
-                style: fontRecoleta(fontSize: 25.sp, color: kBlack),
+                style: fontDmSans(fontSize: 25.sp, color: kBlack),
               ),
               Text(
                 'amset app',
-                style: fontRecoleta(fontSize: 36.sp, color: themeColor),
+                style: fontDmSans(fontSize: 36.sp, color: themeColor),
               ),
               const vSpace(30),
               InputField(

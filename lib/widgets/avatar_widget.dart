@@ -7,7 +7,6 @@ import 'package:amster_app/widgets/reusable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget(
       {super.key,
@@ -47,7 +46,7 @@ class AvatarWidget extends StatelessWidget {
               child: ClipOval(
                 child: imageUrl == null || imageUrl!.isEmpty
                     ? Image.asset(
-                        'assets/images/person_default.jpg',
+                        'assets/png/person_default.jpg',
                         width: double.infinity,
                         height: double.infinity,
                         fit: BoxFit.cover,

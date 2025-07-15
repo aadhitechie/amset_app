@@ -37,17 +37,23 @@ class ProfileController extends GetxController {
   /// Load user data from local storage
   Future<void> fetchProfile() async {
     final user = await localStorage.getUser();
+
     if (user != null) {
-      fullName.value =
-          user.user.fullName.isNotEmpty ? user.user.fullName : 'No Name';
-      imageUrl.value = user.user.image.isNotEmpty
-          ? user.user.image
-          : 'https://via.placeholder.com/150';
+      final name = user.user.fullName.trim();
+      final image = user.user.image.trim();
+
+      fullName.value = (name.isNotEmpty) ? name : 'No Name';
+      imageUrl.value = (image.isNotEmpty)
+          ? image
+          : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ZP9zTf75vBmTD9BJWQmf3DjamXGuvzw44w&s';
+
       fullNameController.text = fullName.value;
 
       Get.find<HomeController>().refreshUserProfile();
 
       log("Profile loaded: name=${fullName.value}, image=${imageUrl.value}");
+    } else {
+      log("No user found in local storage.");
     }
   }
 

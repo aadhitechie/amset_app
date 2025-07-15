@@ -31,7 +31,7 @@ class ForgotNotification extends StatelessWidget {
             vSpace(20.w),
             Text(
               'We sent you an email',
-              style: fontRecoleta(fontSize: 36.sp, color: themeColor),
+              style: fontDmSans(fontSize: 36.sp, color: themeColor),
             ),
             const vSpace(30),
             const TextWidget(

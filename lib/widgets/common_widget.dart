@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TextWidget extends StatelessWidget {
-  const TextWidget(this.data,
-      {super.key,
-      this.textAlign,
-      this.overflow,
-      this.textScaler,
-      this.maxLines,
-      this.color,
-      this.fontWeight,
-      this.fontSize,
-      this.fontStyle,
-      this.fontFamily,
-      this.style,
-      this.height,
-      this.package});
+  const TextWidget(
+    this.data, {
+    super.key,
+    this.textAlign,
+    this.overflow,
+    this.textScaler,
+    this.maxLines,
+    this.color,
+    this.fontWeight,
+    this.fontSize,
+    this.fontStyle,
+    this.style,
+    this.height,
+    this.letterSpacing,
+  });
 
   final String data;
   final TextAlign? textAlign;
@@ -26,10 +28,9 @@ class TextWidget extends StatelessWidget {
   final FontWeight? fontWeight;
   final double? fontSize;
   final FontStyle? fontStyle;
-  final String? fontFamily;
   final TextStyle? style;
   final double? height;
-  final String? package;
+  final double? letterSpacing;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +38,14 @@ class TextWidget extends StatelessWidget {
       data,
       key: key,
       style: style ??
-          TextStyle(
-              color: color,
-              fontSize: fontSize,
-              fontWeight: fontWeight,
-              fontStyle: fontStyle,
-              fontFamily: 'Roboto',
-              height: height,
-              package: package),
+          GoogleFonts.dmSans(
+            color: color,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            fontStyle: fontStyle,
+            height: height,
+            letterSpacing: letterSpacing,
+          ),
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
@@ -52,7 +53,6 @@ class TextWidget extends StatelessWidget {
     );
   }
 }
-
 class SvgIcon extends StatelessWidget {
   final String path;
   final double size;

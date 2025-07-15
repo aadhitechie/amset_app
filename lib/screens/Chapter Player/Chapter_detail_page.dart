@@ -46,8 +46,7 @@ class _ChapterDetailPageState extends State<ChapterDetailPage>
 
   @override
   void didChangeMetrics() {
-    // This is called when the app's dimensions change (fullscreen enter/exit)
-    setState(() {}); // triggers rebuild and ScreenUtil re-reads MediaQuery
+    setState(() {});
   }
 
   @override
@@ -57,8 +56,22 @@ class _ChapterDetailPageState extends State<ChapterDetailPage>
       builder: (context, player) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(title),
-            centerTitle: true,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 20,
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            title: TextWidget(
+              title,
+              letterSpacing: -0.5,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            //centerTitle: true,
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -77,13 +90,15 @@ class _ChapterDetailPageState extends State<ChapterDetailPage>
                         children: [
                           TextWidget(
                             "Description",
-                            fontSize: 18.sp,
+                            fontSize: 19.sp,
                             fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5,
                           ),
                           SizedBox(height: 10.h),
                           TextWidget(
                             description,
-                            fontSize: 14.sp,
+                            fontSize: 15.sp,
+                            letterSpacing: -0.5,
                           ),
                         ],
                       ),

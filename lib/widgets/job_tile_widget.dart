@@ -9,10 +9,10 @@ import 'package:amster_app/widgets/reusable.dart';
 class JobTileWidget extends StatelessWidget {
   final JobModel job;
 
-   JobTileWidget({
-  required this.job,
-  Key? key,
-}) : super(key: key ?? ValueKey(job.id)); 
+  JobTileWidget({
+    required this.job,
+    Key? key,
+  }) : super(key: key ?? ValueKey(job.id));
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +40,19 @@ class JobTileWidget extends StatelessWidget {
                     children: [
                       Text(
                         job.title,
-                        style: TextStyle(
+                        style: fontDmSans(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
+                          letterSpacing: -0.5,
                           color: Colors.black87,
                         ),
                       ),
                       Text(
                         job.companyName,
-                        style: TextStyle(
+                        style: fontDmSans(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
+                          letterSpacing: -0.5,
                           color: Colors.grey[700],
                         ),
                       ),
@@ -64,7 +66,8 @@ class JobTileWidget extends StatelessWidget {
                           const hSpace(4),
                           Text(
                             job.experienceLevel,
-                            style: TextStyle(fontSize: 13.sp),
+                            style: fontDmSans(
+                                fontSize: 13.sp, letterSpacing: -0.5),
                           ),
                         ],
                       ),

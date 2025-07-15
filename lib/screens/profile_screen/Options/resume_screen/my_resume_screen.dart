@@ -30,7 +30,7 @@ class ResumeUploadScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               'Upload Resume',
-              style: fontRecoleta(fontSize: 22.sp, fontWeight: FontWeight.bold),
+              style: fontDmSans(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
           ],
         ),

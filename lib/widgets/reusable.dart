@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget annotedRegionLightIcon({required Widget child, Color? statusBarColor}) =>
     AnnotatedRegion<SystemUiOverlayStyle>(
@@ -31,13 +32,13 @@ class vSpace extends StatelessWidget {
 }
 
 //-----------------------Fonts-------------------------------
-TextStyle fontRecoleta(
-    {Color? color,
-    double? fontSize,
-    FontWeight? fontWeight,
-    double? letterSpacing}) {
-  return TextStyle(
-    fontFamily: 'Recoleta',
+TextStyle fontDmSans({
+  Color? color,
+  double? fontSize,
+  FontWeight? fontWeight,
+  double? letterSpacing,
+}) {
+  return GoogleFonts.dmSans(
     fontSize: fontSize,
     fontWeight: fontWeight,
     color: color,

@@ -21,11 +21,10 @@ class CourseScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextWidget(
-                'Course',
-                fontSize: 25.sp,
-                fontWeight: FontWeight.bold,
-              ),
+              TextWidget('Course',
+                  fontSize: 25.sp,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5),
               const vSpace(10),
               Expanded(
                 child: Obx(() {

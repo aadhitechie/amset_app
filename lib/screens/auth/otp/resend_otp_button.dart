@@ -38,7 +38,7 @@ class _ResendOtpButtonState extends State<ResendOtpButton> {
         child: PrimaryButton(
           outlined: true,
           text: 'Resend OTP',
-          textStyle: fontRecoleta(fontWeight: FontWeight.w500),
+          textStyle: fontDmSans(fontWeight: FontWeight.w500),
           isLoading: widget.controller.isResending.value,
           onPressed: widget.controller.resendOtp,
           width: 310.w,

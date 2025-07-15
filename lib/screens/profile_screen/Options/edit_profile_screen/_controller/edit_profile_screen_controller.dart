@@ -137,6 +137,67 @@ class EditProfileScreenController extends GetxController {
     isLoading(true);
     errorMessage('');
 
+    // validate required profile fields
+    if (fullNameController.text.trim().isEmpty ||
+        secondaryphoneController.text.trim().isEmpty ||
+        streetController.text.trim().isEmpty ||
+        cityController.text.trim().isEmpty ||
+        districtController.text.trim().isEmpty ||
+        stateController.text.trim().isEmpty ||
+        pinCodeController.text.trim().isEmpty ||
+        countryController.text.trim().isEmpty ||
+        postOfficeController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please fill all the profile fields');
+      isLoading(false);
+      return;
+    }
+
+    // validate education
+    bool validEducation = noEducation.value;
+    if (!validEducation) {
+      for (final edu in educationList) {
+        if (edu.schoolController.text.trim().isNotEmpty &&
+            edu.degreeController.text.trim().isNotEmpty &&
+            edu.fieldOfStudyController.text.trim().isNotEmpty &&
+            edu.startDateController.text.trim().isNotEmpty &&
+            edu.endDateController.text.trim().isNotEmpty &&
+            edu.gradeController.text.trim().isNotEmpty &&
+            edu.descriptionController.text.trim().isNotEmpty) {
+          validEducation = true;
+          break;
+        }
+      }
+      if (!validEducation) {
+        Get.snackbar('Warning',
+            'Please either check "No History" or fill education entry');
+        isLoading(false);
+        return;
+      }
+    }
+
+    // validate experience
+    bool validExperience = isFresher.value;
+    if (!validExperience) {
+      for (final exp in experienceList) {
+        if (exp.titleController.text.trim().isNotEmpty &&
+            exp.companyController.text.trim().isNotEmpty &&
+            exp.locationController.text.trim().isNotEmpty &&
+            exp.startDateController.text.trim().isNotEmpty &&
+            exp.endDateController.text.trim().isNotEmpty &&
+            exp.descriptionController.text.trim().isNotEmpty &&
+            exp.sectorController.text.trim().isNotEmpty) {
+          validExperience = true;
+          break;
+        }
+      }
+      if (!validExperience) {
+        Get.snackbar('Warning',
+            'Please either check "I am a Fresher" or fill experience entry');
+        isLoading(false);
+        return;
+      }
+    }
+
     try {
       final token = await _storage.getToken();
 
@@ -152,37 +213,41 @@ class EditProfileScreenController extends GetxController {
           country: countryController.text,
           postOffice: postOfficeController.text,
         ),
-        education: educationList
-            .map((e) => Education(
-                  school: e.schoolController.text,
-                  degree: e.degreeController.text,
-                  fieldOfStudy: e.fieldOfStudyController.text,
-                  startDate: e.startDateController.text.isNotEmpty
-                      ? DateTime.tryParse(e.startDateController.text)
-                      : null,
-                  endDate: e.endDateController.text.isNotEmpty
-                      ? DateTime.tryParse(e.endDateController.text)
-                      : null,
-                  grade: e.gradeController.text,
-                  description: e.descriptionController.text,
-                ))
-            .toList(),
-        experience: experienceList
-            .map((e) => Experience(
-                  title: e.titleController.text,
-                  company: e.companyController.text,
-                  location: e.locationController.text,
-                  startDate: e.startDateController.text.isNotEmpty
-                      ? DateTime.tryParse(e.startDateController.text)
-                      : null,
-                  endDate: e.endDateController.text.isNotEmpty
-                      ? DateTime.tryParse(e.endDateController.text)
-                      : null,
-                  currentlyWorking: e.currentlyWorking.value,
-                  description: e.descriptionController.text,
-                  sector: e.sectorController.text,
-                ))
-            .toList(),
+        education: noEducation.value
+            ? []
+            : educationList
+                .map((e) => Education(
+                      school: e.schoolController.text,
+                      degree: e.degreeController.text,
+                      fieldOfStudy: e.fieldOfStudyController.text,
+                      startDate: e.startDateController.text.isNotEmpty
+                          ? DateTime.tryParse(e.startDateController.text)
+                          : null,
+                      endDate: e.endDateController.text.isNotEmpty
+                          ? DateTime.tryParse(e.endDateController.text)
+                          : null,
+                      grade: e.gradeController.text,
+                      description: e.descriptionController.text,
+                    ))
+                .toList(),
+        experience: isFresher.value
+            ? []
+            : experienceList
+                .map((e) => Experience(
+                      title: e.titleController.text,
+                      company: e.companyController.text,
+                      location: e.locationController.text,
+                      startDate: e.startDateController.text.isNotEmpty
+                          ? DateTime.tryParse(e.startDateController.text)
+                          : null,
+                      endDate: e.endDateController.text.isNotEmpty
+                          ? DateTime.tryParse(e.endDateController.text)
+                          : null,
+                      currentlyWorking: e.currentlyWorking.value,
+                      description: e.descriptionController.text,
+                      sector: e.sectorController.text,
+                    ))
+                .toList(),
       );
 
       final response = await _dio.patch(
@@ -198,6 +263,7 @@ class EditProfileScreenController extends GetxController {
 
       if (response.statusCode == 200) {
         profile.value = ProfileModel.fromJson(response.data);
+        await _storage.setProfileUpdated(true);
         Get.snackbar('Success', 'Profile updated');
       } else {
         errorMessage.value = 'Update failed: ${response.statusCode}';

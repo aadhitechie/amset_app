@@ -69,8 +69,7 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                     Text(
                       controller
                           .onboardingData[controller.currentPage.value].title,
-                      style:
-                          fontRecoleta(fontSize: 30.sp, color: Colors.black87),
+                      style: fontDmSans(fontSize: 30.sp, color: Colors.black87),
                     ),
                     // Text(
                     //  'amset academy',

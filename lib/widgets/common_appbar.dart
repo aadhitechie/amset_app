@@ -27,10 +27,11 @@ AppBar commonAppBar({
         ),
         Text(
           nameText,
-          style: fontRecoleta(
+          style: fontDmSans(
             fontSize: 24.sp,
             fontWeight: FontWeight.w700,
             color: themeColor,
+            letterSpacing: -0.5,
           ),
         ),
         // Row(
@@ -53,7 +54,12 @@ AppBar commonAppBar({
     actions: [
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [AvatarWidget(imageUrl: avatar,size: 50.w,)],
+        children: [
+          AvatarWidget(
+            imageUrl: avatar,
+            size: 50.w,
+          )
+        ],
       ),
       const hSpace(10)
     ],

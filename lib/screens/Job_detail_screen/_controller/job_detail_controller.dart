@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:amster_app/widgets/common_widget.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:amster_app/screens/home_screen/_controller/home_controller.dart';
@@ -69,6 +70,65 @@ class JobDetailController extends GetxController {
   /// Trigger job application through API and local cache
   Future<void> applyToJob(String jobId) async {
     if (alreadyApplied.value) return;
+
+    final isUpdated = await LocalStorage().isProfileUpdated();
+    if (!isUpdated) {
+      Get.bottomSheet(
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Icon(Icons.info_outline,
+                  color: Color.fromARGB(255, 255, 0, 0), size: 40),
+              const SizedBox(height: 12),
+              const TextWidget(
+                'Complete Your Profile',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+                letterSpacing: -0.5,
+              ),
+              const SizedBox(height: 8),
+              const TextWidget(
+                'Please complete your profile before applying for jobs.',
+                textAlign: TextAlign.center,
+                letterSpacing: -0.5,
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.back(); // close sheet
+                    Get.toNamed('/editProfile'); // navigate
+                  },
+                  child: const Text(
+                    'Go to Profile',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        isScrollControlled: true,
+      );
+      return;
+    }
 
     try {
       isApplying.value = true;

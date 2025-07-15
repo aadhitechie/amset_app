@@ -60,12 +60,11 @@ class ChapterListScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextWidget(
-                            controller.course.title,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          TextWidget(controller.course.title,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: -0.5),
                           Icon(
                             Icons.play_circle_fill,
                             color: Colors.greenAccent,
@@ -78,27 +77,26 @@ class ChapterListScreen extends StatelessWidget {
                 ),
               ),
               const vSpace(20),
-             Expanded(
-  child: Obx(() {
-    if (controller.isLoading.value) {
-      return const Center(child: CircularProgressIndicator());
-    }
+              Expanded(
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-    return ListView.separated(
-      itemCount: controller.chapters.length,
-      separatorBuilder: (context, index) => const vSpace(10),
-      itemBuilder: (context, index) {
-        final chapter = controller.chapters[index];
-        return ChaptersTileWidget(
-          chapter: chapter,
-          index: index,
-          imageUrl: controller.course.imageUrl,
-        );
-      },
-    );
-  }),
-)
-
+                  return ListView.separated(
+                    itemCount: controller.chapters.length,
+                    separatorBuilder: (context, index) => const vSpace(10),
+                    itemBuilder: (context, index) {
+                      final chapter = controller.chapters[index];
+                      return ChaptersTileWidget(
+                        chapter: chapter,
+                        index: index,
+                        imageUrl: controller.course.imageUrl,
+                      );
+                    },
+                  );
+                }),
+              )
             ],
           ),
         ),

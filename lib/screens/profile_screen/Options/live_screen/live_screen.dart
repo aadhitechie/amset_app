@@ -23,7 +23,7 @@ class LiveStreamingPage extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               'Live Streaming',
-              style: fontRecoleta(fontSize: 22.sp, fontWeight: FontWeight.bold),
+              style: fontDmSans(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
           ],
         ),

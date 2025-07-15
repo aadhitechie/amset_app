@@ -35,7 +35,7 @@ class ErrorView extends StatelessWidget {
               outlined: true,
               height: 40.h,
               isFullWidth: false,
-              textStyle: fontRecoleta(fontSize: 14.sp),
+              textStyle: fontDmSans(fontSize: 14.sp),
               onPressed: onRetry!,
             )
           ]

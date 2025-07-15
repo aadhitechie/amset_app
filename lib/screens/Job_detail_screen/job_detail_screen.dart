@@ -41,7 +41,10 @@ class JobDetailScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               'Job Details',
-              style: fontRecoleta(fontSize: 22.sp, fontWeight: FontWeight.bold),
+              style: fontDmSans(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: -0.5),
             ),
           ],
         ),
@@ -97,12 +100,17 @@ class JobDetailScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextWidget(job.title,
-                                  fontSize: 18.sp, fontWeight: FontWeight.bold),
+                              TextWidget(
+                                job.title,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: -0.5,
+                              ),
                               const vSpace(4),
                               TextWidget(
                                 job.companyName,
                                 fontSize: 14.sp,
+                                letterSpacing: -0.5,
                                 color: Colors.grey[600],
                               ),
                               const vSpace(6),
@@ -112,12 +120,11 @@ class JobDetailScreen extends StatelessWidget {
                                       size: 14, color: Colors.grey),
                                   const hSpace(4),
                                   Expanded(
-                                    child: TextWidget(
-                                      job.location,
-                                      fontSize: 13.sp,
-                                      color: Colors.grey[700],
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    child: TextWidget(job.location,
+                                        fontSize: 13.sp,
+                                        color: Colors.grey[700],
+                                        overflow: TextOverflow.ellipsis,
+                                        letterSpacing: -0.5),
                                   )
                                 ],
                               ),
@@ -274,14 +281,15 @@ class JobDetailScreen extends StatelessWidget {
           ),
           const hSpace(12),
           TextWidget('$label: ',
-              fontSize: 15.5.sp, fontWeight: FontWeight.w500),
+              fontSize: 15.5.sp,
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.5),
           Expanded(
-            child: TextWidget(
-              value,
-              fontSize: 15.sp,
-              fontWeight: FontWeight.normal,
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: TextWidget(value,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.normal,
+                overflow: TextOverflow.ellipsis,
+                letterSpacing: -0.5),
           ),
         ],
       ),
@@ -289,10 +297,7 @@ class JobDetailScreen extends StatelessWidget {
   }
 
   Widget _sectionHeader(String title) {
-    return TextWidget(
-      title,
-      fontSize: 16.5.sp,
-      fontWeight: FontWeight.w700,
-    );
+    return TextWidget(title,
+        fontSize: 16.5.sp, fontWeight: FontWeight.w700, letterSpacing: -0.5);
   }
 }

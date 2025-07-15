@@ -24,7 +24,7 @@ class ChaptersTileWidget extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        Get.to(() =>  ChapterDetailPage(), arguments: {
+        Get.to(() => const ChapterDetailPage(), arguments: {
           'title': chapter.title,
           'description': chapter.description ?? 'No description available.',
           'videoUrl': chapter.videoUrl ?? '',
@@ -57,17 +57,15 @@ class ChaptersTileWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextWidget(
-                    chapter.title,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                  TextWidget(
-                    'Part ${index + 1}',
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  TextWidget(chapter.title,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                      letterSpacing: -0.5),
+                  TextWidget('Part ${index + 1}',
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.5),
                 ],
               ),
             ),

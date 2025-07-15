@@ -29,7 +29,7 @@ class SplashScreen extends GetWidget<SplashController> {
                 ),
                 TextWidget(
                   ' amset',
-                  style: fontRecoleta(
+                  style: fontDmSans(
                       color: kWhite,
                       fontSize: 50.sp,
                       fontWeight: FontWeight.bold),
