@@ -9,7 +9,7 @@ import '../utils/constants.dart';
 AppBar commonAppBar({
   required String greetingText,
   required String nameText,
-  required String avatar,
+  required String avatar, // Still a String, but it's the URL
 }) {
   return AppBar(
     backgroundColor: scaffoldBackgroundColor,
@@ -56,7 +56,7 @@ AppBar commonAppBar({
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AvatarWidget(
-            imageUrl: avatar,
+            imageUrl: avatar, // Pass the URL to AvatarWidget
             size: 50.w,
           )
         ],

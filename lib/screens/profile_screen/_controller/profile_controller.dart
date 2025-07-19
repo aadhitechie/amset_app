@@ -136,10 +136,16 @@ class ProfileController extends GetxController {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
-        // wrap response into expected shape
-        await localStorage.saveUser(UserModel.fromJson({"user": data}));
+        await localStorage.saveUser(
+          UserModel(
+            message: '',
+            success: true,
+            token: token,
+            user: User.fromJson(data),
+          ),
+        );
 
-        await fetchProfile();
+        await fetchProfile(); // This updates both fullName and image observables
 
         Get.snackbar('Success', 'Profile refreshed');
       } else {

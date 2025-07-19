@@ -14,6 +14,8 @@ class LocalStorage {
   static const SAVED_JOBS = 'saved_jobs';
   static const PROFILE_UPDATED = 'profile_updated';
 
+  // ---------------------- In-Memory user cache ---------------------- //
+  static UserModel? _cachedUser;
 
   // ---------------------- Basic Operations ---------------------- //
 
@@ -55,6 +57,7 @@ class LocalStorage {
   Future<void> removeAllItem() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+    _cachedUser = null;
   }
 
   // ---------------------- Token ---------------------- //
@@ -84,26 +87,45 @@ class LocalStorage {
 
   Future<void> setSignOut() async {
     await removeAllItem();
+    _cachedUser = null;
   }
 
   // ---------------------- User Model ---------------------- //
 
   Future<void> saveUser(UserModel user) async {
     await setString(USER, jsonEncode(user.toJson()));
+    _cachedUser = user;
   }
 
   Future<UserModel?> getUser() async {
     final jsonStr = await getString(USER);
     log("Raw user json: $jsonStr");
     if (jsonStr == null) return null;
-    return UserModel.fromJson(jsonDecode(jsonStr));
+    _cachedUser = UserModel.fromJson(jsonDecode(jsonStr));
+    return _cachedUser;
   }
 
   Future<void> clearUser() async {
     await removeItem(USER);
+    _cachedUser = null;
   }
 
-  // ---------------------- Applied Jobs ---------------------- //
+  // Synchronous user info access (from cache).  
+  // Call saveUser(getUserResult) ONCE after login to keep synced!
+  UserModel? getUserSync() => _cachedUser;
+  String? getUserIdSync() => _cachedUser?.user.id;
+  String? getUserEmailSync() => _cachedUser?.user.email;
+  String? getUserPhoneSync() => _cachedUser?.user.mobileNumber;
+
+  // On cold start, if cache is null and you need user info, await getUser() first.
+
+  // ---------------------- For Course Purchase UI Logic ---------------------- //
+
+  /// Usage in UI: course.purchasedUsers.contains(LocalStorage().getUserIdSync())
+  /// Returns your current user's id (or null if cache not loaded).
+  /// No need for purchasedCourses!
+
+  // ---------------------- Job Related ---------------------- //
 
   Future<void> addAppliedJob(String jobId) async {
     final prefs = await SharedPreferences.getInstance();
@@ -119,8 +141,6 @@ class LocalStorage {
     final appliedJobs = prefs.getStringList(APPLIED_JOBS) ?? [];
     return appliedJobs.contains(jobId);
   }
-
-  // ---------------------- Saved Jobs ---------------------- //
 
   Future<void> addSavedJob(String jobId) async {
     final prefs = await SharedPreferences.getInstance();
@@ -142,16 +162,17 @@ class LocalStorage {
     final userModel = await getUser();
     if (userModel != null && !userModel.user.savedJobs.contains(jobId)) {
       userModel.user.savedJobs.add(jobId);
-      await saveUser(userModel); // Overwrite updated model
+      await saveUser(userModel); // Overwrite updated model and recache
     }
   }
 
+  // ---------------------- Profile update flag ---------------------- //
 
   Future<void> setProfileUpdated(bool updated) async {
-  await setBool(PROFILE_UPDATED, updated);
-}
+    await setBool(PROFILE_UPDATED, updated);
+  }
 
-Future<bool> isProfileUpdated() async {
-  return await getBool(PROFILE_UPDATED) ?? false;
-}
+  Future<bool> isProfileUpdated() async {
+    return await getBool(PROFILE_UPDATED) ?? false;
+  }
 }

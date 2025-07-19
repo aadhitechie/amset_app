@@ -20,28 +20,8 @@ class Logincontroller extends GetxController {
       'email': '',
       'phone': '',
     };
-    // if (isNumeric(val)) {
-    //   data["phone"] = val;
-    // } else if (val.isEmail) {
-    //   data["email"] = val;
-    // } else if (isUsername(val)) {
-    //   data["username"] = val;
-    // }
     return data;
   }
-
-  // Future login() async {
-  //   //if (!formKey.currentState!.validate()) return;
-  //   isLoading(true);
-  //   // usernameText = loginFieldController.text;
-  //   sendLoginOtp().then((response) {
-  //     if (response.data['status'] == "success") {
-  //      print('loginn');
-  //     }
-  //   }).onError((error, _) {
-  //     Utils.showError(error);
-  //   }).whenComplete(() => isLoading(false));
-  // }
 
   login() async {
     isLoading(true);
@@ -57,17 +37,57 @@ class Logincontroller extends GetxController {
       if (response.data != null &&
           response.data['message'] == 'Login successful') {
         try {
+          // Initial parse: get userModel from login response
           final userModel = UserModel.fromJson(response.data);
 
           final localStorage = LocalStorage();
           await localStorage.saveToken(userModel.token);
-          await localStorage.saveUser(userModel);
-          await localStorage.setLogin();
 
-          log("✅ Saved user full name: ${userModel.user.fullName}");
+          // ------- Fetch Latest Profile ----------
+          try {
+            final profileResponse = await ApiServices(token: true).getMethod(
+              ApiEndpoints.getProfile,
+            );
 
-          // SnackbarHelper.showSuccess('Logged in successfully!');
-          Get.offNamed(Routes.bottomNav);
+            log("Profile fetch status: ${profileResponse.statusCode}");
+            log("Profile fetch body: ${profileResponse.data}");
+
+            if (profileResponse.data != null &&
+                profileResponse.statusCode == 200) {
+              // Profile API returns the plain user model (map)
+              final profileJson = profileResponse.data;
+
+              final freshUserModel = UserModel(
+                message: '', // Or profileJson['message'] if server provides
+                success: true,
+                token: userModel.token,
+                user: User.fromJson(profileJson),
+              );
+              await localStorage.saveUser(freshUserModel);
+              await localStorage.setLogin();
+
+              log("✅ Saved user full name (profile): ${freshUserModel.user.fullName}");
+
+              // SnackbarHelper.showSuccess('Logged in successfully!');
+              Get.offNamed(Routes.bottomNav);
+            } else {
+              // fallback: still save login response user
+              await localStorage.saveUser(userModel);
+              await localStorage.setLogin();
+
+              SnackbarHelper.showError(
+                  'Partial login: failed to fetch profile, please refresh.');
+              Get.offNamed(Routes.bottomNav);
+            }
+          } catch (e, st) {
+            log("Profile fetch after login failed: $e\n$st");
+            // fallback: still save login response user
+            await localStorage.saveUser(userModel);
+            await localStorage.setLogin();
+            SnackbarHelper.showError(
+                'Partial login: failed to fetch profile, please refresh.');
+            Get.offNamed(Routes.bottomNav);
+          }
         } catch (e) {
           log("UserModel parsing failed: $e");
           SnackbarHelper.showError('Failed to parse user data.');
@@ -81,7 +101,6 @@ class Logincontroller extends GetxController {
     } catch (error) {
       log("Login failed: $error");
 
-      // try to extract server error message
       String message = 'Something went wrong, please check your credentials.';
       if (error is DioException && error.response?.data != null) {
         final data = error.response?.data;

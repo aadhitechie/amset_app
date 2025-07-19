@@ -8,6 +8,7 @@ import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/utils/utils.dart';
 
+
 class HomeController extends GetxController {
   //--------------------------- Variables ---------------------------//
 
@@ -34,7 +35,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchJobs();
-    loadUserProfile();
+    fetchUserProfile();
     fetchCarouselData();
   }
 
@@ -98,23 +99,30 @@ class HomeController extends GetxController {
 
   //--------------------------- User Profile ---------------------------//
 
-  /// Load user full name and avatar from local storage
-  /// Load user full name and avatar from local storage
-  void loadUserProfile() async {
-    final userModel = await _storage.getUser();
+  /// Fetch user profile from API
+  Future<void> fetchUserProfile() async {
+    try {
+      final response = await ApiServices().getMethod(
+          ApiEndpoints.getProfile); // Replace with your actual API endpoint
 
-    if (userModel != null) {
-      userFullName.value =
-          userModel.user.fullName.isNotEmpty ? userModel.user.fullName : 'User';
+      if (response.statusCode == 200 && response.data != null) {
+        // Assuming the API returns a user object with fullName and image fields
+        userFullName.value = response.data['fullName'] ?? 'User';
+        userAvatar.value = response.data['image'] ??
+            'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg'; // Default placeholder
 
-      userAvatar.value = (userModel.user.image.trim().isNotEmpty)
-          ? userModel.user.image.trim()
-          : 'https://via.placeholder.com/150';
-
-      log("Loaded avatar: ${userAvatar.value}");
-    } else {
+        log("Loaded avatar from API: ${userAvatar.value}");
+      } else {
+        userFullName.value = 'User';
+        userAvatar.value =
+            'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
+        log('Failed to load user profile from API');
+      }
+    } catch (e) {
       userFullName.value = 'User';
-      userAvatar.value = 'https://via.placeholder.com/150';
+      userAvatar.value =
+          'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
+      log('Error fetching user profile: $e');
     }
   }
 
@@ -175,14 +183,12 @@ class HomeController extends GetxController {
     return ApiServices(token: false).getMethod(ApiEndpoints.carousel);
   }
 
-
   void refreshUserProfile() async {
-  final userModel = await _storage.getUser();
-  if (userModel != null) {
-    userFullName.value = userModel.user.fullName;
-    userAvatar.value = userModel.user.image;
-    log("Refreshed avatar: ${userAvatar.value}");
+    final userModel = await _storage.getUser();
+    if (userModel != null) {
+      userFullName.value = userModel.user.fullName;
+      userAvatar.value = userModel.user.image;
+      log("Refreshed avatar: ${userAvatar.value}");
+    }
   }
-}
-
 }

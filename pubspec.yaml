@@ -53,6 +53,7 @@ dependencies:
   dotted_border: ^3.1.0
   http: ^1.4.0
   google_fonts: ^6.2.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

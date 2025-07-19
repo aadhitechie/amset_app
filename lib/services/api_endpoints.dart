@@ -16,6 +16,7 @@ class ApiEndpoints {
 
   //-----------------------User-------------------------------
   static const userExist = "/user/exists";
+  static const getProfile = "/user/profile";
 
   //-----------------------Course-------------------------------
   static const getAllCourses = "user/course";

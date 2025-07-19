@@ -2,6 +2,7 @@ import 'package:amster_app/screens/chapters_list/_controller/chapterlist_control
 import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/chapters_tile.dart';
 import 'package:amster_app/widgets/reusable.dart';
+import 'package:amster_app/widgets/shimmer_effects.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,11 +87,10 @@ class ChapterListScreen extends StatelessWidget {
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: themeColor,
-                        strokeCap: StrokeCap.round,
-                      ),
+                    return ListView.separated(
+                      itemCount: 6,
+                      separatorBuilder: (_, __) => const SizedBox(height: 4),
+                      itemBuilder: (_, __) => chapterTileShimmer(),
                     );
                   }
 

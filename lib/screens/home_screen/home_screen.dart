@@ -4,6 +4,7 @@ import 'package:amster_app/widgets/common_appbar.dart';
 import 'package:amster_app/widgets/job_tile_widget.dart';
 import 'package:amster_app/widgets/primary_button.dart';
 import 'package:amster_app/widgets/reusable.dart';
+import 'package:amster_app/widgets/shimmer_effects.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,9 +22,7 @@ class HomeScreen extends GetWidget<HomeController> {
         child: Obx(() => commonAppBar(
               greetingText: 'Hi👋',
               nameText: controller.userFullName.value,
-              avatar: controller.userAvatar.value.isNotEmpty
-                  ? controller.userAvatar.value
-                  : 'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg',
+              avatar: controller.userAvatar.value,
             )),
       ),
 
@@ -141,7 +140,14 @@ class HomeScreen extends GetWidget<HomeController> {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
+                  // Show shimmer skeletons instead of spinner
+                  return ListView.builder(
+                    itemCount: 4,
+                    itemBuilder: (_, __) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                      child: jobTileShimmer(),
+                    ),
+                  );
                 } else if (controller.errorMessage.value.isNotEmpty) {
                   return Center(
                       child: Text('Error: ${controller.errorMessage.value}'));
@@ -150,7 +156,8 @@ class HomeScreen extends GetWidget<HomeController> {
                 } else {
                   return ListView.separated(
                     itemCount: controller.filteredJobs.length,
-                    separatorBuilder: (context, index) => const vSpace(10),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
                     itemBuilder: (context, index) {
                       final job = controller.filteredJobs[index];
                       return JobTileWidget(job: job);
@@ -158,7 +165,7 @@ class HomeScreen extends GetWidget<HomeController> {
                   );
                 }
               }),
-            ),
+            )
           ],
         ),
       ),

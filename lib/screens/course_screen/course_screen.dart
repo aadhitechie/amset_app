@@ -1,9 +1,7 @@
-import 'package:amster_app/utils/constants.dart';
 import 'package:amster_app/widgets/course_title.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:amster_app/widgets/common_widget.dart';
-
 import 'package:amster_app/widgets/reusable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:amster_app/screens/course_screen/_controller/course_controller.dart';
@@ -13,8 +11,7 @@ class CourseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CourseController());
-
+    final controller = Get.put(CourseController()); // Keep controller alive
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -30,24 +27,16 @@ class CourseScreen extends StatelessWidget {
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: themeColor,
-                        strokeCap: StrokeCap.round,
-                      ),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
-
                   if (controller.courses.isEmpty) {
                     return const Center(child: Text("No courses available."));
                   }
-
                   return ListView.separated(
                     itemCount: controller.courses.length,
-                    separatorBuilder: (_, __) => const vSpace(10),
-                    itemBuilder: (context, index) {
-                      return CourseTitle(course: controller.courses[index]);
-                    },
+                    separatorBuilder: (_, __) => const vSpace(10), // Big space
+                    itemBuilder: (context, index) =>
+                        CourseTitle(course: controller.courses[index]),
                   );
                 }),
               ),
