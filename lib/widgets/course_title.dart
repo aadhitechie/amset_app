@@ -22,106 +22,112 @@ class CourseTitle extends StatelessWidget {
     final hasPurchased = userCourses.contains(course.id);
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+      margin:
+          EdgeInsets.symmetric(vertical: 4.h, horizontal: 0.w), // Responsive
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r), // Responsive
         border: Border.all(
           color: Colors.grey.shade300,
-          width: 1,
+          width: 1.w, // Responsive
         ),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r), // Responsive
         onTap: hasPurchased
             ? () => Get.toNamed(Routes.chapterList, arguments: course)
             : null,
-        child: Container(
-          padding: const EdgeInsets.all(14),
-          child: Row(
+        child: Padding(
+          padding: EdgeInsets.all(14
+              .w), // Responsive (replaced Container with Padding for simplicity)
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: course.imageUrl,
-                  width: 150.w,
-                  height: 95.w,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      Container(color: Colors.grey[200]),
-                  errorWidget: (context, url, error) =>
-                      Image.asset('assets/png/no_image.jpg', fit: BoxFit.cover),
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r), // Responsive
+                    child: CachedNetworkImage(
+                      imageUrl: course.imageUrl,
+                      width: 150.w,
+                      height: 95.w,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Container(color: Colors.grey[200]),
+                      errorWidget: (context, url, error) => Image.asset(
+                          'assets/png/no_image.jpg',
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                  SizedBox(width: 20.w), // Responsive spacer
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          course.title,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.sp,
+                          letterSpacing: -0.5,
+                        ),
+                        TextWidget(
+                          'Instructor: ${course.instructor.fullName}',
+                          fontSize: 16.sp,
+                          letterSpacing: -0.5,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const hSpace(20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextWidget(
-                      course.title,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
-                      letterSpacing: -0.5,
-                    ),
-                    TextWidget(
-                      'Instructor: ${course.instructor.fullName}',
-                      fontSize: 16.sp,
-                      letterSpacing: -0.5,
-                    ),
-                    const vSpace(5),
-                    hasPurchased
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: ElevatedButton(
-                              onPressed: null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green[200],
-                                foregroundColor: Colors.green[900],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 25, vertical: 7),
-                                elevation: 0,
-                              ),
-                              child: const Text(
-                                'Purchased',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: -0.5,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
-                            child: ElevatedButton(
-                              onPressed: () => CoursePurchaseHelper.buyCourse(
-                                  context, course),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: themeColor,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 25, vertical: 7),
-                                elevation: 2,
-                              ),
-                              child: TextWidget(
-                                'Buy for ₹${course.price}',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: -0.5,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
+              SizedBox(
+                  height: 10.h), // Responsive spacer between row and button
+              SizedBox(
+                width: double.infinity, // Makes button full width
+                child: hasPurchased
+                    ? ElevatedButton(
+                        onPressed: null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green[200],
+                          foregroundColor: Colors.green[900],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
-                  ],
-                ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.w, vertical: 7.h), // Responsive
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Purchased',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5,
+                            fontSize: 15,
+                          ),
+                        ),
+                      )
+                    : ElevatedButton(
+                        onPressed: () =>
+                            CoursePurchaseHelper.buyCourse(context, course),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: themeColor,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.w, vertical: 7.h), // Responsive
+                          elevation: 2,
+                        ),
+                        child: TextWidget(
+                          'Buy for ₹${course.price}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
               ),
             ],
           ),
