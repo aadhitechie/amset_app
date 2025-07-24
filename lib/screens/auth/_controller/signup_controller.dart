@@ -78,7 +78,7 @@ class SignupController extends GetxController {
 
           clearControllerState();
           // SnackbarHelper.showSuccess('Registration & Login successful!');
-          // Get.offAllNamed(Routes.bottomNav);
+           Get.offAllNamed(Routes.bottomNav);
           return;
         } else {
           SnackbarHelper.showError(loginResponse.data?['error'] ??
