@@ -8,7 +8,6 @@ import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/api_exception.dart';
 import 'package:amster_app/utils/utils.dart';
 
-
 class HomeController extends GetxController {
   //--------------------------- Variables ---------------------------//
 
@@ -65,8 +64,8 @@ class HomeController extends GetxController {
         Utils.showError(const ApiException('No jobs found'));
       }
     } catch (e) {
-      errorMessage('Error fetching jobs: ${e.toString()}');
-      Utils.showError(ApiException('Error fetching jobs: ${e.toString()}'));
+      errorMessage(e.toString());
+      Utils.showError(ApiException(' ${e.toString()}'));
     } finally {
       isLoading(false);
     }

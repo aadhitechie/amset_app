@@ -147,7 +147,7 @@ class ProfileController extends GetxController {
 
         await fetchProfile(); // This updates both fullName and image observables
 
-        Get.snackbar('Success', 'Profile refreshed');
+        // Get.snackbar('Success', 'Profile refreshed');
       } else {
         Get.snackbar('Error', 'Failed to refresh profile');
       }
