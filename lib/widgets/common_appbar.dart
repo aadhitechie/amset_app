@@ -9,7 +9,8 @@ import '../utils/constants.dart';
 AppBar commonAppBar({
   required String greetingText,
   required String nameText,
-  required Widget avatar,  // changed from String to Widget
+  required Widget avatar, // changed from String to Widget
+  TextStyle? greetingTextStyle,
 }) {
   return AppBar(
     backgroundColor: scaffoldBackgroundColor,
@@ -19,11 +20,14 @@ AppBar commonAppBar({
     title: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextWidget(
+        Text(
           greetingText,
-          fontSize: 24.sp,
-          fontWeight: FontWeight.w600,
-          color: const Color(0xff324F5E),
+          style: fontDmSans(
+            fontSize: 23.sp,
+            fontWeight: FontWeight.w400,
+            color: const Color(0xff324F5E),
+            letterSpacing: -0.5,
+          ),
         ),
         Text(
           nameText,

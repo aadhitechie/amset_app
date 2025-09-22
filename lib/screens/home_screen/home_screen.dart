@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:amster_app/core/theme/theme.dart';
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/home_screen/_controller/home_controller.dart';
 import 'package:amster_app/utils/constants.dart';
@@ -16,6 +19,18 @@ class HomeScreen extends GetWidget<HomeController> {
   HomeScreen({super.key});
 
   final RxInt _currentIndex = 0.obs;
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) {
+      return 'Good morning';
+    } else if (hour >= 12 && hour < 17) {
+      return 'Good afternoon';
+    } else if (hour >= 17 && hour < 21) {
+      return 'Good evening';
+    } else {
+      return 'Good night';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +39,7 @@ class HomeScreen extends GetWidget<HomeController> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Obx(() => commonAppBar(
-              greetingText: 'Hi👋',
+              greetingText: getGreeting(),
               nameText: controller.userFullName.value,
               avatar: GestureDetector(
                 onTap: () => Get.toNamed(Routes.editProfile),
@@ -48,7 +63,7 @@ class HomeScreen extends GetWidget<HomeController> {
             Text(
               'Tips for you',
               style: fontDmSans(
-                  fontSize: 16.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   letterSpacing: -0.5),
             ),
@@ -61,7 +76,7 @@ class HomeScreen extends GetWidget<HomeController> {
                     options: CarouselOptions(
                       autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 2),
-                      viewportFraction: 1.0, // Full width
+                      viewportFraction: 1.0,
                       height: 180.h,
                       enlargeCenterPage: false,
                       onPageChanged: (index, reason) {
@@ -110,6 +125,8 @@ class HomeScreen extends GetWidget<HomeController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: controller.carouselList.asMap().entries.map(
                         (entry) {
+                          log('Carousel items count: ${controller.carouselList.length}');
+
                           int idx = entry.key;
                           bool isActive = idx == _currentIndex.value;
 
@@ -119,8 +136,9 @@ class HomeScreen extends GetWidget<HomeController> {
                             width: isActive ? 24.0 : 12.0,
                             height: 8.0,
                             decoration: BoxDecoration(
-                              color:
-                                  isActive ? themeColor : Colors.grey.shade400,
+                              color: isActive
+                                  ? AppTheme.primaryColor
+                                  : Colors.grey.shade400,
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Stack(
@@ -213,14 +231,29 @@ class HomeScreen extends GetWidget<HomeController> {
               } else if (controller.filteredJobs.isEmpty) {
                 return const Center(child: Text('No jobs found.'));
               } else {
+                final visibleJobs = controller.visibleJobs;
+                final allLoaded =
+                    visibleJobs.length == controller.filteredJobs.length;
+
                 return Column(
-                  children: controller.filteredJobs
-                      .map((job) => Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: 10), // Add desired gap here
-                            child: JobTileWidget(job: job),
-                          ))
-                      .toList(),
+                  children: [
+                    ...visibleJobs.map((job) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: JobTileWidget(job: job),
+                        )),
+                    if (!allLoaded)
+                      Center(
+                        child: TextButton(
+                          onPressed: controller.loadMoreJobs,
+                          child: const Text('View More'),
+                        ),
+                      ),
+                    if (allLoaded)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text('No more jobs'),
+                      ),
+                  ],
                 );
               }
             }),

@@ -97,6 +97,17 @@ class SignUpScreen extends GetView<SignupController> {
                         ),
                       ),
                     ],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      // Simple email regex check
+                      final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
                     sValidator: CommonValidators.signupEmailValidator,
                     label: 'Email*',
                     hintText: 'Email',

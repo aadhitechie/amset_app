@@ -4,7 +4,7 @@ import 'package:amster_app/utils/app_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +26,8 @@ class MyApp extends StatelessWidget {
             getPages: AppPages.pages,
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.splash,
+            defaultTransition: Transition.cupertino,
+            transitionDuration: const Duration(milliseconds: 400),
           );
         });
   }

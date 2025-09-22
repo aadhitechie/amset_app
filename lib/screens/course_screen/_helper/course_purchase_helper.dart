@@ -13,6 +13,13 @@ import 'package:amster_app/screens/auth/user_model/user_model.dart';
 class CoursePurchaseHelper {
   static Razorpay? _razorpay;
 
+  static String toRazorpayHex(Color color) {
+    // Ignore alpha channel for Razorpay
+    return '#${color.red.toRadixString(16).padLeft(2, '0').toUpperCase()}'
+        '${color.green.toRadixString(16).padLeft(2, '0').toUpperCase()}'
+        '${color.blue.toRadixString(16).padLeft(2, '0').toUpperCase()}';
+  }
+
   static Future<void> buyCourse(BuildContext context, Course course) async {
     final token = await LocalStorage().getToken();
     final userId = LocalStorage().getUserIdSync();
@@ -59,7 +66,8 @@ class CoursePurchaseHelper {
     _razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, (event) {
       Get.snackbar('Wallet', 'External wallet selected');
     });
-
+    final myColor = Color(0xFF72BF44);
+    final hexColor = toRazorpayHex(myColor);
     var options = {
       'key': 'rzp_test_2Pc1OSSjMfuVOK',
       'amount': order['amount'],
@@ -69,7 +77,10 @@ class CoursePurchaseHelper {
       'prefill': {
         'contact': LocalStorage().getUserPhoneSync() ?? '',
         'email': LocalStorage().getUserEmailSync() ?? '',
-      }
+      },
+      'theme': {
+        'color': hexColor, // #72BF44
+      },
     };
 
     _razorpay!.open(options);

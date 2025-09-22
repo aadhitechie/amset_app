@@ -28,6 +28,9 @@ class HomeController extends GetxController {
   RxString userFullName = ''.obs;
   RxString userAvatar = ''.obs;
 
+  // Pagination for jobs shown
+  RxInt jobsToShow = 8.obs;
+
   //--------------------------- Lifecycle ---------------------------//
 
   @override
@@ -41,6 +44,9 @@ class HomeController extends GetxController {
   //--------------------------- Public Getters ---------------------------//
 
   List<JobModel> get filteredJobs => isAllJob.value ? jobs : savedJobs;
+
+  List<JobModel> get visibleJobs =>
+      filteredJobs.take(jobsToShow.value).toList();
 
   //--------------------------- Job Fetching ---------------------------//
 
@@ -79,49 +85,10 @@ class HomeController extends GetxController {
 
     if (userModel != null) {
       final savedIds = userModel.user.savedJobs;
-      log('Saved Job IDs: $savedIds');
-
       savedJobs.value =
           allJobs.where((job) => savedIds.contains(job.id)).toList();
-
-      log('Saved Jobs Found: ${savedJobs.length}');
     } else {
       savedJobs.clear();
-      log('No user model found when trying to load saved jobs.');
-    }
-  }
-
-  /// Re-applies saved job filtering (e.g., after saving a new job)
-  void refreshSavedJobs() {
-    loadSavedJobsFromUser(jobs);
-  }
-
-  //--------------------------- User Profile ---------------------------//
-
-  /// Fetch user profile from API
-  Future<void> fetchUserProfile() async {
-    try {
-      final response = await ApiServices().getMethod(
-          ApiEndpoints.getProfile); // Replace with your actual API endpoint
-
-      if (response.statusCode == 200 && response.data != null) {
-        // Assuming the API returns a user object with fullName and image fields
-        userFullName.value = response.data['fullName'] ?? 'User';
-        userAvatar.value = response.data['image'] ??
-            'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg'; // Default placeholder
-
-        log("Loaded avatar from API: ${userAvatar.value}");
-      } else {
-        userFullName.value = 'User';
-        userAvatar.value =
-            'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
-        log('Failed to load user profile from API');
-      }
-    } catch (e) {
-      userFullName.value = 'User';
-      userAvatar.value =
-          'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
-      log('Error fetching user profile: $e');
     }
   }
 
@@ -130,6 +97,22 @@ class HomeController extends GetxController {
   /// Switch between 'All Jobs' and 'Saved Jobs'
   void toggleAllJobs(bool value) {
     isAllJob.value = value;
+    jobsToShow.value = 8; // reset pagination on toggle
+  }
+
+  void refreshSavedJobs() {
+    loadSavedJobsFromUser(jobs);
+  }
+
+  //--------------------------- Pagination Load More ---------------------------//
+
+  /// Load 8 more jobs in the visible list if available
+  void loadMoreJobs() {
+    final totalJobs = filteredJobs.length;
+    if (jobsToShow.value >= totalJobs) {
+      return; // no more jobs
+    }
+    jobsToShow.value = (jobsToShow.value + 8).clamp(0, totalJobs);
   }
 
   final RxList<CarouselModel> carouselList = <CarouselModel>[].obs;
@@ -174,6 +157,35 @@ class HomeController extends GetxController {
       log('Error fetching carousel: $e');
     } finally {
       isCarouselLoading.value = false;
+    }
+  }
+
+  //--------------------------- User Profile ---------------------------//
+
+  /// Fetch user profile from API
+  Future<void> fetchUserProfile() async {
+    try {
+      final response = await ApiServices().getMethod(
+          ApiEndpoints.getProfile); // Replace with your actual API endpoint
+
+      if (response.statusCode == 200 && response.data != null) {
+        // Assuming the API returns a user object with fullName and image fields
+        userFullName.value = response.data['fullName'] ?? 'User';
+        userAvatar.value = response.data['image'] ??
+            'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg'; // Default placeholder
+
+        log("Loaded avatar from API: ${userAvatar.value}");
+      } else {
+        userFullName.value = 'User';
+        userAvatar.value =
+            'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
+        log('Failed to load user profile from API');
+      }
+    } catch (e) {
+      userFullName.value = 'User';
+      userAvatar.value =
+          'https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg';
+      log('Error fetching user profile: $e');
     }
   }
 

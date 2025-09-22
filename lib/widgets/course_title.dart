@@ -20,23 +20,21 @@ class CourseTitle extends StatelessWidget {
     final hasPurchased = userCourses.contains(course.id);
 
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: 4.h, horizontal: 0.w), // Responsive
+      margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 0.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.r), // Responsive
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Colors.grey.shade300,
-          width: 1.w, // Responsive
+          width: 1.w,
         ),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(16.r), // Responsive
+        borderRadius: BorderRadius.circular(16.r),
         onTap: hasPurchased
             ? () => Get.toNamed(Routes.chapterList, arguments: course)
-            : null,
+            : () => CoursePurchaseHelper.buyCourse(context, course),
         child: Padding(
-          padding: EdgeInsets.all(14
-              .w), // Responsive (replaced Container with Padding for simplicity)
+          padding: EdgeInsets.all(14.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,7 +42,7 @@ class CourseTitle extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r), // Responsive
+                    borderRadius: BorderRadius.circular(10.r),
                     child: CachedNetworkImage(
                       imageUrl: course.imageUrl,
                       width: 150.w,
@@ -57,7 +55,7 @@ class CourseTitle extends StatelessWidget {
                           fit: BoxFit.cover),
                     ),
                   ),
-                  SizedBox(width: 20.w), // Responsive spacer
+                  SizedBox(width: 20.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,10 +76,9 @@ class CourseTitle extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 10.h),
               SizedBox(
-                  height: 10.h), // Responsive spacer between row and button
-              SizedBox(
-                width: double.infinity, // Makes button full width
+                width: double.infinity,
                 child: hasPurchased
                     ? ElevatedButton(
                         onPressed: null,
@@ -92,7 +89,7 @@ class CourseTitle extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           padding: EdgeInsets.symmetric(
-                              horizontal: 25.w, vertical: 7.h), // Responsive
+                              horizontal: 25.w, vertical: 7.h),
                           elevation: 0,
                         ),
                         child: const Text(
@@ -114,7 +111,7 @@ class CourseTitle extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           padding: EdgeInsets.symmetric(
-                              horizontal: 25.w, vertical: 7.h), // Responsive
+                              horizontal: 25.w, vertical: 7.h),
                           elevation: 2,
                         ),
                         child: TextWidget(
