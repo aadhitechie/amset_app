@@ -11,7 +11,7 @@ class BottomNavController extends GetxController {
   RxInt currentIndex = 0.obs;
 
   final List<Widget> children = [
-    const HomeScreen(),
+     HomeScreen(),
     const JobScreen(),
     const CourseScreen(),
     ProfileScreen(),

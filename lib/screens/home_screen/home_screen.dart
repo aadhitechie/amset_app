@@ -10,7 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final RxInt _currentIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -44,40 +46,96 @@ class HomeScreen extends GetWidget<HomeController> {
 
             const vSpace(20),
             Obx(
-              ()=> CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 2),
-                ),
-                items: controller.carouselList
-                    .map((carouselItem) => Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                          ),
-                          child: Center(
-                            child: (carouselItem.imageUrl?.isEmpty ?? true)
-                                ? CircularProgressIndicator()
+              () => Column(
+                children: [
+                  CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 2),
+                      viewportFraction: 1.0, // Full width
+                      height: 180.h,
+                      enlargeCenterPage: false,
+                      onPageChanged: (index, reason) {
+                        _currentIndex.value = index;
+                      },
+                    ),
+                    items: controller.carouselList
+                        .map(
+                          (carouselItem) => ClipRRect(
+                            borderRadius: BorderRadius.circular(10.r),
+                            child: carouselItem.imageUrl?.isEmpty ?? true
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
                                 : Image.network(
                                     carouselItem.imageUrl!,
                                     fit: BoxFit.cover,
-                                    width: Get.width,
+                                    width: double.infinity,
+                                    height: 180.h,
                                     loadingBuilder:
                                         (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
-                                      return const CircularProgressIndicator();
+                                      return const Center(
+                                          child: CircularProgressIndicator());
                                     },
                                     errorBuilder: (context, error, stackTrace) {
                                       return Container(
                                         color: Colors.grey[300],
-                                        child: const Icon(Icons.image,
-                                            size: 50, color: Colors.grey),
+                                        child: const Icon(
+                                          Icons.broken_image,
+                                          size: 50,
+                                          color: Colors.grey,
+                                        ),
                                       );
                                     },
                                   ),
                           ),
-                        ))
-                    .toList(),
+                        )
+                        .toList(),
+                  ),
+
+                  // Indicator below carousel
+                  const vSpace(8),
+                  Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: controller.carouselList.asMap().entries.map(
+                        (entry) {
+                          int idx = entry.key;
+                          bool isActive = idx == _currentIndex.value;
+
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                            width: isActive ? 24.0 : 12.0,
+                            height: 8.0,
+                            decoration: BoxDecoration(
+                              color:
+                                  isActive ? themeColor : Colors.grey.shade400,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Stack(
+                              children: [
+                                AnimatedPositioned(
+                                  duration: const Duration(milliseconds: 300),
+                                  left: 0,
+                                  right: isActive ? 0 : 12.0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.6),
+                                        borderRadius: BorderRadius.circular(5)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                ],
               ),
             ),
             const vSpace(20),
