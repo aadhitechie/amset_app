@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
-// --- Job Tile Shimmer skeleton ---
-import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget jobTileShimmer() => Shimmer.fromColors(
@@ -136,7 +133,7 @@ Widget chapterTileShimmer() => Shimmer.fromColors(
                 Container(
                   width: 35.w,
                   height: 35.w,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),

@@ -5,7 +5,6 @@ import 'package:amster_app/services/api_endpoints.dart';
 import 'package:amster_app/services/api_service.dart';
 import 'package:amster_app/services/local_storage_service.dart';
 import 'package:amster_app/utils/snackbar_helper.dart';
-import 'package:amster_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/countries.dart';

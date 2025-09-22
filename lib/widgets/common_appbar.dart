@@ -9,7 +9,7 @@ import '../utils/constants.dart';
 AppBar commonAppBar({
   required String greetingText,
   required String nameText,
-  required String avatar, // Still a String, but it's the URL
+  required Widget avatar,  // changed from String to Widget
 }) {
   return AppBar(
     backgroundColor: scaffoldBackgroundColor,
@@ -34,31 +34,13 @@ AppBar commonAppBar({
             letterSpacing: -0.5,
           ),
         ),
-        // Row(
-        //   children: [
-        //     TextWidget(
-        //       locationInfo,
-        //       fontSize: 12.sp,
-        //       fontWeight: FontWeight.w700,
-        //       color: const Color(0xff96A7AF),
-        //     ),
-        //     Icon(
-        //       Icons.location_on,
-        //       size: 13.w,
-        //       color: const Color(0xff96A7AF),
-        //     )
-        //   ],
-        // ),
       ],
     ),
     actions: [
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AvatarWidget(
-            imageUrl: avatar, // Pass the URL to AvatarWidget
-            size: 50.w,
-          )
+          avatar,
         ],
       ),
       const hSpace(10)

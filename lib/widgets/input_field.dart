@@ -56,6 +56,8 @@ class InputField extends StatefulWidget {
       this.labelBottomHeight,
       this.suffixIconTransform,
       this.onTapOutSide,
+      this.keyboardType,
+      // this.inputFormatters,
       this.sValidatorIconPair,
       this.capitalizeFirst})
       : isSearch = false,
@@ -108,6 +110,7 @@ class InputField extends StatefulWidget {
     this.sValidatorIconPair,
     this.onTap,
     this.capitalizeFirst = false,
+    this.keyboardType,
   })  : isSearch = false,
         suffix = null,
         funSuffixIcon = null,
@@ -164,6 +167,7 @@ class InputField extends StatefulWidget {
     this.sValidatorIconPair,
     this.onTap,
     this.capitalizeFirst = false,
+    this.keyboardType,
   })  : isPassword = false,
         isSearch = true,
         funSuffixIcon = searchIcon,
@@ -172,6 +176,8 @@ class InputField extends StatefulWidget {
         onSubmitted = onSearch;
 
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   final String? label;
   final bool isPassword;
   final bool isSearch;
@@ -187,7 +193,7 @@ class InputField extends StatefulWidget {
   final FocusNode? focusNode;
   final TextStyle? textStyle;
   final FormFieldValidator<String>? validator;
-  final List<TextInputFormatter>? inputFormatters;
+  // final List<TextInputFormatter>? inputFormatters;
   final TextInputType? inputType;
   final Widget? prefix;
   final Widget? suffix;
@@ -324,8 +330,10 @@ class InputFieldState extends State<InputField> {
     Widget child = Row(children: [
       Expanded(
         child: TextFormField(
+          keyboardType: widget.keyboardType ?? widget.inputType,
+          inputFormatters: widget.inputFormatters,
           textAlign: widget.textAlign ?? TextAlign.left,
-          keyboardType: widget.inputType,
+          //keyboardType: widget.inputType,
           controller: controller,
           autofocus: widget.autofocus ?? false,
           cursorColor: widget.cursorColor,
@@ -348,7 +356,7 @@ class InputFieldState extends State<InputField> {
           style: widget.textStyle,
           focusNode: focusNode,
           onTapOutside: widget.onTapOutSide ?? (event) => focusNode.unfocus(),
-          inputFormatters: widget.inputFormatters,
+          //inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
               border: border,
               enabledBorder: border.copyWith(

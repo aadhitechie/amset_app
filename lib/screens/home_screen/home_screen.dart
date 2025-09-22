@@ -1,5 +1,7 @@
+import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/home_screen/_controller/home_controller.dart';
 import 'package:amster_app/utils/constants.dart';
+import 'package:amster_app/widgets/avatar_widget.dart';
 import 'package:amster_app/widgets/common_appbar.dart';
 import 'package:amster_app/widgets/job_tile_widget.dart';
 import 'package:amster_app/widgets/primary_button.dart';
@@ -22,19 +24,25 @@ class HomeScreen extends GetWidget<HomeController> {
         child: Obx(() => commonAppBar(
               greetingText: 'Hi👋',
               nameText: controller.userFullName.value,
-              avatar: controller.userAvatar.value,
+              avatar: GestureDetector(
+                onTap: () => Get.toNamed(Routes.editProfile),
+                child: AvatarWidget(
+                  imageUrl: controller.userAvatar.value,
+                  size: 50.w,
+                ),
+              ),
             )),
       ),
 
-      // Main Body
-      body: Padding(
+      // Main Body as a single scrollable page
+      body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const vSpace(10),
 
-            // Posters go here
+            // Posters section
             Text(
               'Tips for you',
               style: fontDmSans(
@@ -44,7 +52,6 @@ class HomeScreen extends GetWidget<HomeController> {
             ),
             const vSpace(20),
 
-            const vSpace(20),
             Obx(
               () => CarouselSlider(
                 options: CarouselOptions(
@@ -84,6 +91,7 @@ class HomeScreen extends GetWidget<HomeController> {
               ),
             ),
             const vSpace(20),
+
             Text(
               'Job recommendations',
               style: fontDmSans(
@@ -136,36 +144,31 @@ class HomeScreen extends GetWidget<HomeController> {
 
             const vSpace(20),
 
-            // Job List Section
-            Expanded(
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  // Show shimmer skeletons instead of spinner
-                  return ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (_, __) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                      child: jobTileShimmer(),
-                    ),
-                  );
-                } else if (controller.errorMessage.value.isNotEmpty) {
-                  return Center(
-                      child: Text('Error: ${controller.errorMessage.value}'));
-                } else if (controller.filteredJobs.isEmpty) {
-                  return const Center(child: Text('No jobs found.'));
-                } else {
-                  return ListView.separated(
-                    itemCount: controller.filteredJobs.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      final job = controller.filteredJobs[index];
-                      return JobTileWidget(job: job);
-                    },
-                  );
-                }
-              }),
-            )
+            // Job List Section as Column inside SingleChildScrollView
+            Obx(() {
+              if (controller.isLoading.value) {
+                return Column(
+                  children: List.generate(4, (_) => jobTileShimmer()),
+                );
+              } else if (controller.errorMessage.value.isNotEmpty) {
+                return Center(
+                    child: Text('Error: ${controller.errorMessage.value}'));
+              } else if (controller.filteredJobs.isEmpty) {
+                return const Center(child: Text('No jobs found.'));
+              } else {
+                return Column(
+                  children: controller.filteredJobs
+                      .map((job) => Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 10), // Add desired gap here
+                            child: JobTileWidget(job: job),
+                          ))
+                      .toList(),
+                );
+              }
+            }),
+
+            const SizedBox(height: 50),
           ],
         ),
       ),

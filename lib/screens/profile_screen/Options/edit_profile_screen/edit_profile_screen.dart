@@ -1,3 +1,4 @@
+import 'package:amster_app/core/theme/theme.dart';
 import 'package:amster_app/widgets/reusable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -100,9 +101,16 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                                 textStyle: TextStyle(
                                     fontSize: 16.sp, letterSpacing: -0.5),
                                 hintStyle: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
-                                    letterSpacing: -0.5),
+                                  color: Colors.black.withOpacity(0.5),
+                                  letterSpacing: -0.5,
+                                ),
                                 borderColor: kTransparent,
+
+                                // Add these two properties:
+                                keyboardType: TextInputType.number,
+                                // inputFormatters: [
+                                //   FilteringTextInputFormatter.digitsOnly
+                                // ],
                               ),
                               const vSpace(10),
                               const vSpace(10),
@@ -195,6 +203,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                                 children: [
                                   Expanded(
                                     child: InputField(
+                                      keyboardType: TextInputType.number,
                                       height: 40.w,
                                       controller: controller.pinCodeController,
                                       borderType: InputFieldBorderType.external,
@@ -262,20 +271,49 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       TextWidget('Education',
-                                          fontSize: 16.sp, letterSpacing: -0.5),
-                                      Obx(() => IconButton(
-                                            icon: Icon(
-                                              Icons.add,
+                                          fontSize: 17.sp, letterSpacing: -0.5),
+                                      Obx(
+                                        () => GestureDetector(
+                                          onTap: controller.noEducation.value
+                                              ? null
+                                              : controller.addEducation,
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                left:
+                                                    8), // space from "Education" text
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 25, vertical: 9),
+                                            decoration: BoxDecoration(
                                               color:
                                                   controller.noEducation.value
-                                                      ? Colors.grey
-                                                      : Colors.blue,
+                                                      ? Colors.grey.shade300
+                                                      : AppTheme.primaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  blurRadius: 4,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
                                             ),
-                                            onPressed:
-                                                controller.noEducation.value
-                                                    ? null
-                                                    : controller.addEducation,
-                                          )),
+                                            child: Text(
+                                              'Add',
+                                              style: TextStyle(
+                                                color:
+                                                    controller.noEducation.value
+                                                        ? Colors.grey.shade700
+                                                        : Colors.white,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: -0.5,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   //        const vSpace(10),
@@ -517,19 +555,48 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       TextWidget('Experience',
-                                          fontSize: 16.sp, letterSpacing: -0.5),
-                                      Obx(() => IconButton(
-                                            icon: Icon(
-                                              Icons.add,
+                                          fontSize: 17.sp, letterSpacing: -0.5),
+                                      Obx(
+                                        () => GestureDetector(
+                                          onTap: controller.isFresher.value
+                                              ? null
+                                              : controller.addExperience,
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                left:
+                                                    8), // gap between text & button
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 25, vertical: 9),
+                                            decoration: BoxDecoration(
                                               color: controller.isFresher.value
-                                                  ? Colors.grey
-                                                  : Colors.blue,
+                                                  ? Colors.grey.shade300
+                                                  : AppTheme.primaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  blurRadius: 4,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
                                             ),
-                                            onPressed:
-                                                controller.isFresher.value
-                                                    ? null
-                                                    : controller.addExperience,
-                                          )),
+                                            child: Text(
+                                              'Add',
+                                              style: TextStyle(
+                                                color:
+                                                    controller.isFresher.value
+                                                        ? Colors.grey.shade700
+                                                        : Colors.white,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: -0.5,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   // const vSpace(5),

@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,34 +77,34 @@ class ProfileScreen extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                       const vSpace(40),
-                      Container(
-                        width: Get.width,
-                        height: 50.w,
-                        decoration: BoxDecoration(
-                          color: themeColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.r),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Row(
-                              children: [
-                                SvgIcon(
-                                  'assets/svg/incomplete.svg',
-                                  size: 20.w,
-                                ),
-                                const hSpace(10),
-                                TextWidget('Try resume building for easy apply',
-                                    fontSize: 15.sp, letterSpacing: -0.5),
-                              ],
-                            ),
-                            const Icon(Icons.arrow_forward),
-                          ],
-                        ),
-                      )
+                      // Container(
+                      //   width: Get.width,
+                      //   height: 50.w,
+                      //   decoration: BoxDecoration(
+                      //     color: themeColor.withOpacity(0.2),
+                      //     borderRadius: BorderRadius.all(
+                      //       Radius.circular(10.r),
+                      //     ),
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //     mainAxisSize: MainAxisSize.max,
+                      //     children: [
+                      //       Row(
+                      //         children: [
+                      //           SvgIcon(
+                      //             'assets/svg/incomplete.svg',
+                      //             size: 20.w,
+                      //           ),
+                      //           const hSpace(10),
+                      //           TextWidget('Try resume building for easy apply',
+                      //               fontSize: 15.sp, letterSpacing: -0.5),
+                      //         ],
+                      //       ),
+                      //       const Icon(Icons.arrow_forward),
+                      //     ],
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
@@ -123,12 +123,12 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const vSpace(10),
-                  const ProfileOptions(
-                    icon: 'assets/svg/live.svg',
-                    title: 'Live',
-                    route: Routes.livePage,
-                  ),
+                  // const vSpace(10),
+                  // const ProfileOptions(
+                  //   icon: 'assets/svg/live.svg',
+                  //   title: 'Live',
+                  //   route: Routes.livePage,
+                  // ),
                   const vSpace(10),
                   const ProfileOptions(
                     icon: 'assets/svg/terms.svg',
@@ -167,36 +167,42 @@ class ProfileOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (onTap != null) {
-          onTap!();
-        } else if (route != null) {
-          Get.toNamed(route!);
-        }
-      },
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                SvgIcon(
-                  icon,
-                  size: 20.w,
-                  color: themeColor,
-                ),
-                const hSpace(10),
-                TextWidget(title, fontSize: 15.sp, letterSpacing: -0.5),
-              ],
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: themeColor,
-              size: 20.w,
-            ),
-          ],
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(12), // Add rounded corners here
+      child: InkWell(
+        borderRadius:
+            BorderRadius.circular(12), // Same radius for ripple effect
+        onTap: () {
+          if (onTap != null) {
+            onTap!();
+          } else if (route != null) {
+            Get.toNamed(route!);
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgIcon(
+                    icon,
+                    size: 20.w,
+                    color: themeColor,
+                  ),
+                  const SizedBox(width: 10),
+                  TextWidget(title, fontSize: 15.sp, letterSpacing: -0.5),
+                ],
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: themeColor,
+                size: 20.w,
+              ),
+            ],
+          ),
         ),
       ),
     );
