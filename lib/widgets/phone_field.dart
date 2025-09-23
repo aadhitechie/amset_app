@@ -10,30 +10,31 @@ import 'package:intl_phone_field/phone_number.dart';
 
 import '../screens/auth/_controller/signup_controller.dart';
 
-Widget reUseCountryTextField(
-        {required String fieldName,
-        required TextEditingController phoneFieldController,
-        Color? color,
-        // Rx<validators>? isValid,
-        // RxString? errorText,
-        void Function(PhoneNumber)? onFieldEntry,
-        FontWeight? lableWeight = FontWeight.w400,
-        Color borderColor = Colors.transparent,
-        TextInputType? inputType = TextInputType.text,
-        List<TextInputFormatter>? inputFormatters}) =>
+Widget reUseCountryTextField({
+  required String fieldName,
+  required TextEditingController phoneFieldController,
+  Color? color,
+  void Function(PhoneNumber)? onFieldEntry,
+  FontWeight? lableWeight = FontWeight.w400,
+  Color borderColor = Colors.transparent,
+  TextInputType? inputType = TextInputType.text,
+  List<TextInputFormatter>? inputFormatters,
+  FocusNode? focusNode, // Added focusNode parameter
+  String? errorText, // Added errorText parameter
+}) =>
     Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            //  const hSpace(20),
-
             TextWidget(
               fieldName,
-              style: TextStyle(color: kBlack, fontSize: 12.sp),
+              style: TextStyle(
+                color: kBlack,
+                fontSize: 12.sp,
+                fontWeight: lableWeight,
+              ),
             ),
-            // const Spacer(),
-            // if (isValid != null || errorText != null)
-            //   AlertMessage(isValid: isValid!, errorText: errorText!)
           ],
         ),
         const vSpace(10),
@@ -67,12 +68,13 @@ Widget reUseCountryTextField(
                         onChanged: onFieldEntry,
                         disableLengthCheck: false,
                         decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 20.h),
-                            errorText: '',
-                            errorBorder: InputBorder.none,
-                            focusedErrorBorder: const UnderlineInputBorder(),
-                            errorStyle: const TextStyle()),
+                          contentPadding: EdgeInsets.symmetric(vertical: 20.h),
+                          errorText: errorText, // Pass errorText here
+                          errorBorder: InputBorder.none,
+                          focusedErrorBorder: const UnderlineInputBorder(),
+                          errorStyle:
+                              const TextStyle(color: Colors.red), // color red
+                        ),
                         dropdownTextStyle:
                             TextStyle(color: kBlack, fontSize: 14.sp),
                         cursorColor: themeColor,
@@ -83,6 +85,7 @@ Widget reUseCountryTextField(
                             SignupController.to.countryIso.toString(),
                         inputFormatters: inputFormatters,
                         controller: phoneFieldController,
+                        focusNode: focusNode, // Pass focusNode here
                         onCountryChanged: (country) async {
                           SignupController.to.countryIso.value = country.code;
                           SignupController.to.validatephoneNo = country;

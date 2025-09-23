@@ -87,25 +87,67 @@ class JobScreen extends GetWidget<JobController> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (controller.errorMessage.value.isNotEmpty) {
                     return Center(
-                        child: Text('Error: ${controller.errorMessage.value}'));
+                      child: Text('Error: ${controller.errorMessage.value}'),
+                    );
                   } else if (controller.filteredJobs.isEmpty) {
                     return const Center(
-                        child: TextWidget(
-                      'No jobs found.',
-                      letterSpacing: -0.5,
-                    ));
+                      child: TextWidget(
+                        'No jobs found.',
+                        letterSpacing: -0.5,
+                      ),
+                    );
                   } else {
+                    final jobsToShow = controller.filteredJobs
+                        .take(controller.visibleCount.value)
+                        .toList();
+
                     return ListView.separated(
-                      itemCount: controller.filteredJobs.length,
+                      itemCount: jobsToShow.length + 1, // add 1 for "View More"
                       separatorBuilder: (context, index) => const vSpace(10),
                       itemBuilder: (context, index) {
-                        final job = controller.filteredJobs[index];
-                        return JobTileWidget(job: job, key: ValueKey(job.id));
+                        if (index < jobsToShow.length) {
+                          final job = jobsToShow[index];
+                          return JobTileWidget(job: job, key: ValueKey(job.id));
+                        } else {
+                          // Last item → View More or No More
+                          if (controller.visibleCount.value <
+                              controller.filteredJobs.length) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12.h),
+                              child: Center(
+                                child: TextButton(
+                                  onPressed: () => controller.loadMoreJobs(),
+                                  child: Text(
+                                    "View More",
+                                    style: fontDmSans(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      //color: themeColor, // green/primary color
+                                      letterSpacing: -0.3,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Center(
+                                child: TextWidget(
+                                  "No more jobs",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey,
+                                  letterSpacing: -0.5,
+                                ),
+                              ),
+                            );
+                          }
+                        }
                       },
                     );
                   }
                 }),
-              ),
+              )
             ],
           ),
         ),

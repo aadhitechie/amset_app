@@ -1,7 +1,6 @@
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/auth/_controller/login_controller.dart';
 import 'package:amster_app/utils/constants.dart';
-import 'package:amster_app/widgets/common_widget.dart';
 import 'package:amster_app/widgets/input_field.dart';
 import 'package:amster_app/widgets/primary_button.dart';
 import 'package:amster_app/widgets/reusable.dart';
@@ -10,9 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends GetView<Logincontroller> {
+class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-  final formKey = GlobalKey<FormState>();
+
+  final _controller = Get.put(Logincontroller());
 
   @override
   Widget build(BuildContext context) {
@@ -40,47 +40,56 @@ class LoginScreen extends GetView<Logincontroller> {
                   letterSpacing: -0.5,
                 ),
               ),
-              const vSpace(30),
-              InputField(
-                controller: controller.emailController,
-                borderType: InputFieldBorderType.external,
-                label: 'Email*',
-                labelStyle: const TextStyle(
-                  color: themeColor,
-                  letterSpacing: -0.5,
-                ),
-                hintText: 'Email',
-                inputFormatters: [
-                  TextInputFormatter.withFunction(
-                    (oldValue, newValue) => TextEditingValue(
-                      text: newValue.text.toLowerCase(),
-                      selection: newValue.selection,
+              const SizedBox(height: 30),
+              Obx(() => InputField(
+                    controller: _controller.emailController,
+                    borderType: InputFieldBorderType.external,
+                    label: 'Email*',
+                    labelStyle: const TextStyle(
+                      color: themeColor,
+                      letterSpacing: -0.5,
                     ),
-                  ),
-                ],
-                textStyle: TextStyle(fontSize: 16.sp),
-                hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                borderColor: kTransparent,
-              ),
-              const vSpace(10),
-              InputField.password(
-                controller: controller.passwordController,
-                borderType: InputFieldBorderType.external,
-                label: 'Password*',
-                borderColor: kTransparent,
-                hintText: '******',
-                textStyle: fontDmSans(fontSize: 16.sp, letterSpacing: -0.5),
-                hintStyle: fontDmSans(
-                    color: Colors.black.withOpacity(0.5), letterSpacing: -0.5),
-              ),
-              const vSpace(10),
+                    hintText: 'Email',
+                    errorText: _controller.emailError.value.isNotEmpty
+                        ? _controller.emailError.value
+                        : null,
+                    textStyle: TextStyle(fontSize: 16.sp),
+                    hintStyle:
+                        TextStyle(color: Colors.black.withOpacity(0.5)),
+                    borderColor: kTransparent,
+                    inputFormatters: [
+                      // Lowercase format
+                      TextInputFormatter.withFunction(
+                        (oldValue, newValue) => TextEditingValue(
+                          text: newValue.text.toLowerCase(),
+                          selection: newValue.selection,
+                        ),
+                      ),
+                    ],
+                  )),
+              const SizedBox(height: 10),
+              Obx(() => InputField.password(
+                    controller: _controller.passwordController,
+                    borderType: InputFieldBorderType.external,
+                    label: 'Password*',
+                    borderColor: kTransparent,
+                    hintText: '******',
+                    errorText: _controller.passwordError.value.isNotEmpty
+                        ? _controller.passwordError.value
+                        : null,
+                    textStyle: fontDmSans(fontSize: 16.sp, letterSpacing: -0.5),
+                    hintStyle: fontDmSans(
+                        color: Colors.black.withOpacity(0.5),
+                        letterSpacing: -0.5),
+                  )),
+              const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: () {
-                    // Get.toNamed(Routes.forgotPassword);
+                    // TODO: Forgot password navigation
                   },
-                  child: const TextWidget(
+                  child: const Text(
                     'Forgot my password?',
                     style: TextStyle(
                       letterSpacing: -0.5,
@@ -89,8 +98,8 @@ class LoginScreen extends GetView<Logincontroller> {
                   ),
                 ),
               ),
-              const vSpace(30),
-              Obx(() => controller.isLoading.value
+              const SizedBox(height: 30),
+              Obx(() => _controller.isLoading.value
                   ? Center(
                       child: SizedBox(
                           height: 25.h,
@@ -103,34 +112,13 @@ class LoginScreen extends GetView<Logincontroller> {
                   : PrimaryButton(
                       text: 'Sign in',
                       onPressed: () {
-                        controller.login();
+                        _controller.login();
                       },
                       isFullWidth: true,
                       borderRadius: 12.r,
                       backgroundColor: kBlack,
                     )),
-              const vSpace(30),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       //Get.toNamed(Routes.signup);
-              //     },
-              //     child: TextWidget(
-              //       'or Login with',
-              //       style: TextStyle(
-              //           fontSize: 14.sp,
-              //           letterSpacing: -0.5,
-              //           color: Colors.black87),
-              //     ),
-              //   ),
-              // ),
-              // const vSpace(20),
-              // Center(
-              //     child: SvgIcon(
-              //   'assets/svg/icons8-google.svg',
-              //   size: 30.w,
-              // ))
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -142,22 +130,27 @@ class LoginScreen extends GetView<Logincontroller> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextWidget(
+              Text(
                 'Doesn’t have an account?',
-                fontSize: 14.sp,
-                letterSpacing: -0.5,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  letterSpacing: -0.5,
+                ),
               ),
               GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.signup);
-                  },
-                  child: TextWidget(
-                    '  Register here',
+                onTap: () {
+                  Get.toNamed(Routes.signup);
+                },
+                child: Text(
+                  '  Register here',
+                  style: TextStyle(
                     fontSize: 14.sp,
                     color: themeColor,
                     fontWeight: FontWeight.bold,
                     letterSpacing: -0.5,
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

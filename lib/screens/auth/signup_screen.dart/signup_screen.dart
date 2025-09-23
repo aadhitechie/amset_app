@@ -101,7 +101,6 @@ class SignUpScreen extends GetView<SignupController> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
                       }
-                      // Simple email regex check
                       final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
                       if (!emailRegex.hasMatch(value)) {
                         return 'Please enter a valid email address';
@@ -119,12 +118,16 @@ class SignUpScreen extends GetView<SignupController> {
                     borderColor: kTransparent,
                   ),
                   const vSpace(10),
-                  reUseCountryTextField(
-                    color: kTransparent,
-                    fieldName: 'Phone number*',
-                    onFieldEntry: (value) {},
-                    phoneFieldController: controller.phoneController,
-                  ),
+                  Obx(() => reUseCountryTextField(
+                        color: kTransparent,
+                        fieldName: 'Phone number*',
+                        phoneFieldController: controller.phoneController,
+                        focusNode: controller.phoneFocusNode,
+                        onFieldEntry: (value) => controller.validatePhoneField(),
+                        errorText: controller.phoneError.value.isNotEmpty
+                            ? controller.phoneError.value
+                            : null,
+                      )),
                   const vSpace(10),
                   InputField.password(
                     controller: controller.passwordController,
@@ -144,7 +147,6 @@ class SignUpScreen extends GetView<SignupController> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
                       }
-                      // Add more password validation rules if needed
                       return null;
                     },
                   ),

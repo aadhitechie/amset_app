@@ -10,21 +10,49 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Logincontroller extends GetxController {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  RxBool isLoading = false.obs;
+  // Controllers for fields
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  JSON getApiFieldVal(String val) {
-    JSON data = {
-      'email': '',
-      'phone': '',
-    };
-    return data;
+  // Errors for each field
+  final emailError = ''.obs;
+  final passwordError = ''.obs;
+
+  // Loading state
+  final isLoading = false.obs;
+
+  // Dispose text controllers
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 
-  login() async {
-    isLoading(true);
+  // Validate fields before API call
+  bool validateFields() {
+    emailError.value = '';
+    passwordError.value = '';
+
+    bool isValid = true;
+
+    if (emailController.text.trim().isEmpty) {
+      emailError.value = 'Email is required';
+      isValid = false;
+    }
+    if (passwordController.text.trim().isEmpty) {
+      passwordError.value = 'Password is required';
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  // Login Function - Handles API and error messaging
+  Future<void> login() async {
+    if (!validateFields()) return;
+
+    isLoading.value = true;
     try {
       final response = await ApiServices().postMethod(
         ApiEndpoints.login,
@@ -37,28 +65,21 @@ class Logincontroller extends GetxController {
       if (response.data != null &&
           response.data['message'] == 'Login successful') {
         try {
-          // Initial parse: get userModel from login response
           final userModel = UserModel.fromJson(response.data);
-
           final localStorage = LocalStorage();
           await localStorage.saveToken(userModel.token);
 
-          // ------- Fetch Latest Profile ----------
+          // Fetch Profile
           try {
             final profileResponse = await ApiServices(token: true).getMethod(
               ApiEndpoints.getProfile,
             );
 
-            log("Profile fetch status: ${profileResponse.statusCode}");
-            log("Profile fetch body: ${profileResponse.data}");
-
             if (profileResponse.data != null &&
                 profileResponse.statusCode == 200) {
-              // Profile API returns the plain user model (map)
               final profileJson = profileResponse.data;
-
               final freshUserModel = UserModel(
-                message: '', // Or profileJson['message'] if server provides
+                message: '',
                 success: true,
                 token: userModel.token,
                 user: User.fromJson(profileJson),
@@ -66,22 +87,17 @@ class Logincontroller extends GetxController {
               await localStorage.saveUser(freshUserModel);
               await localStorage.setLogin();
 
-              log("✅ Saved user full name (profile): ${freshUserModel.user.fullName}");
-
-              // SnackbarHelper.showSuccess('Logged in successfully!');
               Get.offNamed(Routes.bottomNav);
             } else {
-              // fallback: still save login response user
+              // fallback: save login response user
               await localStorage.saveUser(userModel);
               await localStorage.setLogin();
-
               SnackbarHelper.showError(
                   'Partial login: failed to fetch profile, please refresh.');
               Get.offNamed(Routes.bottomNav);
             }
           } catch (e, st) {
-            log("Profile fetch after login failed: $e\n$st");
-            // fallback: still save login response user
+            log("Profile fetch failed: $e\n$st");
             await localStorage.saveUser(userModel);
             await localStorage.setLogin();
             SnackbarHelper.showError(
@@ -95,12 +111,11 @@ class Logincontroller extends GetxController {
         return;
       }
 
-      // if we reach here, login failed but no exception
+      // Login failed - show error from API
       final errorMsg = response.data['error'] ?? 'Invalid login credentials.';
       SnackbarHelper.showError(errorMsg);
     } catch (error) {
       log("Login failed: $error");
-
       String message = 'Something went wrong, please check your credentials.';
       if (error is DioException && error.response?.data != null) {
         final data = error.response?.data;
@@ -108,22 +123,9 @@ class Logincontroller extends GetxController {
           message = data['error'].toString();
         }
       }
-
       SnackbarHelper.showError(message);
     } finally {
-      isLoading(false);
+      isLoading.value = false;
     }
-  }
-
-  static onOtpSuccess(DioResponse response) {
-    LocalStorage().setLogin();
-    //Get.offAllNamed(Routes.bottomNav);
-  }
-
-  Future<DioResponse> sendLoginOtp() async {
-    return ApiServices(token: false).postMethod(ApiEndpoints.login, data: {
-      "email": emailController.text.trim(),
-      "password": passwordController.text.trim(),
-    });
   }
 }

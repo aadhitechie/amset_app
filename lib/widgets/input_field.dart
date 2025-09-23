@@ -13,6 +13,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 part 'input_form_field.dart';
 
 class InputField extends StatefulWidget {
+  final String? errorText;
   const InputField(
       {super.key,
       this.controller,
@@ -57,6 +58,7 @@ class InputField extends StatefulWidget {
       this.suffixIconTransform,
       this.onTapOutSide,
       this.keyboardType,
+      this.errorText,
       // this.inputFormatters,
       this.sValidatorIconPair,
       this.capitalizeFirst})
@@ -111,6 +113,7 @@ class InputField extends StatefulWidget {
     this.onTap,
     this.capitalizeFirst = false,
     this.keyboardType,
+    this.errorText,
   })  : isSearch = false,
         suffix = null,
         funSuffixIcon = null,
@@ -168,6 +171,7 @@ class InputField extends StatefulWidget {
     this.onTap,
     this.capitalizeFirst = false,
     this.keyboardType,
+    this.errorText,
   })  : isPassword = false,
         isSearch = true,
         funSuffixIcon = searchIcon,
@@ -359,6 +363,7 @@ class InputFieldState extends State<InputField> {
           //inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
               border: border,
+              errorText: widget.errorText,
               enabledBorder: border.copyWith(
                   borderSide:
                       BorderSide(color: (widget.borderColor ?? themeColor))),

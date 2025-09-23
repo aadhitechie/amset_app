@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:amster_app/routes.dart';
 import 'package:amster_app/screens/auth/user_model/user_model.dart';
 import 'package:amster_app/services/api_endpoints.dart';
@@ -11,27 +12,62 @@ import 'package:intl_phone_field/countries.dart';
 
 class SignupController extends GetxController {
   static SignupController get to => Get.find();
+
+  // Form controllers
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  // Form key
   final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+
+  // Loading state
   RxBool isLoading = false.obs;
+
+  // Phone field
+  FocusNode phoneFocusNode = FocusNode();
+  RxString phoneError = ''.obs;
+
   RxString countryIso = 'IN'.obs;
   var validatephoneNo = countries.firstWhere((element) => element.code == 'GB');
   RxString countryCode = '91'.obs;
 
-  // You may want to clear form after registering/logged in
+  @override
+  void onInit() {
+    super.onInit();
+    phoneFocusNode.addListener(() {
+      if (!phoneFocusNode.hasFocus) {
+        validatePhoneField();
+      }
+    });
+  }
+
+  // Clear all fields
   void clearControllerState() {
     fullNameController.clear();
     emailController.clear();
     phoneController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
+    phoneError.value = '';
   }
 
-  JSON getSignUpData() {
+  // Validate phone field on unfocus
+  void validatePhoneField() {
+    final value = phoneController.text.trim();
+    if (value.isEmpty) {
+      phoneError.value = 'Please enter your phone number';
+    } else if (value.length < 10) {
+      // adjust validation logic based on your requirement
+      phoneError.value = 'Invalid phone number';
+    } else {
+      phoneError.value = '';
+    }
+  }
+
+  Map<String, dynamic> getSignUpData() {
     return {
       "fullName": fullNameController.text.trim(),
       "email": emailController.text.toLowerCase(),
@@ -42,7 +78,10 @@ class SignupController extends GetxController {
 
   Future registerAndLogin() async {
     final form = signUpFormKey.currentState;
-    if (form == null || !form.validate()) return;
+    validatePhoneField(); // validate phone on submit, too
+
+    // Stop submission if form invalid or phone error present
+    if (form == null || !form.validate() || phoneError.value.isNotEmpty) return;
 
     isLoading(true);
     try {
@@ -53,11 +92,10 @@ class SignupController extends GetxController {
 
       if (signupResponse.data != null &&
           signupResponse.data['success'] == true) {
-        // Registration success!
         SnackbarHelper.showSuccess(
             signupResponse.data['message'] ?? 'Registration successful!');
 
-        // Try to auto-login user
+        // Auto-login attempt
         final loginResponse = await ApiServices(token: false).postMethod(
           ApiEndpoints.login,
           data: {
@@ -76,8 +114,7 @@ class SignupController extends GetxController {
           await localStorage.setLogin();
 
           clearControllerState();
-          // SnackbarHelper.showSuccess('Registration & Login successful!');
-           Get.offAllNamed(Routes.bottomNav);
+          Get.offAllNamed(Routes.bottomNav);
           return;
         } else {
           SnackbarHelper.showError(loginResponse.data?['error'] ??

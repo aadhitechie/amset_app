@@ -532,7 +532,7 @@ class EditProfileScreen extends GetView<EditProfileScreenController> {
                                                         : null,
                                                   )),
                                               TextWidget(
-                                                'No History',
+                                                'No Educational History',
                                                 style: TextStyle(
                                                     fontSize: 14.sp,
                                                     letterSpacing: -0.5),

@@ -121,4 +121,14 @@ class JobController extends GetxController {
   void updateSearchText(String text) {
     searchText.value = text;
   }
+
+
+  // ------------------ Pagination Control ------------------ //
+RxInt visibleCount = 8.obs;
+
+void loadMoreJobs() {
+  if (visibleCount.value < filteredJobs.length) {
+    visibleCount.value += 8;
+  }
+}
 }
